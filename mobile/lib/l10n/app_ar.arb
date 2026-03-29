@@ -1,0 +1,18 @@
+{
+  "@@locale": "ar",
+  "appTitle": "FleetMan",
+  "loginTitle": "تسجيل الدخول",
+  "loginSubtitle": "مرحبا بك في FleetMan",
+  "emailLabel": "البريد الإلكتروني",
+  "passwordLabel": "كلمة المرور",
+  "loginButton": "دخول",
+  "signInButton": "دخول",
+  "createAccountLink": "إنشاء حساب",
+  "loginError": "خطأ في تسجيل الدخول",
+  "registerTitle": "إنشاء حساب",
+  "fullNameLabel": "الاسم الكامل",
+  "confirmPasswordLabel": "تأكيد كلمة المرور",
+  "signUpButton": "تسجيل",
+  "passwordMismatch": "كلمات المرور غير متطابقة",
+  "signOutButton": "تسجيل الخروج"
+}

@@ -1,0 +1,21 @@
+{
+  "@@locale": "fr",
+  "appTitle": "FleetMan",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "loginTitle": "Se connecter",
+  "loginSubtitle": "Bienvenue sur FleetMan",
+  "emailLabel": "Adresse Email",
+  "passwordLabel": "Mot de passe",
+  "loginButton": "Connexion",
+  "signInButton": "Connexion",
+  "createAccountLink": "Créer un compte",
+  "loginError": "Erreur de connexion",
+  "registerTitle": "Créer un compte",
+  "fullNameLabel": "Nom complet",
+  "confirmPasswordLabel": "Confirmer le mot de passe",
+  "signUpButton": "S'inscrire",
+  "passwordMismatch": "Les mots de passe ne correspondent pas",
+  "signOutButton": "Déconnexion"
+}
