@@ -27,3 +27,29 @@ Every user entity operates out of a single `profiles` table using a `roles` JSON
 ## 4. Current Phase
 *   **Current State:** Planning phase officially completed. Documentation merged to `main`.
 *   **Next Action Required:** Phase 1 Vibe-Coding (Supabase Database scaffolding and Flutter Auth).
+
+---
+
+## 5. Iteration Log (Living Document)
+**This section is iterable.** After every coding sprint, discovery, or user testing session, append a new entry below. This ensures every future GSD sub-agent inherits the latest product intelligence.
+
+**Format:** `[Date] [Sprint/Discovery] - [What changed and why]`
+
+| Date | Type | Description |
+|------|------|-------------|
+| 2026-03-29 | Initial Setup | Planning docs finalized. GitHub, Supabase, Vercel provisioned. GSD CLI installed. |
+| | | |
+
+### UX Glitches & Fixes Log
+*Append here when you discover a UI/UX issue during testing.*
+
+| Date | Screen/Feature | Issue | Resolution |
+|------|----------------|-------|------------|
+| | | | |
+
+### Missing / Complex Features Backlog
+*Append here when you identify a feature that was overlooked during planning or is more complex than expected.*
+
+| Date | Feature | Complexity (1-5) | Notes |
+|------|---------|-------------------|-------|
+| | | | |
