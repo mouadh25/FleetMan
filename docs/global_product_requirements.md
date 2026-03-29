@@ -8,36 +8,37 @@ This document serves as the single source of truth for the entire FleetMan SaaS 
 FleetMan is a production-ready, multi-tenant B2B SaaS designed to modernize fleet management in Algeria. It replaces fragmented WhatsApp messages, paper logbooks, and reactive maintenance with a proactive, digital, and Law 18-07 compliant ecosystem.
 
 - **Primary Goal:** Reduce Total Cost of Ownership (TCO) by minimizing downtime and digitizing maintenance flows.
-- **Differentiator:** Uniquely adapted to Algerian realities (CCP payments, AR-DZ/FR-DZ bilingual field workers, poor field internet, local server compliance).
+- **Differentiator:** Uniquely adapted to Algerian realities (Cash, Bank Wire, and CCP payments; AR-DZ/FR-DZ bilingual field workers; poor field internet; local server compliance. Note: CIB/Edahabia online payments are reserved for future dev with partners).
 
 ---
 
 ## 2. Roles & Permissions (RBAC)
-The platform utilizes strict Role-Based Access Control (RBAC) to ensure users only see what their job requires.
+The platform utilizes strict Role-Based Access Control (RBAC). For ease of onboarding, clients can select predefined **Aggregated Personas** that automatically bundle the necessary granular roles.
 
-| Role | Platform | Description |
-|------|----------|-------------|
-| **Super Admin** | Web (AdminOps) | FleetMan internal staff. Manages tenant approvals, limits, invoicing, and platform health. |
-| **CEO / Owner** | Web | The client's boss. High-level dashboard, financial KPIs, cost approvals, vendor spend. |
-| **Park Manager** | Web & Mobile | The dispatcher/coordinator. Manages vehicles, assigns drivers, converts issues to work orders. |
-| **Mechanic** | Mobile | Field repair staff. Receives work orders, logs parts used, captures receipt photos, closes tickets. |
-| **Driver** | Mobile | Assigned to specific vehicles. Submits daily eDVIR forms. |
-| **Gatekeeper** | Tablet / Mobile | Security at the yard. Logs entries/exits and general anomalies (Kiosk Mode). |
+| Granular Role | Platform | Description | Aggregated Persona (What the Client Selects) |
+|---------------|----------|-------------|----------------------------------------------|
+| **Super Admin** | Web (AdminOps) | FleetMan internal staff. Manages tenant approvals, limits, invoicing, and platform health. | *FleetMan Internal Only* |
+| **CEO / Owner** | Web | High-level dashboard, financial KPIs, cost approvals, vendor spend. | **"CEO / Director"** (CEO only) |
+| **Park Manager** | Web & Mobile | The dispatcher/coordinator. Manages vehicles, assigns drivers, triage. | **"Park Manager"** (Manager only) |
+| **Field Officer** | Mobile | Field repair staff. Receives work orders, logs parts used, closes tickets. | **"Field Officer / Mechanic"** |
+| **Driver** | Mobile | Assigned to specific vehicles. Submits daily eDVIR forms. | **"Driver"** |
+| **Gatekeeper** | Tablet / Mobile | Security at the yard. Logs entries/exits and general anomalies (Kiosk Mode). | **"Gatekeeper"** |
+| *(All Above)* | Web & Mobile | Combines CEO, Park Manager, and Field Officer rights into a single operational account. | **"One-Man Army"** (Small SMBs) |
 
 > [!NOTE]
-> Roles can be combined. A small company might have one person acting as both Park Manager and Mechanic. The UI adapts dynamically based on the user's role array.
+> By assigning an aggregated persona like "One-Man Army", the UI dynamically adapts to display the CEO Dashboard, the Manager Triage Boards, and the Field Officer execution tasks all in one seamless interface.
 
 ---
 
 ## 3. Global UX Workflow & Core Modules
 
-To support clients of different sizes and capabilities, the platform is designed with **Togglable Modules**. A basic client might only want maintenance tracking, while an advanced client wants the full Kiosk and geofencing experience.
+To support clients of different sizes and capabilities, the platform is designed with **Togglable Modules**. Features are activated/deactivated based on the client's subscription tier, and can be manually toggled by the Super Admin in the AdminOps panel.
 
 ### 3.1 The "Happy Path" Maintenance Loop
 The UX is designed to be frictionless, moving from field reporting to management resolution in clicks.
-1. **Reporting (Mobile):** Driver notices a defect during their shift. They open the app, tap "Signaler un Problème" (Report Issue), snap a photo, add a 1-sentence description, and submit.
-2. **Triage (Web Admin):** The Park Manager receives a notification (bell icon). They open the web dashboard, see the issue in the "Pending" column (Kanban style). They drag it to "In Progress" and assign a Mechanic from a dropdown.
-3. **Execution (Mobile):** The Mechanic gets a push notification. They open the app, go to "My Tasks". They fix the issue, log the parts used (e.g., "Plaquettes de frein"), enter the cost (e.g., "4500 DZD"), upload a photo of the receipt, and tap "Complete".
+1. **Reporting (Mobile):** Driver notices a defect during their shift. They open the app, tap "Signaler un Problème" (Report Issue), snap a photo (or record a **Voice Note**), add a brief text description, and submit.
+2. **Triage (Web Admin):** The Park Manager receives a notification. They open the web dashboard and see the issue pending. The Park Manager is *obliged* to listen to the voice note/view the photo and translate/expand it into a formal, well-described **Work Order** following best practices before assigning it to a Field Officer.
+3. **Execution (Mobile):** The Field Officer (Mechanic) gets a push notification. They open the app, go to "My Tasks". They fix the issue, log the parts used (e.g., "Plaquettes de frein"), enter the cost (e.g., "4500 DZD"), upload a photo of the receipt, and tap "Complete".
 4. **Closing (Web Admin):** The Park Manager sees the ticket turn green ("Awaiting Approval"). They verify the cost and receipt, and click "Approve & Close". The vehicle is back online.
 
 ### 3.2 The Gatekeeper "Kiosk Mode" Workflow (Togglable)
@@ -46,43 +47,49 @@ For companies with secure yards, the app provides a dedicated Kiosk Mode for the
 - **Entry/Exit Flow:**
   1. Vehicle approaches. Guard scans the vehicle's QR sticker or types the first 3 digits of the plate.
   2. Large UI buttons appear: **[ENTRÉE]** and **[SORTIE]**.
-  3. Guard taps [SORTIE]. The system instantly checks for a valid "Ordre de Mission" (Mission Order). If valid, screen flashes green and logs the timestamp. If invalid, the screen flashes red and blocks exit.
-- **Digital Logbook (Main Courante):** Guard taps the "Journal" tab to log non-fleet visitors (e.g., "Camion Naftal - Livraison, 14:00") or anomalies.
-- *Activation:* Toggled ON/OFF per tenant via billing.
+  3. Guard taps [SORTIE]. The system instantly checks for a valid "Ordre de Mission" (Mission Order). If valid, screen flashes green and logs the timestamp. If invalid, screen flashes red and blocks exit.
+- **Digital Logbook (Main Courante):** Guard taps the "Journal" tab to log non-fleet visitors or anomalies.
+- *Activation:* Dynamically locked/unlocked via the client's subscription tier in AdminOps.
 
 ### 3.3 Driver eDVIR & Geofencing Workflow (Togglable)
 - **Pre-Trip:** Driver logs in, selects vehicle, and runs through a 5-step checklist (Tires, Fluids, Lights, Odometer, Physical Damage).
 - **Fraud Prevention:** The app requests GPS coordinates. If the driver is not physically inside the predefined yard geo-fence (e.g., 50m radius of the depot), the app prevents form submission.
-- *Activation:* Geofencing can be toggled OFF by the CEO for remote logic companies.
+- *Activation:* Locked/unlocked via the client's subscription tier in AdminOps.
 
 ---
 
 ## 4. Public Face & Onboarding Workflow
 
 ### 4.1 Marketing Landing Page
-- **Hero Section:** High-contrast, dark theme showcasing mobile and web dashboards. Call to action: "Essai gratuit 14 jours" (14-day free trial).
+- **Hero Section:** Clean, light theme (highly readable for corporate SaaS), showcasing the web dashboard and mobile interface. Call to action: "Essai gratuit 14 jours".
 - **Value Proposition:** "Réduisez l'immobilisation de vos véhicules de 30%."
 - **Trust Elements:** Local compliance badges (Hébergé en Algérie, Loi 18-07), data sovereignty guarantees.
 
-### 4.2 Frictionless Onboarding Wizard
+### 4.2 Frictionless Onboarding & Smart Guide
 1. **Account Creation:** Clean, split-screen UI. Email, password, and Company Name. (Behind the scenes: Auto-provisions a secure Supabase Tenant ID).
-2. **Context Gathering:** Select fleet size (1-15, 16-50, 50+). This routes the user to the correct pricing tier offering.
-3. **The 'Aha' Moment:** The user inputs one vehicle plate number. They are instantly dropped into a populated dashboard with a checklist widget: *Add a driver, Log an issue, Complete setup.*
+2. **Context Gathering:** Select fleet size. This defines defaults and directs the user to the correct feature tier.
+3. **The 'Smart Guide' Flow:** Instead of abandoning the user in an empty app, a "Smart Guide" interactive tour opens. It strictly guides the user step-by-step through filling out the proper forms: 
+   - Add/Invite exactly one Driver.
+   - Register exactly one Vehicle.
+   - Log a starting odometer reading.
+   *Users cannot start using the software wildly until this structured setup is complete, ensuring high data quality from Day 1.*
 
 ---
 
 ## 5. Pricing Strategy & Market Segmentation (Algerian Market)
 
-It is critical to position FleetMan strictly as a **Fleet Management & Maintenance SaaS**, *not* a GPS tracking/telematics hardware solution. While local GPS tracking providers sell hardware boxes (1,500 to 4,000 DZD/veh/month), FleetMan focuses purely on operational software efficiency: preventive maintenance, digital work orders, eDVIRs, and gate logging. Because we require zero hardware installation, we can price aggressively, scale instantly, and achieve high ROI based strictly on workflow optimization.
+It is critical to position FleetMan strictly as a **Fleet Management & Maintenance SaaS**, *not* a GPS tracking/telematics hardware solution. By requiring zero hardware installation, we focus purely on operational workflow optimization. 
 
-| Tier | Target Audience | Features Included | Estimated Price (DZD) |
-|------|-----------------|-------------------|-----------------------|
-| **Starter** | TPE (1 - 15 Vehicles) | Core Maintenance Loop, Web Dashboard, Mobile Driver App (Basic), Max 3 Admin seats. | **~1,200 DZD** / veh / month |
-| **Pro** | SMB/PME (16 - 50 Vehicles) | Starter + Total eDVIR, Geo-fencing capabilities, unlimited internal users, CSV Exports. | **~2,000 DZD** / veh / month |
-| **Enterprise** | Large Fleets (50+ Vehicles) | Pro + Gatekeeper Kiosk (Main Courante), Ordre de Mission Verification, Dedicated Account Manager. | **Custom Setup Fee** + Volume Discount (e.g., ~1,500 DZD / veh) |
+Our pricing is strictly B2B structured via **Yearly Contracts**. Payments are usually divided into tranches (Trimestrial or Semestrial), allowing for a **15% discount if paid fully upfront yearly.** All payments are collected locally via **Cash or Bank Wire** (CIB/Edahabia online card payments are reserved for future partner integrations).
 
-> [!TIP]
-> **Market penetration tactic:** In Algeria, SMBs are hesitant to buy software with an automated credit card subscription. We will allow the 14-day trial, then require payment via **CCP/BaridiMob** (manual verification via AdminOps) for Starter/Pro tiers, migrating to fully automated Edahabia/CIB (Chargily) once trust is established.
+| Tier | Target Audience | Features Gated | Base Pricing Concept |
+|------|-----------------|----------------|----------------------|
+| **Starter** | TPE (< 10 Vehicles) | Core Maintenance Loop, "One-Man Army" role, Basic eDVIR. | Highly accessible entry price (e.g., Flat fee of ~8,000 DZD/month for the fleet) |
+| **Pro** | PME (11 - 50 Vehicles) | Starter + Geofencing, Full RBAC (Manager/Field separate), CSV Exports. | Standard pricing (e.g., ~800 to 1,200 DZD / vehicle / month) |
+| **Enterprise** | Large Fleets (50+) | Pro + Gatekeeper Kiosk, Kiosk Main Courante, API Access. | Custom Setup Fee + Volume Discount (e.g., ~600 DZD / vehicle / month) |
+
+> [!NOTE]
+> B2B clients in Algeria require an invoice and manual bank transfer verification. The Super Admin in the `AdminOps` panel will manually verify bank wire receipts to toggle a client's status from "Trial" to "Active - Pro Tier".
 
 ---
 
@@ -93,10 +100,10 @@ A B2B SaaS must guarantee data isolation and security.
 1. **Strict Tenant Isolation:** 
    - Every database table (`vehicles`, `issues`, etc.) contains a `tenant_id`.
    - **Row Level Security (RLS)** is enabled on Supabase. A JWT token policy enforces that users can only `SELECT/INSERT/UPDATE` rows where `tenant_id` matches their verified company profile.
-2. **Authentication Flow:**
+2. **Authentication Flow (Secure & Standardized):**
+   - **Cloudflare Turnstile** integration on all Auth pages to stop bots.
    - Standard Email/Password login.
-   - Built-in "Forgot Password" / Reset flow.
-   - Secure email invites for adding new staff.
+   - **6-Digit OTP** for email verification and password renewals (No magic links; OTP codes are culturally and technically more reliable for SMS/Email in enterprise setups).
 3. **Data Liberation:**
    - Every major table in the web dashboard features an "Export to CSV/Excel" button for accounting and reporting transparency.
 
@@ -122,10 +129,14 @@ A B2B SaaS must guarantee data isolation and security.
    - Mobile: Flutter (Native APK for Android/Play Store to ensure robust offline storage, OCR, and background GPS).
    - Web: Next.js (AdminOps, Public Pages, Client Web Dashboard).
    - Database/Auth/Storage: Supabase.
-2. **CI/CD Pipeline (GitHub Actions):**
+2. **Strict Development Standards:**
+   - **Atomic Commits:** All git commits must be logically fractioned, isolated, and dependency-related (following Conventional Commits).
+   - **Linting & Debuggability:** Continuous ESLint/Prettier on Next.js and `flutter analyze` ensuring zero warnings before deployments. High-level debuggability with proper robust logging.
+   - **Documentation:** Proper in-code and system-level documentation maintained side-by-side with feature code.
+3. **CI/CD Pipeline (GitHub Actions):**
    - Automatically lints code, runs tests, and builds the Flutter APK on every push.
    - Automatically builds and deploys the Next.js frontend to Vercel for previewing.
-3. **Phase 2 Sovereign Migration (Law 18-07):**
+4. **Phase 2 Sovereign Migration (Law 18-07):**
    - All code is written using **Repository Interfaces** (e.g., `VehicleRepository`).
    - When the app is legally required to move to Algerian soil, the configuration is swapped to point to a self-hosted Dockerized Supabase instance on an Algérie Telecom / ICOSNET VPS. Zero application logic needs to change.
 
