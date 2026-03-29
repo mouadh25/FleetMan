@@ -47,7 +47,7 @@ class MechanicHomeStub extends ConsumerWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(
                           AppTheme.defaultBorderRadius,
                         ),
@@ -68,10 +68,10 @@ class MechanicHomeStub extends ConsumerWidget {
                     width: 96,
                     height: 96,
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
+                      color: Colors.white.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.3),
+                        color: Colors.white.withOpacity(0.3),
                         width: 2,
                       ),
                     ),
