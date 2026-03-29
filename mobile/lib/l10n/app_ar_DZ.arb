@@ -1,0 +1,9 @@
+{
+  "@@locale": "ar_DZ",
+  "appTitle": "FleetMan",
+  "loginTitle": "تسجيل الدخول",
+  "loginSubtitle": "مرحبا بك في FleetMan",
+  "emailLabel": "البريد الإلكتروني",
+  "passwordLabel": "كلمة المرور",
+  "loginButton": "دخول"
+}

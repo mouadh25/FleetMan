@@ -1,0 +1,12 @@
+{
+  "@@locale": "fr_DZ",
+  "appTitle": "FleetMan",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "loginTitle": "Se connecter",
+  "loginSubtitle": "Bienvenue sur FleetMan",
+  "emailLabel": "Adresse Email",
+  "passwordLabel": "Mot de passe",
+  "loginButton": "Connexion"
+}
