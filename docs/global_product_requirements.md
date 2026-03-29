@@ -1,5 +1,9 @@
 # FleetMan: Global Product Requirements Document (PRD)
 
+> **Version:** 1.0.0
+> **Date:** March 29, 2026
+> **Status:** APPROVED & LOCKED FOR MVP1 EXECUTION
+
 This document serves as the single source of truth for the entire FleetMan SaaS platform. It consolidates all features, workflows, UI/UX guidelines, security protocols, and architecture decisions tailored for the Algerian B2B market.
 
 ---

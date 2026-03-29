@@ -1,4 +1,8 @@
 # UX & Workflow Logic Report: The FleetMan Ecosystem
+
+> **Version:** 1.0.0
+> **Date:** March 29, 2026
+> **Status:** APPROVED & LOCKED FOR MVP1 EXECUTION
 > **Architecture Inspiration:** Fleetio Multi-Platform Model
 > **Target Market:** Algerian SMB Fleets
 
