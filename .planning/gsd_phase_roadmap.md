@@ -1,8 +1,8 @@
 # GSD Phase Roadmap: FleetMan MVP (v3)
 
-> **Version:** 1.0.0
+> **Version:** 1.0.1
 > **Date:** March 29, 2026
-> **Status:** APPROVED & LOCKED FOR MVP1 EXECUTION
+> **Status:** APPROVED & LOCKED - ANTI-CHEAT SYNCED
 > **Methodology:** Pure GSD (Get Shit Done) - Burn-and-Replace Sessions  
 > **Stack:** Flutter (Mobile) + Next.js (Web) + Supabase (Backend)
 

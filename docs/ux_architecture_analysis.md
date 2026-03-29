@@ -412,24 +412,25 @@ The following are **missing tables and columns** identified by tracing every UX 
 
 ## 19. Design System Summary
 
-From `design_system_admin_panel_research.md` Part 1 (Fleetio-inspired).
+> ✅ **RESOLVED (v1.0.1):** Deep Blue `#1A3A5C` is the formalized primary color. The old Fleetio-green palette below is preserved for historical research reference only.
 
-| Token | Value |
-|-------|-------|
-| Primary/Brand | Emerald Green `#1B5E20` (deeper Fleetio green) |
-| Accent/CTA | Green `#43A047` |
-| Status: Active | Green dot `#4CAF50` |
-| Status: Overdue | Red `#D32F2F` |
-| Status: Due Soon | Orange `#F57F17` |
-| Background | `#F5F7FA` |
+| Token | Value (ACTIVE) |
+|-------|----------------|
+| Primary/Brand | Deep Blue `#1A3A5C` |
+| Accent/CTA | Safety Orange `#F28C28` |
+| Error/Overdue | Red `#D32F2F` |
+| Success/Active | Green `#2E7D32` |
+| Background (Light) | `#F5F7FA` |
+| Background (Dark) | `#121212` |
 | Cards | White + `1px #E0E0E0` border |
 | Text Primary | `#212121` |
 | Text Secondary | `#757575` |
-| Font (Latin) | Inter |
+| Font (Latin) | Inter / Roboto |
 | Font (Arabic) | Noto Sans Arabic |
 | Touch Target | Min 48x48dp |
+| Border Radius | 12px |
 
-> **Note:** The `gsd_phase_roadmap.md` defines a different color set (Deep Blue `#1A3A5C` primary, Safety Orange `#F28C28` accent). The design_system research doc uses Fleetio-inspired greens. This conflict needs resolution before Phase 1 coding.
+> **Implementation:** `mobile/lib/core/theme/app_theme.dart` (Flutter) and future `styles/design-tokens.css` (Next.js).
 
 ---
 
@@ -644,19 +645,20 @@ The following 3 KPIs were identified in the second verification against Fleetio,
 
 | Data Need | Currently in Schema? | Required For | Migration Priority |
 |-----------|---------------------|-------------|-------------------|
-| `work_order_parts` table | ❌ No | KPI 1, 4, 6 | 🔴 Before Phase 4 |
-| `fuel_logs` table | ❌ No | KPI 1 (TCO fuel component), KPI 2 (CPK accuracy), KPI 13 | 🔴 Before Phase 4 |
-| `vehicles.starting_odometer` | ❌ No | KPI 2 (CPK) | 🟡 Before Phase 6 |
-| `work_orders.completed_at` | ❌ No | KPI 9 (MTTR), KPI 14 (FTF accuracy) | 🔴 Before Phase 4 |
-| `work_orders.type` (PREVENTIVE/CORRECTIVE/EMERGENCY) | ❌ No | KPI 10 | 🟡 Before Phase 6 |
-| `issues.priority` | ❌ No | KPI 8 | 🟡 Before Phase 4 |
-| `vehicles.autorisation_circulation_expiry` | ❌ No | KPI 11 | 🟡 Before Phase 2 |
-| `gate_logs` table | ❌ No | KPI 12 (Utilization via mission time) | 🟡 Before Phase 6 |
-| `maintenance_schedules` table | ❌ No | KPI 15 (PM Compliance) | 🟡 Before Phase 7 |
+| `work_order_parts` table | ✅ Live (V4 Migration) | KPI 1, 4, 6 | ✅ Done |
+| `fuel_logs` table | ✅ Live (V4 Migration) | KPI 1 (TCO fuel component), KPI 2 (CPK accuracy), KPI 13 | ✅ Done |
+| `vehicles.starting_odometer` | ✅ Live (V4 Migration) | KPI 2 (CPK) | ✅ Done |
+| `work_orders.completed_at` | ✅ Live (V4 Migration) | KPI 9 (MTTR), KPI 14 (FTF accuracy) | ✅ Done |
+| `work_orders.type` (PREVENTIVE/CORRECTIVE/EMERGENCY) | ✅ Live (V4 Migration) | KPI 10 | ✅ Done |
+| `issues.priority` | ✅ Live (V4 Migration) | KPI 8 | ✅ Done |
+| `vehicles.autorisation_circulation_expiry` | ✅ Live (V4 Migration) | KPI 11 | ✅ Done |
+| `gate_logs` table | ✅ Live (V4 Migration) | KPI 12 (Utilization via mission time) | ✅ Done |
+| `maintenance_schedules` table | ✅ Live (V4 Migration) | KPI 15 (PM Compliance) | ✅ Done |
 | `edvir_inspections.is_pass` | ✅ Yes | KPI 7 | — |
 | `vehicles.insurance_expiry`, `controle_technique_expiry` | ✅ Yes | KPI 11 | — |
-| `vehicles.status` | ✅ Yes (needs enum expansion) | KPI 3 | 🟡 Before Phase 2 |
+| `vehicles.status` | ✅ Yes (6 values live) | KPI 3 | ✅ Done |
 | `work_orders.cash_cost_dzd` + `vehicle_id` + `created_at` | ✅ Yes | KPI 1 (partial), KPI 14 | — |
+| `vehicles.fuel_type` | ✅ Live (0002 Migration) | KPI 13 (auto-liter calc) | ✅ Done |
 
 ### 20.5 KPI Visibility Matrix (Role × KPI)
 
@@ -685,15 +687,15 @@ The following 3 KPIs were identified in the second verification against Fleetio,
 
 | # | Gap | Source of Conflict | Severity |
 |---|-----|--------------------|----------|
-| 1 | **Color System Conflict:** ~~Roadmap says Deep Blue...~~ **RESOLVED:** Deep Blue (#1A3A5C) is now the formalized primary color across all docs. `design_system_admin_panel_research.md` was updated. | `ux_architecture_analysis.md` | 🟢 Resolved |
-| 2 | **Vehicle Status Enum:** Deployed DB has 4 states. UX workflow defines 6 states. See Section 18.2 for required migration. | `0000_fleetman_initial_schema.sql` vs `ux_workflow_logic.md` | 🟡 Migration needed before Phase 2 |
-| 3 | **9 Missing Tables:** gate_logs, driver_assignments, ordres_de_mission, work_order_parts, **fuel_logs**, maintenance_schedules, leads, payments, vendor_ratings. See Section 18.2. | UX workflows + KPI analysis vs deployed schema | 🟡 Migrations needed incrementally per phase |
-| 4 | **17+ Missing Columns:** tenants needs 7, profiles needs 2, vehicles needs 4 (incl. starting_odometer), work_orders needs 7 (incl. completed_at, type), issues needs 2. See Sections 18.2 and 20.4. | UX workflows + KPI requirements vs deployed schema | 🟡 Migrations needed incrementally per phase |
-| 5 | **Geofencing Timeline:** PRD says "Phase 2 Scale feature." Roadmap Phase 5 implies it's in MVP1. README mentions it. Clarify scope. | Multiple docs | 🟡 Needs decision |
-| 6 | **OCR Provider:** Multiple docs reference receipt OCR but no specific provider or API is selected. | `ux_workflow_logic.md` | 🟢 Can defer — manual fallback exists |
-| 7 | **Push Notifications:** Mentioned for Mechanic workflow but FCM/APNs setup is Phase 11, not MVP1. | `ux_workflow_logic.md` vs `gsd_phase_roadmap.md` | 🟢 Can use in-app polling for MVP1 |
-| 8 | **Work Order lacks description column:** The mandatory "formal write-up" by Park Manager (Section 8) has no column to store it. | `ux_workflow_logic.md` vs schema | 🔴 Blocks Phase 4 |
-| 9 | **No parts tracking on work orders:** Mechanic logs parts used (Section 9) but there's no `work_order_parts` junction table. Cost tracking is limited to a single `cash_cost_dzd` integer. Blocks KPIs 1, 4, 6. | `ux_workflow_logic.md` + KPI Section 20 vs schema | 🔴 Blocks Phase 4 |
-| 10 | **Tenant has no status column:** AdminOps approval flow (Section 14) requires pending/active/suspended/expired but the deployed `tenants` table only has `subscription_tier`. | `design_system_admin_panel_research.md` vs schema | 🔴 Blocks Phase 6.5 |
-| 11 | **No fuel cost tracking:** `fuel_logs` table now defined in Section 18.2. Required for TCO, CPK, and Fuel Efficiency KPIs (1, 2, 13). | KPI requirements vs schema | 🔴 Before Phase 4 |
-| 12 | **No vehicle status history:** Vehicle Utilization (KPI 12) requires historical status changes. Current schema only stores the current status. | KPI requirements vs schema | 🟡 Can approximate from `gate_logs` |
+| 1 | **Color System Conflict:** ~~Roadmap says Deep Blue...~~ **RESOLVED:** Deep Blue (#1A3A5C) is now the formalized primary color. `app_theme.dart` deployed. | `ux_architecture_analysis.md` | 🟢 Resolved |
+| 2 | **Vehicle Status Enum:** ~~Deployed DB has 4 states.~~ **RESOLVED:** V4 migration added `IN_MISSION` and `NEEDS_ATTENTION`. Live DB now has 6 values. | `0001_fleetman_v4_kpi_schema_update.sql` | 🟢 Resolved |
+| 3 | **9 Missing Tables:** ~~gate_logs, driver_assignments, etc.~~ **RESOLVED:** All 9 tables deployed via V4 migration. 17 total tables live. | `0001_fleetman_v4_kpi_schema_update.sql` | 🟢 Resolved |
+| 4 | **17+ Missing Columns:** **PARTIALLY RESOLVED.** Critical KPI columns deployed (`starting_odometer`, `completed_at`, `type`, `description`, `approved_by/at`, `priority`, `auto_approve_threshold_dzd`, `autorisation_circulation_expiry`, `fuel_type`). **Still deferred:** `tenants.status/trial_ends_at/max_vehicles/billing_email`, `profiles.is_driver_app_enabled/avatar_url`, `vehicles.assigned_driver_id/qr_code_data`, `work_orders.resolution_photo_url/signature_url/priority`. | Future `0003` migration | 🟡 Deferred to respective phases |
+| 5 | **Geofencing Timeline:** Confirmed as Phase 2 Scale / Premium feature. Not MVP1 blocker. | PRD Section 3.3 | 🟢 Resolved (deferred) |
+| 6 | **OCR Provider:** Deferred — manual fallback exists. | `ux_workflow_logic.md` | 🟢 Deferred |
+| 7 | **Push Notifications:** Deferred to Phase 11 (Milestone 3). In-app polling for MVP1. | `gsd_phase_roadmap.md` | 🟢 Deferred |
+| 8 | **Work Order lacks description column:** ~~No column to store formal write-up.~~ **RESOLVED:** `work_orders.description` is live. | `0001_fleetman_v4_kpi_schema_update.sql` | 🟢 Resolved |
+| 9 | **No parts tracking on work orders:** ~~No `work_order_parts` junction table.~~ **RESOLVED:** `work_order_parts` table is live with source CHECK constraint. | `0001_fleetman_v4_kpi_schema_update.sql` | 🟢 Resolved |
+| 10 | **Tenant has no status column:** AdminOps approval flow requires pending/active/suspended/expired but `tenants` still only has `subscription_tier`. | `design_system_admin_panel_research.md` vs schema | 🟡 Needs `0003` migration before Phase 6.5 |
+| 11 | **No fuel cost tracking:** ~~`fuel_logs` table missing.~~ **RESOLVED:** `fuel_logs` table is live with `geo_ping_lat/lng` for Anti-Cheat. | `0001_fleetman_v4_kpi_schema_update.sql` | 🟢 Resolved |
+| 12 | **No vehicle status history:** Can approximate from `gate_logs` (now live). Full status history table deferred. | KPI requirements vs schema | 🟢 Workaround available |

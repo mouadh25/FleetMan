@@ -25,8 +25,8 @@ Every user entity operates out of a single `profiles` table using a `roles` JSON
 6.  **Solo Operator:** SME owner who dynamically assumes all roles via RBAC arrays.
 
 ## 4. Current Phase
-*   **Current State:** Planning phase officially completed. Documentation merged to `main`.
-*   **Next Action Required:** Phase 1 Vibe-Coding (Supabase Database scaffolding and Flutter Auth).
+*   **Current State:** Phase 0 (Database Foundation) is 100% COMPLETE. Phase 1 (Mobile Scaffolding) is 42% complete (Tasks 1.1-1.5 done, 1.6-1.12 pending).
+*   **Next Action Required:** Phase 1 continuation — implement AuthRepository, Login/OTP screens, Role Router, CI/CD pipeline.
 
 ---
 
@@ -40,6 +40,7 @@ Every user entity operates out of a single `profiles` table using a `roles` JSON
 | 2026-03-29 | Initial Setup | Planning docs finalized. GitHub, Supabase, Vercel provisioned. GSD CLI installed. |
 | 2026-03-29 | Arch Sync | UX Architecture Analysis upgraded to V4. Fixed color conflict (Deep Blue). Gap analysis forced 9 missing tables into GSD roadmap. 15 KPIs verified against industry without GPS dependency. |
 | 2026-03-29 | Anti-Cheat Cross-Ref | Synchronized Driver Fuel Logging + Geo-Ping and Data Health Score KPI across all documents (PRD, UX Logic, Roadmaps). Bumped versions to 1.0.1. Verified Phase 0 completion and identified Phase 1 missing tasks (1.6 - 1.12). |
+| 2026-03-29 | Fuel Type & Audit | Added `fuel_type` ENUM to vehicles (0002 migration). Updated PRD/UX for 3-step zero-math Algerian fuel entry. Full compliance audit completed — 8 stale references fixed in `ux_architecture_analysis.md`. |
 
 ### UX Glitches & Fixes Log
 *Append here when you discover a UI/UX issue during testing.*
