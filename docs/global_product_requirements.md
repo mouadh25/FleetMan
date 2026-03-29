@@ -21,7 +21,7 @@ The platform utilizes strict Role-Based Access Control (RBAC). For ease of onboa
 | **CEO / Owner** | Web | High-level dashboard, financial KPIs, cost approvals, vendor spend. | **"CEO / Director"** (CEO only) |
 | **Park Manager** | Web & Mobile | The dispatcher/coordinator. Manages vehicles, assigns drivers, triage. | **"Park Manager"** (Manager only) |
 | **Field Officer** | Mobile | Field repair staff. Receives work orders, logs parts used, closes tickets. | **"Field Officer / Mechanic"** |
-| **Driver** | Mobile | Assigned to specific vehicles. Submits daily eDVIR forms. | **"Driver"** |
+| **Driver** | Mobile | **[OPTIONAL / TOGGLABLE EXCEPTION]** Assigned to specific vehicles. If activated by Office Manager, submits daily eDVIRs. Otherwise, Field Park Manager does it. | **"Driver"** |
 | **Gatekeeper** | Tablet / Mobile | Security at the yard. Logs entries/exits and general anomalies (Kiosk Mode). | **"Gatekeeper"** |
 | *(All Above)* | Web & Mobile | Combines CEO, Park Manager, and Field Officer rights into a single operational account. | **"One-Man Army"** (Small SMBs) |
 
@@ -36,7 +36,7 @@ To support clients of different sizes and capabilities, the platform is designed
 
 ### 3.1 The "Happy Path" Maintenance Loop
 The UX is designed to be frictionless, moving from field reporting to management resolution in clicks.
-1. **Reporting (Mobile):** Driver notices a defect during their shift. They open the app, tap "Signaler un Problème" (Report Issue), snap a photo (or record a **Voice Note**), add a brief text description, and submit.
+1. **Reporting (Mobile):** The **Field Park Manager** performs an audit or receives a verbal complaint from a driver. They open the app, tap "Signaler un Problème" (Report Issue), snap a photo (or record a **Voice Note**), add a brief text description, and submit. *(Note: A Driver can only do this directly if the Office Manager has explicitly toggled their Driver App access ON).*
 2. **Triage (Web Admin):** The Park Manager receives a notification. They open the web dashboard and see the issue pending. The Park Manager is *obliged* to listen to the voice note/view the photo and translate/expand it into a formal, well-described **Work Order** following best practices before assigning it to a Field Officer.
 3. **Execution (Mobile):** The Field Officer (Mechanic) gets a push notification. They open the app, go to "My Tasks". They fix the issue, log the parts used (e.g., "Plaquettes de frein"), enter the cost (e.g., "4500 DZD"), upload a photo of the receipt, and tap "Complete".
 4. **Closing (Web Admin):** The Park Manager sees the ticket turn green ("Awaiting Approval"). They verify the cost and receipt, and click "Approve & Close". The vehicle is back online.
@@ -51,10 +51,12 @@ For companies with secure yards, the app provides a dedicated Kiosk Mode for the
 - **Digital Logbook (Main Courante):** Guard taps the "Journal" tab to log non-fleet visitors or anomalies.
 - *Activation:* Dynamically locked/unlocked via the client's subscription tier in AdminOps.
 
-### 3.3 Driver eDVIR & Geofencing Workflow (Togglable)
-- **Pre-Trip:** Driver logs in, selects vehicle, and runs through a 5-step checklist (Tires, Fluids, Lights, Odometer, Physical Damage).
-- **Fraud Prevention:** The app requests GPS coordinates. If the driver is not physically inside the predefined yard geo-fence (e.g., 50m radius of the depot), the app prevents form submission.
-- *Activation:* Locked/unlocked via the client's subscription tier in AdminOps.
+### 3.3 eDVIR & Asset Control Workflow
+By default, the **Field Park Manager** assumes the responsibility of inspecting the vehicles before they leave the yard, as it is unrealistic to expect 100% of drivers to use a mobile app. 
+
+- **Default Pre-Trip (Park Manager):** The Park Manager walks the yard, selects the vehicle, and runs through the 5-step checklist (Tires, Fluids, Lights, Odometer, Physical Damage) before handing over the keys.
+- **The Driver App Exception (Togglable):** If the Office Manager explicitly activates a specific Driver, that driver can log into their own restricted app to submit the eDVIR instead. 
+- *Activation:* Geofencing for the eDVIR is a Phase 2 Scale feature, configurable in AdminOps.
 
 ---
 

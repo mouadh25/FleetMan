@@ -179,17 +179,18 @@ These tokens are defined ONCE in:
 
 ---
 
-## Phase 5: Driver eDVIR (Days 18-20)
-**Goal:** Pre-departure inspections submitted via mobile.
+## Phase 5: Park Manager eDVIR & Asset Control (Days 18-20)
+**Goal:** Pre-departure inspections submitted via mobile by the Park Manager (or a toggled-ON Driver).
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 5.1 | Driver Home (restricted to assigned vehicle only) | `driver_home_screen.dart` |
+| 5.1 | Vehicle Selection Home Screen | `vehicle_selection_screen.dart` |
 | 5.2 | eDVIR Checklist (Tires, Lights, Mirrors, Fluids, Odometer) | `edvir_checklist_screen.dart` |
 | 5.3 | Driver Assignment calendar (web, drag-drop) | `calendar/page.tsx` |
 | 5.4 | Automated Ordre de Mission PDF | Supabase Edge Function |
+| 5.5 | Office Manager Toggle: "Enable Driver App Access" | `admin/drivers/page.tsx` |
 
-**Verify:** Assign driver → login as driver → submit eDVIR successfully.
+**Verify:** Login as Park Manager → run eDVIR on a truck. Assign driver on Web. Toggle "App Access" for Driver to test the exception flow.
 
 ---
 

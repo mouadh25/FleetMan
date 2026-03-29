@@ -12,9 +12,9 @@ A world-class fleet management platform separates the noise based on who is hold
 ### The Daily Workflow:
 1. **Morning Yard Reconciliation (Shift Catch-up):** Because trucks move 24/7 but management does not, the Field Manager starts their shift by reconciling the night. Using the Night Guard's paper logs, the Manager inputs the exact "Time Out" for trucks that departed early and "Time In" for late arrivals. *(Note: This manual entry by the Manager will be strictly secured by **Phase 2 Geofencing** later, but for MVP it is location-agnostic).*
 2. **Asset Auditing (Control Checks):** Walks the yard doing independent control checks. Scans a QR code stuck to a physically parked truck.
-3. **Audit Odometer & Damage:** Verifies the true condition of the vehicle against the Driver's last report. If a driver returned at 2:00 AM and marked "Pass", but the Manager finds a broken mirror at 8:00 AM, the Manager logs the "Fail", snaps a photo, and the system instantly flags the responsible driver.
-4. **Issue Generation:** Submitting the audit instantly creates an "Open Issue" in the cloud and assigns fault.
-5. **Live Gate Logging (Time In/Time Out):** Throughout the rest of their shift, the Field Manager manually clicks "Time Out" when a vehicle leaves the park, and "Time In" when it returns. *(Note: While this manual entry guarantees operational tracking, every single action in the app also records an invisible background timestamp to ensure perfect data auditability).*
+3. **Pre-Trip Check / Asset Control (eDVIR):** The Field Park Manager is the **default user** performing the daily eDVIR. Before handing keys to a driver, the Manager selects the vehicle in the App, checks the condition (Tires, Lights, Odometer), and submits the 'Pass'. If a defect is found, they submit a 'Fail' and instantly flag it.
+4. **Issue Generation:** Submitting a failed audit or hitting "Report Problem" instantly creates an "Open Issue" in the cloud, paired with their photos and Voice Notes.
+5. **Live Gate Logging (Time In/Time Out):** Throughout the rest of their shift, the Field Manager manually clicks "Time Out" when a vehicle leaves the park, and "Time In" when it returns.
 
 ### UX Feel & Rules:
 *   **Camera-First:** The camera is the ultimate source of truth to prove driver negligence.
@@ -23,21 +23,20 @@ A world-class fleet management platform separates the noise based on who is hold
 
 ---
 
-## 2. The Driver (Optional Mobile App - Programmable Role)
-**Role:** Operating the vehicle and taking legal accountability for its condition before leaving the yard. In Algeria, the driver is legally responsible for the vehicle on the road.
+## 2. The Driver (OPTIONAL EXCEPTION - Highly Restricted)
+**Role:** Operating the vehicle and taking legal accountability. In Algeria, the driver is legally responsible for the vehicle on the road.
 
-### The Toggleable Adoption Strategy (Hybrid Approach):
-Because relying on 100% of drivers to use an app is impossible for an MVP, the Driver app is **Optional and highly configurable**.
-*   **Toggleable Features:** The web admin can toggle features on a *per-driver* basis. For a tech-savvy 2:00 AM driver, the admin turns ON the eDVIR and Time Logging features. For an older driver, the admin turns OFF all app requirements, relying entirely on the Field Manager to log their data manually the next day.
+**CRITICAL RULE:** *The Driver is NOT the primary user of this app.* Expecting 100% of drivers to install an app is impossible for an MVP. By default, the **Field Park Manager** performs the eDVIR inspection and hands them the keys.
 
-### The Daily Workflow (If toggled ON):
+### The Toggleable Exception Strategy:
+*   **Activation via Office Manager:** The Office Manager must explicitly go into the admin settings and toggle **"Enable Driver App Access"** for a specific trusted driver.
+*   If toggled ON, the user assumes the role of an app-user. If it remains OFF, they exist merely as a text-name on the Office Manager's calendar.
+
+### The Daily Workflow (ONLY if toggled ON):
 1. **The Restricted View:** The Driver logs into the app, seeing **only** the vehicle assigned to them via the Office Manager's Calendar.
-2. **Time Logging:** The Driver clicks "Time Out" to start their mission.
-   - *Phase 2 Scale Feature:* This will later be secured by a strict 50m GPS Geofence to prevent remote falsification. 
-3. **Pre-Departure eDVIR (The Legal Handshake):** Before leaving, the app forces them to:
-   - Verify the current **Odometer** matches reality.
-   - Perform the legally binding physical check: Tires, Lights, Mirrors, Engine Fluids.
-4. **Accountability Transfer:** By clicking "Submit", the driver assumes legal responsibility. This gives the Field Manager (the Auditor) the exact proof needed to assign fault if damage is found later.
+2. **Time Logging:** The Driver clicks "Time Out" to start their mission. *(Phase 2: secured by GPS).*
+3. **Pre-Departure eDVIR:** Before leaving, the app forces them to run the physical checklist (Tires, Lights, Mirrors) instead of the Park Manager doing it for them.
+4. **Accountability Transfer:** By clicking "Submit", the driver assumes legal responsibility, giving the Park Manager proof they signed off on the truck's condition before departure.
 
 ---
 
@@ -105,12 +104,12 @@ Because relying on 100% of drivers to use an app is impossible for an MVP, the D
 ---
 
 ### Logical Data Funnel Summary
-1. **First Log-in / Client Onboarding:** The baseline data is set (Vehicles, Initial Odometers, Legal documents, Approval Thresholds).
-2. **(Mobile) Field Manager:** Acts as the Auditor, catching hidden vehicle damages and verifying timestamps.
-3. **The Driver (Mobile App):** Feeds daily data IN (Gate Times, Odometers, Pre-Trip Legal Inspections). *(Gatekeeper Tablet Kiosks roll out in Phase 2)*.
-4. **(Web) Office Manager:** Routes the data (Assigns driver *Ordre de Mission*, triages audio notes into Work Orders, schedules preventive maintenance, manages vendors).
-5. **(Mobile) Mechanic:** Closes the loop (Fixes vehicles, logs parts out of warehouse, updates Vehicle Status).
-6. **(Web) CEO:** Views the aggregated KPIs (TCO, CPK, Median Availability, Approvals). 
+1. **First Log-in / Client Onboarding:** The baseline data is set (Vehicles, Legal documents, Financial Approval Thresholds).
+2. **(Mobile) Field Park Manager (THE CORE USER):** Acts as the Auditor and Gatekeeper. They perform the Pre-Trip eDVIRs, verify odometers, and document damages via voice notes/photos.
+3. **(Mobile) The Driver Exception:** Only logs in if the Office Manager explicitly activated their app access. Otherwise, they are completely invisible to the software layer.
+4. **(Web) Office Manager:** Routes the data (Assigns driver *Ordre de Mission*, triages audio notes into formal Work Orders, schedules maintenance).
+5. **(Mobile) Field Officer/Mechanic:** Closes the loop (Fixes vehicles, logs parts out of warehouse, uploads receipts).
+6. **(Web) CEO:** Views the aggregated KPIs (TCO, CPK, Median Availability) and approves high-value Work Orders. 
  
 This is the exact loop that makes platforms like Fleetio worth billions. Implementing this 6-step loop with Vibe Code is the fastest path to a highly scalable MVP.
 
