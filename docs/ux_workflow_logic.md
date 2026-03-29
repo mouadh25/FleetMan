@@ -10,7 +10,7 @@ A world-class fleet management platform separates the noise based on who is hold
 **Role:** The Controller & Auditor. Because drivers may attempt to hide damages (like a cracked mirror) to avoid salary deductions, the Field Manager acts as the company's eyes on the ground, holding drivers accountable.
 
 ### The Daily Workflow:
-1. **Morning Yard Reconciliation (Shift Catch-up):** Because trucks move 24/7 but management does not, the Field Manager starts their shift by reconciling the night. Using the Night Guard's paper logs, the Manager inputs the exact "Time Out" for trucks that departed early and "Time In" for late arrivals. *(Note: This manual entry by the Manager is explicitly **exempt from Geofencing**, as they are transcribing historical data for trucks that may already be hundreds of kilometers away).*
+1. **Morning Yard Reconciliation (Shift Catch-up):** Because trucks move 24/7 but management does not, the Field Manager starts their shift by reconciling the night. Using the Night Guard's paper logs, the Manager inputs the exact "Time Out" for trucks that departed early and "Time In" for late arrivals. *(Note: This manual entry by the Manager will be strictly secured by **Phase 2 Geofencing** later, but for MVP it is location-agnostic).*
 2. **Asset Auditing (Control Checks):** Walks the yard doing independent control checks. Scans a QR code stuck to a physically parked truck.
 3. **Audit Odometer & Damage:** Verifies the true condition of the vehicle against the Driver's last report. If a driver returned at 2:00 AM and marked "Pass", but the Manager finds a broken mirror at 8:00 AM, the Manager logs the "Fail", snaps a photo, and the system instantly flags the responsible driver.
 4. **Issue Generation:** Submitting the audit instantly creates an "Open Issue" in the cloud and assigns fault.
@@ -32,8 +32,8 @@ Because relying on 100% of drivers to use an app is impossible for an MVP, the D
 
 ### The Daily Workflow (If toggled ON):
 1. **The Restricted View:** The Driver logs into the app, seeing **only** the vehicle assigned to them via the Office Manager's Calendar.
-2. **Geofenced Time Logging:** The Driver clicks "Time Out" to start their mission.
-   - **Anti-Cheat GPS Lock:** This action is strictly secured by a **GPS Geofence**. If the driver's phone is not physically within 50 meters of the company yard, the button is disabled.
+2. **Time Logging:** The Driver clicks "Time Out" to start their mission.
+   - *Phase 2 Scale Feature:* This will later be secured by a strict 50m GPS Geofence to prevent remote falsification. 
 3. **Pre-Departure eDVIR (The Legal Handshake):** Before leaving, the app forces them to:
    - Verify the current **Odometer** matches reality.
    - Perform the legally binding physical check: Tires, Lights, Mirrors, Engine Fluids.
@@ -71,8 +71,8 @@ Because relying on 100% of drivers to use an app is impossible for an MVP, the D
 **Role:** The Command Center. This is the heavy UI you saw in the Fleetio screenshots, with the massive left sidebar.
 
 ### The Daily Workflow:
-1. **Triaging Inbox:** Logs in. The dashboard highlights "Action Needed". Sees the "Cracked Mirror" issue submitted by the Field Manager.
-2. **Conversion:** Clicks the Issue -> Converts to "Work Order" -> Assigns it to the Field Repair Man.
+1. **Triaging Inbox:** Logs in. The dashboard highlights "Action Needed". Sees the "Cracked Mirror" issue submitted by the Field Manager, including any **Voice Notes** and photos attached by the driver/reporter.
+2. **Formal Conversion (Mandatory):** The platform forces the Park Manager to play the audio and write a formal, structured "Work Order" before assigning it. This acts as an administrative translation layer between a stressed driver and the mechanic.
 3. **PM Reminders (Preventive Maintenance):** Checks the schedule. The system utilizes **Configurable Predictive Early Alerts**. The user can configure the system to mathematically alert them 7, 14, or 30 days in advance based on either **Median Daily Usage (Distance)** or **Strict Timelines** (e.g., exactly 6 months for insurance renewals). These proactive alerts automatically populate the fleet calendar for active planning.
 4. **Driver Assignments & Ordre de Mission (Calendar):** Opens the calendar UI and drops a driver onto an "Available" vehicle. 
    - **Smart Transformation:** This action instantly changes the vehicle status from *Available* to **"Assigned - Ready for Departure"**.
@@ -107,8 +107,8 @@ Because relying on 100% of drivers to use an app is impossible for an MVP, the D
 ### Logical Data Funnel Summary
 1. **First Log-in / Client Onboarding:** The baseline data is set (Vehicles, Initial Odometers, Legal documents, Approval Thresholds).
 2. **(Mobile) Field Manager:** Acts as the Auditor, catching hidden vehicle damages and verifying timestamps.
-3. **(Tablet Kiosk) The Driver:** Feeds daily data IN (Geofenced Gate Times, Odometers, Pre-Trip Legal Inspections).
-4. **(Web) Office Manager:** Routes the data (Assigns driver *Ordre de Mission*, schedules predictive maintenance, manages vendors).
+3. **The Driver (Mobile App):** Feeds daily data IN (Gate Times, Odometers, Pre-Trip Legal Inspections). *(Gatekeeper Tablet Kiosks roll out in Phase 2)*.
+4. **(Web) Office Manager:** Routes the data (Assigns driver *Ordre de Mission*, triages audio notes into Work Orders, schedules preventive maintenance, manages vendors).
 5. **(Mobile) Mechanic:** Closes the loop (Fixes vehicles, logs parts out of warehouse, updates Vehicle Status).
 6. **(Web) CEO:** Views the aggregated KPIs (TCO, CPK, Median Availability, Approvals). 
  
@@ -120,8 +120,8 @@ This is the exact loop that makes platforms like Fleetio worth billions. Impleme
 **Role:** In many Algerian SMBs (e.g., fleets of 5-15 trucks), the company owner or a single trusted employee handles everything. They literally act as the Field Manager, Office Manager, Mechanic, AND the Financial CEO.
 
 ### How the Logic Supports This:
-Instead of forcing the user to juggle 4 different logins, the software is built entirely on **Role-Based Access Control (RBAC)**. 
-- A given user profile holds an array of their roles (e.g., `roles: ["field_manager", "office_manager", "mechanic", "ceo"]`).
+Instead of forcing the user to juggle 4 different logins, the software features an **"Aggregated Persona" (The One-Man Army Role)**. 
+- During onboarding, the client selects the "One-Man Army" pre-set, which auto-assigns an array of roles (`roles: ["field_manager", "office_manager", "mechanic", "ceo"]`).
 - When the Solo Operator logs into the **Mobile App**, the UI dynamically renders the QR Scanner and eDVIR tools (Field roles) *plus* the Work Order completion forms (Mechanic role). 
 - When they log into the **Web Portal**, the UI renders the Dispatch Calendar (Office role) *plus* the Financial Approvals Dashboard (CEO role). 
 

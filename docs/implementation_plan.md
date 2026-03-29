@@ -83,17 +83,16 @@ These tokens are defined ONCE in:
 |------|---------------|--------|
 | 0.1 | `profiles` table (UUID PK, roles text array, full_name, phone) | `.sql` |
 | 0.2 | `vehicles` table (status enum, odometer, legal expiry dates) | `.sql` |
-| 0.3 | `gate_logs` table (time_in/out, geofence flag, ordre_de_mission_url) | `.sql` |
-| 0.4 | `edvir_inspections` table (checklist JSONB, odometer, Pass/Fail) | `.sql` |
-| 0.5 | `issues` table (reporter, photo URL, status enum) | `.sql` |
-| 0.6 | `work_orders` table (mechanic, cash_cost_dzd, receipt URL, status) | `.sql` |
-| 0.7 | `inventory_parts` + `vendors` tables | `.sql` |
-| 0.8 | `tenants` table (subscriptions, limits, approval_status) | `.sql` |
-| 0.9 | Row Level Security (RLS) policies for all tables | `.sql` |
-| 0.10 | Execute migrations on Supabase | Live DB |
-| 0.11 | Generate TypeScript types | `database.types.ts` |
+| 0.3 | `edvir_inspections` table (checklist JSONB, odometer, Pass/Fail) | `.sql` |
+| 0.4 | `issues` table (reporter, photo URL, status enum) | `.sql` |
+| 0.5 | `work_orders` table (mechanic, cash_cost_dzd, receipt URL, status) | `.sql` |
+| 0.6 | `inventory_parts` + `vendors` tables | `.sql` |
+| 0.7 | `tenants` table (subscriptions, limits, approval_status) | `.sql` |
+| 0.8 | Row Level Security (RLS) policies for all tables | `.sql` |
+| 0.9 | Execute migrations on Supabase | Live DB |
+| 0.10 | Generate TypeScript types | `database.types.ts` |
 
-**Verify:** `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'` → 8 tables.
+**Verify:** `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'` → 7 tables.
 
 ---
 
@@ -110,8 +109,8 @@ These tokens are defined ONCE in:
 | 1.4 | **Create Design Token theme** (colors, fonts, spacing, touch targets) | `lib/core/theme/app_theme.dart` |
 | 1.5 | **Setup l10n** — create `l10n.yaml`, `app_fr_DZ.arb` (template), `app_ar_DZ.arb` | `lib/l10n/` |
 | 1.6 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
-| 1.7 | Login Screen (high-contrast, bilingual AR-DZ/FR-DZ toggle, RTL-ready) | `login_screen.dart` |
-| 1.8 | Registration Screen | `register_screen.dart` |
+| 1.7 | Auth Screens (Cloudflare Turnstile, 6-Digit OTP, Email verification) | `login_screen.dart` |
+| 1.8 | Registration & OTP Verification Screens | `register_screen.dart` |
 | 1.9 | Role Router (fetch `profiles.roles` → navigate) | `role_router.dart` |
 | 1.10 | Stub Home Screens per role | 3 stub files |
 | 1.11 | **GitHub Actions: Flutter CI** — on push: `flutter analyze` + `flutter build apk --debug` | `.github/workflows/mobile_ci.yml` |
@@ -152,14 +151,12 @@ These tokens are defined ONCE in:
 | Task | Atomic Action | Output |
 |------|---------------|--------|
 | 3.1 | QR Scanner screen | `qr_scanner_screen.dart` |
-| 3.2 | Audit Form (odometer, damage checklist, camera, Pass/Fail) | `audit_form_screen.dart` |
-| 3.3 | Gate Log screen (Time In/Out buttons) | `gate_log_screen.dart` |
-| 3.4 | Morning Reconciliation mode (manual entry, geofence-exempt) | `gate_log_screen.dart` |
-| 3.5 | Photo Upload (S3-Compatible) | `storage_service.dart` |
-| 3.6 | Auto-Issue on "Fail" audit | Edge Function or client |
-| 3.7 | Offline queue + auto-sync | `offline_sync_service.dart` |
+| 3.2 | Audit Form (odometer, damage checklist, camera + Voice Notes, Pass/Fail) | `audit_form_screen.dart` |
+| 3.3 | Photo & Audio Upload (S3-Compatible) | `storage_service.dart` |
+| 3.4 | Auto-Issue on "Fail" audit | Edge Function or client |
+| 3.5 | Offline queue + auto-sync | `offline_sync_service.dart` |
 
-**Verify:** Scan QR → submit Fail → confirm Issue in DB. Airplane mode test → sync on reconnect.
+**Verify:** Scan QR → submit Fail (with voice note) → confirm Issue in DB. Airplane mode test → sync on reconnect.
 
 ---
 
@@ -182,19 +179,17 @@ These tokens are defined ONCE in:
 
 ---
 
-## Phase 5: Driver eDVIR & Geofencing (Days 18-20)
-**Goal:** Pre-departure inspections secured by GPS fence.
+## Phase 5: Driver eDVIR (Days 18-20)
+**Goal:** Pre-departure inspections submitted via mobile.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
 | 5.1 | Driver Home (restricted to assigned vehicle only) | `driver_home_screen.dart` |
-| 5.2 | GPS Geofence service (50m radius check) | `geofence_service.dart` |
-| 5.3 | eDVIR Checklist (Tires, Lights, Mirrors, Fluids, Odometer) | `edvir_checklist_screen.dart` |
-| 5.4 | Geofenced "Time Out" button | `driver_home_screen.dart` |
-| 5.5 | Driver Assignment calendar (web, drag-drop) | `calendar/page.tsx` |
-| 5.6 | Automated Ordre de Mission PDF | Supabase Edge Function |
+| 5.2 | eDVIR Checklist (Tires, Lights, Mirrors, Fluids, Odometer) | `edvir_checklist_screen.dart` |
+| 5.3 | Driver Assignment calendar (web, drag-drop) | `calendar/page.tsx` |
+| 5.4 | Automated Ordre de Mission PDF | Supabase Edge Function |
 
-**Verify:** Assign driver → login as driver → submit eDVIR → verify geofence blocks remote access.
+**Verify:** Assign driver → login as driver → submit eDVIR successfully.
 
 ---
 
@@ -238,12 +233,11 @@ These tokens are defined ONCE in:
 | 7.1 | Build the public landing page (hero, features, pricing tiers, CTA "Request Demo") | `web/app/(public)/page.tsx` |
 | 7.2 | SEO optimization (meta tags, OG images, structured data) | `layout.tsx` metadata |
 | 7.3 | "Request Demo" form → stores lead in Supabase `leads` table | Edge Function |
-| | **Client Onboarding Wizard** | |
-| 7.4 | Step 1: Company Profile (name, logo, yard GPS coordinates for geofence) | `onboarding/step-1.tsx` |
-| 7.5 | Step 2: Add First Vehicles (bulk import or one-by-one) | `onboarding/step-2.tsx` |
-| 7.6 | Step 3: Upload Legal Documents (Assurance, Contrôle Technique per vehicle) | `onboarding/step-3.tsx` |
-| 7.7 | Step 4: Set Financial Thresholds (auto-approve limit in DZD, PM alert intervals) | `onboarding/step-4.tsx` |
-| 7.8 | Step 5: Invite Team (enter emails/phones → assign roles) | `onboarding/step-5.tsx` |
+| | **Client Onboarding & Setup** | |
+| 7.4 | Step 1: Company Profile setup | `onboarding/step-1.tsx` |
+| 7.5 | Step 2: Select "Aggregated Roles" (One-Man Army vs Separated) | `onboarding/step-2.tsx` |
+| 7.6 | Dashboard Smart Checklist (Static widget guiding user exactly what to click: Add Vehicle, Add Driver) | `dashboard/checklist.tsx` |
+| 7.7 | Set Financial Thresholds (auto-approve limit in DZD, PM alert intervals) | `onboarding/step-4.tsx` |
 | | **Predictive Maintenance & Polish** | |
 | 7.9 | Predictive PM Alert engine (distance-based + time-based early warnings) | Edge Function |
 | 7.10 | PM Calendar view (web, upcoming maintenance events) | Calendar component |
@@ -342,8 +336,15 @@ These tokens are defined ONCE in:
 │                                                                   │
 │  Phase 8 (CI/CD + Lint + Docs) → Phase 9 (Security) → Phase 10  │
 │                                                    (Sovereign VPS)│
+└───────────────┬───────────────────────────────────────────────────┘
+                │
+┌───────────────▼ MILESTONE 3: Scale & Add-Ons (Phase 11) ──────────┐
+│                                                                   │
+│  11.1 gate_logs table & Gatekeeper Kiosk Tablet App               │
+│  11.2 eDVIR Native Background GPS Geofencing                      │
+│  11.3 Interactive Onboarding "Smart Guide" Overlay UI             │
+│  11.4 FCM Push Notifications for Mechanics                        │
 └───────────────────────────────────────────────────────────────────┘
-```
 
 ## GSD Execution Rules
 1. **One phase at a time.** Never start Phase N+1 until Phase N is verified.
