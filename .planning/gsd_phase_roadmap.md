@@ -1,161 +1,271 @@
-# GSD Phase Roadmap: FleetMan MVP
+# GSD Phase Roadmap: FleetMan MVP (v2)
 
-> **Methodology:** Pure GSD (Get Shit Done) - Burn-and-Replace Sessions
-> **Timeline:** 4 Weeks (28 Days)  
+> **Methodology:** Pure GSD (Get Shit Done) - Burn-and-Replace Sessions  
 > **Stack:** Flutter (Mobile) + Next.js (Web) + Supabase (Backend)
 
 ---
 
+## Strategic Architecture Decision
+
+### Two-Milestone Approach
+
+> [!IMPORTANT]
+> **MVP1 (Phases 0–7):** Feature-complete, UX-validated Beta.  
+> **MVP2 (Phases 8–10):** Production Hardening — CI/CD, Security Audit, Sovereign VPS Migration.
+
+**Rationale:** If you bundle linting, CI/CD pipelines, security audits, and production hardening into every feature phase, you will triple your development time and optimize code that might get rewritten after UX testing. The correct strategy is:
+
+1. **Build fast** → get the full data loop working (Field Manager → Driver → Office → Mechanic → CEO).
+2. **Validate the UX** → put it in real users' hands, discover glitches, iterate (using the Iteration Log).
+3. **Harden once** → after the UX logic is locked, do ONE dedicated sprint for CI/CD, lint, docs, security, and sovereign deployment.
+
+This prevents wasted engineering on screens that might change after user feedback.
+
+### Cloud-Agnostic Mandate
+
+> [!CAUTION]
+> **Every Supabase interaction MUST be wrapped behind a repository/service interface.**  
+> Never call `supabase.from('vehicles').select()` directly in a Widget or Page. Always call `vehicleRepository.getAll()`. This guarantees that when MVP2 migrates to a sovereign VPS (Algérie Telecom / ICOSNET / MinIO), you swap ONE file per service — not 50 screens.
+
+---
+
+# MILESTONE 1: Feature-Complete Beta (4 Weeks)
+
 ## Phase 0: Database Foundation (Days 1-2)
-**Goal:** Create the absolute source of truth for every future agent session.
+**Goal:** All tables live on Supabase. SQL files are version-controlled for sovereign replay.
+
+> ☁️ **Cloud-Agnostic Rule:** All migrations are saved as raw `.sql` files in `/supabase/migrations/`. These exact files will be replayed via `psql` on the sovereign VPS during MVP2.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 0.1 | Write the complete SQL migration for `profiles` table (RBAC roles array) | `.sql` file |
-| 0.2 | Write the SQL migration for `vehicles` table (status enum, odometer, legal expiry dates) | `.sql` file |
-| 0.3 | Write the SQL migration for `gate_logs` table (time_in, time_out, geofence flag) | `.sql` file |
-| 0.4 | Write the SQL migration for `edvir_inspections` table (checklist JSONB, odometer) | `.sql` file |
-| 0.5 | Write the SQL migration for `issues` table (reporter, photo URL, status) | `.sql` file |
-| 0.6 | Write the SQL migration for `work_orders` table (mechanic, cost, receipt photo) | `.sql` file |
-| 0.7 | Write the SQL migration for `inventory_parts` + `vendors` tables | `.sql` file |
-| 0.8 | Write all Row Level Security (RLS) policies for every table | `.sql` file |
-| 0.9 | Execute all migrations on Supabase project `mzuippdkhsqifxacssex` | Live DB |
-| 0.10 | Generate TypeScript types from the live schema | `types.ts` |
+| 0.1 | `profiles` table (UUID PK, roles text array, full_name, phone) | `.sql` |
+| 0.2 | `vehicles` table (status enum, odometer, legal expiry dates) | `.sql` |
+| 0.3 | `gate_logs` table (time_in/out, geofence flag, ordre_de_mission_url) | `.sql` |
+| 0.4 | `edvir_inspections` table (checklist JSONB, odometer, Pass/Fail) | `.sql` |
+| 0.5 | `issues` table (reporter, photo URL, status enum) | `.sql` |
+| 0.6 | `work_orders` table (mechanic, cash_cost_dzd, receipt URL, status) | `.sql` |
+| 0.7 | `inventory_parts` + `vendors` tables | `.sql` |
+| 0.8 | Row Level Security (RLS) policies for all tables | `.sql` |
+| 0.9 | Execute migrations on Supabase `mzuippdkhsqifxacssex` | Live DB |
+| 0.10 | Generate TypeScript types | `database.types.ts` |
 
-**Verification:** Run `SELECT * FROM information_schema.tables WHERE table_schema = 'public'` and confirm all 7 tables exist.
+**Verify:** `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'` → 7 tables.
 
 ---
 
 ## Phase 1: Auth & Role Routing (Days 3-5)
-**Goal:** A user can register, log in, and be routed to the correct UI based on their role.
+**Goal:** Login → RBAC role-based navigation.
+
+> ☁️ **Cloud-Agnostic Rule:** Auth logic wrapped in `AuthRepository` interface. Supabase-specific calls isolated in `SupabaseAuthRepository implements AuthRepository`.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 1.1 | Scaffold Flutter project (`flutter create fleetman_mobile`) | `/mobile` directory |
-| 1.2 | Add Supabase Flutter SDK + GoRouter dependencies | `pubspec.yaml` |
-| 1.3 | Build the Login Screen (email/password, high-contrast, bilingual AR/FR toggle) | `login_screen.dart` |
-| 1.4 | Build the Registration Screen (name, phone, email, password) | `register_screen.dart` |
-| 1.5 | Build the Auth Service (Supabase sign-in, sign-up, session persistence) | `auth_service.dart` |
-| 1.6 | Build the Role Router: After login, fetch `profiles.roles` and navigate to the correct home screen | `role_router.dart` |
-| 1.7 | Create placeholder Home Screens for each role (Field Manager, Driver, Mechanic) | 3 stub files |
+| 1.1 | Scaffold Flutter project | `/mobile` |
+| 1.2 | Add Supabase SDK + GoRouter + Riverpod | `pubspec.yaml` |
+| 1.3 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
+| 1.4 | Login Screen (high-contrast, AR/FR toggle) | `login_screen.dart` |
+| 1.5 | Registration Screen | `register_screen.dart` |
+| 1.6 | Role Router (fetch `profiles.roles` → navigate) | `role_router.dart` |
+| 1.7 | Stub Home Screens per role | 3 stub files |
 
-**Verification:** Register a new user via the app. Manually set their `roles` to `['field_manager']` in Supabase Dashboard. Log in and confirm the app routes to the Field Manager Home stub.
+**Verify:** Register → set roles in Supabase → login → confirm correct home screen.
 
 ---
 
-## Phase 2: Vehicle Onboarding & The Asset Card (Days 6-8)
-**Goal:** The Office Manager can add vehicles to the system. Any user can view a Vehicle Detail Card.
+## Phase 2: Vehicle Onboarding (Days 6-8)
+**Goal:** Add vehicles, view Vehicle Detail Card.
+
+> ☁️ **Cloud-Agnostic Rule:** File uploads use `StorageRepository` wrapping S3-Compatible API. Next.js uses `VehicleRepository` interface (no raw Supabase calls in pages).
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 2.1 | Scaffold Next.js project (`npx create-next-app@latest`) | `/web` directory |
-| 2.2 | Build the Web Login Page (Supabase Auth, redirect to role-based dashboard) | `login/page.tsx` |
-| 2.3 | Build the "Add Vehicle" form (license plate, make/model, initial odometer, upload legal docs) | `vehicles/new/page.tsx` |
-| 2.4 | Build the Vehicle List table (filterable by status, searchable by plate) | `vehicles/page.tsx` |
-| 2.5 | Build the Vehicle Detail Card (Current Status, Assigned Driver, Cost/KM, Legal Doc Expiry) | `vehicles/[id]/page.tsx` |
-| 2.6 | Build the Flutter mobile "Vehicle Card" (QR scan opens the card) | `vehicle_card_screen.dart` |
+| 2.1 | Scaffold Next.js project | `/web` |
+| 2.2 | Web Login (Supabase Auth SSR) | `login/page.tsx` |
+| 2.3 | "Add Vehicle" form (plate, model, odometer, legal doc upload) | `vehicles/new/page.tsx` |
+| 2.4 | Vehicle List (filterable, searchable) | `vehicles/page.tsx` |
+| 2.5 | Vehicle Detail Card (status, driver, CPK, legal expiry) | `vehicles/[id]/page.tsx` |
+| 2.6 | Flutter mobile Vehicle Card (QR scan) | `vehicle_card_screen.dart` |
 
-**Verification:** Add 3 test vehicles via the web form. Confirm they appear in the list. Open a Vehicle Detail Card and confirm all fields render.
+**Verify:** Add 3 vehicles via web → confirm list renders → open detail card → all fields correct.
 
 ---
 
-## Phase 3: The Field Manager Loop (Days 9-12)
-**Goal:** The Field Manager can perform yard audits, log gate times, and generate issues.
+## Phase 3: Field Manager Loop (Days 9-12)
+**Goal:** Yard audits, gate logging, issue generation, offline sync.
+
+> ☁️ **Cloud-Agnostic Rule:** Photo upload via `StorageRepository` (S3 API). Offline queue uses local SQLite/Hive, not Supabase-specific caching.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 3.1 | Build the QR Scanner screen (scan vehicle QR -> open audit form) | `qr_scanner_screen.dart` |
-| 3.2 | Build the Audit Form (odometer input, damage checklist, photo capture, Pass/Fail) | `audit_form_screen.dart` |
-| 3.3 | Build the Gate Log screen (tap vehicle -> "Time Out" / "Time In" buttons) | `gate_log_screen.dart` |
-| 3.4 | Implement the Morning Reconciliation mode (manual time entry, geofence-exempt flag) | Logic in `gate_log_screen.dart` |
-| 3.5 | Build the Photo Upload service (Supabase S3-Compatible Storage) | `storage_service.dart` |
-| 3.6 | Implement auto-Issue generation on "Fail" audit submission | Supabase Edge Function or client logic |
-| 3.7 | Build the offline queue (save audits/gate logs locally, sync on reconnect) | `offline_sync_service.dart` |
+| 3.1 | QR Scanner screen | `qr_scanner_screen.dart` |
+| 3.2 | Audit Form (odometer, damage checklist, camera, Pass/Fail) | `audit_form_screen.dart` |
+| 3.3 | Gate Log screen (Time In/Out buttons) | `gate_log_screen.dart` |
+| 3.4 | Morning Reconciliation mode (manual entry, geofence-exempt) | `gate_log_screen.dart` |
+| 3.5 | Photo Upload (S3-Compatible) | `storage_service.dart` |
+| 3.6 | Auto-Issue on "Fail" audit | Edge Function or client |
+| 3.7 | Offline queue + auto-sync | `offline_sync_service.dart` |
 
-**Verification:** Scan a test QR code. Submit a "Fail" audit with a photo. Confirm an Open Issue appears in the Supabase `issues` table. Toggle airplane mode, submit another audit, re-enable data, confirm it syncs.
+**Verify:** Scan QR → submit Fail → confirm Issue in DB. Airplane mode test → sync on reconnect.
 
 ---
 
-## Phase 4: The Maintenance Loop (Days 13-17)
-**Goal:** Issues can be converted to Work Orders, assigned to a Mechanic, and resolved with parts + cost tracking.
+## Phase 4: Maintenance Loop (Days 13-17)
+**Goal:** Issue → Work Order → Mechanic resolution → cost tracking.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 4.1 | Build the Office Manager "Issues Inbox" (web, list of Open Issues with photos) | `issues/page.tsx` |
-| 4.2 | Build the "Convert to Work Order" action (assign mechanic, set priority) | `work-orders/new/page.tsx` |
-| 4.3 | Build the Mechanic mobile "My Work Orders" queue | `work_orders_screen.dart` |
-| 4.4 | Build the Work Order Detail screen (view photos, update status, log resolution) | `work_order_detail_screen.dart` |
-| 4.5 | Build the Parts Consumption flow (select from warehouse stock or external vendor) | `parts_selector_widget.dart` |
-| 4.6 | Build the Receipt Photo + OCR fallback flow (snap receipt, auto-fill cost) | `receipt_capture_screen.dart` |
-| 4.7 | Build the "Job Complete" flow (resolution photo, digital signature, status update) | Logic in `work_order_detail_screen.dart` |
-| 4.8 | Build the Inventory Management screen (web, add/edit parts, stock levels) | `inventory/page.tsx` |
-| 4.9 | Build the Vendor Management screen (web, add/rate vendors) | `vendors/page.tsx` |
+| 4.1 | Office Manager Issues Inbox (web) | `issues/page.tsx` |
+| 4.2 | "Convert to Work Order" action | `work-orders/new/page.tsx` |
+| 4.3 | Mechanic "My Work Orders" queue (mobile) | `work_orders_screen.dart` |
+| 4.4 | Work Order Detail (view photos, update status) | `work_order_detail_screen.dart` |
+| 4.5 | Parts Consumption (warehouse stock / external vendor) | `parts_selector_widget.dart` |
+| 4.6 | Receipt Photo + OCR fallback | `receipt_capture_screen.dart` |
+| 4.7 | "Job Complete" (resolution photo, signature) | `work_order_detail_screen.dart` |
+| 4.8 | Inventory Management (web) | `inventory/page.tsx` |
+| 4.9 | Vendor Management (web) | `vendors/page.tsx` |
 
-**Verification:** Create an Issue from Field Manager audit. Convert it to a Work Order via the web. Open the Mechanic app and confirm the Work Order appears. Complete it with a receipt photo and resolution. Confirm the `work_orders` table shows `status: Completed` and `cash_cost_dzd` is populated.
+**Verify:** Full loop: Issue → Work Order → Mechanic completes → cost logged in DB.
 
 ---
 
-## Phase 5: The Driver eDVIR & Geofencing (Days 18-20)
-**Goal:** Drivers can perform mandatory pre-departure inspections, secured by GPS geofencing.
+## Phase 5: Driver eDVIR & Geofencing (Days 18-20)
+**Goal:** Pre-departure inspections secured by GPS fence.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 5.1 | Build the Driver Home screen (restricted view: only their assigned vehicle) | `driver_home_screen.dart` |
-| 5.2 | Build the GPS Geofence service (check if phone is within 50m of yard coordinates) | `geofence_service.dart` |
-| 5.3 | Build the eDVIR Checklist screen (Tires, Lights, Mirrors, Fluids, Odometer) | `edvir_checklist_screen.dart` |
-| 5.4 | Build the "Time Out" geofenced button (disabled if outside fence) | Logic in `driver_home_screen.dart` |
-| 5.5 | Build the Driver Assignment calendar (web, Office Manager drags driver onto vehicle) | `calendar/page.tsx` |
-| 5.6 | Implement automated Ordre de Mission PDF generation on assignment | Supabase Edge Function |
+| 5.1 | Driver Home (restricted to assigned vehicle only) | `driver_home_screen.dart` |
+| 5.2 | GPS Geofence service (50m radius check) | `geofence_service.dart` |
+| 5.3 | eDVIR Checklist (Tires, Lights, Mirrors, Fluids, Odometer) | `edvir_checklist_screen.dart` |
+| 5.4 | Geofenced "Time Out" button | `driver_home_screen.dart` |
+| 5.5 | Driver Assignment calendar (web, drag-drop) | `calendar/page.tsx` |
+| 5.6 | Automated Ordre de Mission PDF | Supabase Edge Function |
 
-**Verification:** Assign a driver to a vehicle via the web calendar. Log in as that driver on mobile. Confirm only the assigned vehicle is visible. Submit an eDVIR. Confirm the `edvir_inspections` table is populated. Verify the geofence blocks "Time Out" when GPS coordinates are faked to a remote location.
+**Verify:** Assign driver → login as driver → submit eDVIR → verify geofence blocks remote access.
 
 ---
 
-## Phase 6: CEO Dashboard & Financial KPIs (Days 21-24)
-**Goal:** The CEO sees the money. TCO, CPK, Approval Workflows, and Export.
+## Phase 6: CEO Dashboard (Days 21-24)
+**Goal:** TCO, CPK, approval workflows, CSV export.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 6.1 | Build the CEO landing page (TCO pie chart, fleet health summary) | `dashboard/page.tsx` |
-| 6.2 | Build the Cost per Kilometer (CPK) ranked vehicle table | Component in dashboard |
-| 6.3 | Build the Approval Workflow (pending high-cost repairs, Approve/Reject buttons) | `approvals/page.tsx` |
-| 6.4 | Build the Vendor Spend report (aggregated by vendor, sortable) | `reports/vendors/page.tsx` |
-| 6.5 | Implement the "Export to CSV" functionality on all tables | Utility function |
-| 6.6 | Build the Legal Document Expiry alerts dashboard (Contrôle Technique, Assurance) | Component in dashboard |
+| 6.1 | CEO landing page (TCO pie chart, fleet health) | `dashboard/page.tsx` |
+| 6.2 | CPK ranked vehicle table | Dashboard component |
+| 6.3 | Approval Workflow (Approve/Reject high-cost repairs) | `approvals/page.tsx` |
+| 6.4 | Vendor Spend report | `reports/vendors/page.tsx` |
+| 6.5 | Export to CSV on all tables | Utility function |
+| 6.6 | Legal Document Expiry alerts | Dashboard component |
 
-**Verification:** Populate the database with 5 vehicles and 10 completed work orders with varying costs. Log in as CEO. Confirm TCO chart renders with accurate percentages. Confirm CPK ranking sorts correctly. Export a CSV and open it in Excel to validate data integrity.
+**Verify:** Populate 5 vehicles + 10 work orders → confirm charts → export CSV → validate in Excel.
 
 ---
 
-## Phase 7: Polish, PM Alerts & Deployment (Days 25-28)
-**Goal:** Predictive maintenance alerts, bilingual support, and production deployment.
+## Phase 7: UX Polish & Beta Release (Days 25-28)
+**Goal:** Bilingual UI, PM alerts, onboarding wizard, deploy to staging.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 7.1 | Implement Predictive PM Alert engine (distance-based + time-based early warnings) | Supabase Edge Function |
-| 7.2 | Build the PM Calendar view (web, upcoming maintenance events) | Component in calendar |
-| 7.3 | Implement Arabic/French language toggle (RTL support for Flutter + Next.js) | Localization files |
-| 7.4 | Final UI polish pass (high-contrast themes, animations, loading states) | All screens |
-| 7.5 | Build the Client Onboarding wizard (first-time setup: add vehicles, set thresholds) | `onboarding/page.tsx` |
-| 7.6 | Deploy Web Portal to Vercel (link GitHub repo) | Live URL |
-| 7.7 | Build Android APK release | `.apk` file |
-| 7.8 | Write the User Manual / Quick Start Guide | `docs/user_manual.md` |
+| 7.1 | Predictive PM Alert engine (distance + time based) | Edge Function |
+| 7.2 | PM Calendar view (web) | Calendar component |
+| 7.3 | Arabic/French language toggle (RTL for Flutter + Next.js) | Localization files |
+| 7.4 | UI polish pass (high-contrast, animations, loading states) | All screens |
+| 7.5 | Client Onboarding wizard | `onboarding/page.tsx` |
+| 7.6 | Deploy Web to Vercel (staging) | Staging URL |
+| 7.7 | Build debug APK for field testing | `.apk` |
 
-**Verification:** Full end-to-end walkthrough: Register → Onboard 3 vehicles → Field Manager audits → Issue generated → Work Order assigned → Mechanic resolves → CEO approves cost → PM alert fires for next month. All screens render correctly in both Arabic and French.
+**Verify:** Full E2E walkthrough in both Arabic and French. PM alert fires correctly.
+
+> [!WARNING]
+> **MVP1 ENDS HERE.** At this point you have a feature-complete beta. You hand it to 2-3 real Algerian fleet operators for UX validation. Collect feedback in the Iteration Log. Fix UX glitches. Only after the UX logic is fully approved do you proceed to MVP2.
 
 ---
 
-## Dependency Chain
+# MILESTONE 2: Production Hardening & Sovereign Deployment (2 Weeks)
+
+## Phase 8: CI/CD Pipeline & Code Quality (Days 29-32)
+**Goal:** Automated build, lint, test, and deploy pipeline.
+
+| Task | Atomic Action | Output |
+|------|---------------|--------|
+| 8.1 | Configure GitHub Actions: Flutter analyze + test on PR | `.github/workflows/mobile.yml` |
+| 8.2 | Configure GitHub Actions: Next.js lint + build on PR | `.github/workflows/web.yml` |
+| 8.3 | Configure GitHub Actions: Auto-deploy to Vercel on merge to `main` | `.github/workflows/deploy.yml` |
+| 8.4 | Add `flutter_lints` + custom lint rules | `analysis_options.yaml` |
+| 8.5 | Add ESLint + Prettier to Next.js | `.eslintrc.js`, `.prettierrc` |
+| 8.6 | Refactor all code to pass lint (zero warnings) | All files |
+| 8.7 | Add inline code documentation (DartDoc / JSDoc) on all public APIs | All files |
+| 8.8 | Write the comprehensive User Manual | `docs/user_manual.md` |
+
+**Verify:** Push a PR → GitHub Actions runs → lint passes → build succeeds → auto-deploys to Vercel.
+
+---
+
+## Phase 9: Security Audit & Hardening (Days 33-35)
+**Goal:** Lock down every surface before commercial deployment.
+
+| Task | Atomic Action | Output |
+|------|---------------|--------|
+| 9.1 | Audit all RLS policies (verify no data leaks between organizations) | Security report |
+| 9.2 | Enable Supabase Auth email confirmation + rate limiting | Supabase config |
+| 9.3 | Add input validation/sanitization on all forms (Flutter + Next.js) | All forms |
+| 9.4 | Implement API rate limiting on Edge Functions | Edge Function config |
+| 9.5 | Penetration test: attempt to access other users' data via API | Manual test |
+| 9.6 | Add HTTPS-only, CSP headers, and CORS policies to Next.js | `next.config.js` |
+
+**Verify:** Attempt to query another user's vehicles via direct API → blocked. Attempt SQL injection → sanitized.
+
+---
+
+## Phase 10: Sovereign VPS Migration (Days 36-38)
+**Goal:** Full Law 18-07 compliance. All data on Algerian soil.
+
+| Task | Atomic Action | Output |
+|------|---------------|--------|
+| 10.1 | Provision Algérie Telecom VPS (or ICOSNET) | Server access |
+| 10.2 | Install Docker + Docker Compose on VPS | Running containers |
+| 10.3 | Deploy self-hosted Supabase via Docker Compose | Local Supabase instance |
+| 10.4 | Deploy MinIO (S3-compatible storage) on VPS | Local storage bucket |
+| 10.5 | Run `pg_dump` from cloud Supabase → `psql` restore on local VPS | Migrated database |
+| 10.6 | Swap `StorageRepository` endpoint from cloud to MinIO URL | `.env` change |
+| 10.7 | Swap `AuthRepository` / `VehicleRepository` endpoints to local VPS | `.env` change |
+| 10.8 | Swap Vercel deployment to local VPS (PM2 or Docker) | Local web server |
+| 10.9 | Full E2E regression test on sovereign infrastructure | Test report |
+
+**Verify:** All data queries hit the local VPS. `traceroute` confirms zero data leaves Algeria.
+
+> [!IMPORTANT]
+> Because every Supabase call was wrapped behind Repository interfaces (Phase 1-6), Tasks 10.6 and 10.7 are literally ONE environment variable change each. Zero code rewrite.
+
+---
+
+## Dependency Chain (Full)
 ```
-Phase 0 (DB) ──► Phase 1 (Auth) ──► Phase 2 (Vehicles) ──┐
-                                                           ├──► Phase 4 (Maintenance)
-                                          Phase 3 (Field) ─┘         │
-                                                                      ▼
-                                          Phase 5 (Driver) ──► Phase 6 (CEO) ──► Phase 7 (Polish)
+┌─────────────── MILESTONE 1: Feature-Complete Beta ───────────────┐
+│                                                                   │
+│  Phase 0 (DB) → Phase 1 (Auth) → Phase 2 (Vehicles) ──┐         │
+│                                                         ├→ Ph 4  │
+│                                          Phase 3 (Field)┘   │    │
+│                                                              ▼    │
+│                                          Phase 5 (Driver) → Ph 6  │
+│                                                              │    │
+│                                                         Phase 7   │
+└──────────────────────────────────────────────────────────┬────────┘
+                                                           │
+                            ┌── UX VALIDATION GATE ──┐     │
+                            │  Real user feedback     │◄────┘
+                            │  Iteration Log updated  │
+                            └──────────┬──────────────┘
+                                       │
+┌─────────────── MILESTONE 2: Production Hardening ────────────────┐
+│                                                                   │
+│  Phase 8 (CI/CD + Lint + Docs) → Phase 9 (Security) → Phase 10  │
+│                                                    (Sovereign VPS)│
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 ## GSD Execution Rules
 1. **One phase at a time.** Never start Phase N+1 until Phase N is verified.
-2. **One task per agent session.** Open a fresh agent, hand it the context file + the specific files needed, execute the task, verify, commit, kill the session.
-3. **Commit after every task.** Atomic git commits only (`git commit -m "feat(phase-0): create vehicles table migration"`).
-4. **Update the Iteration Log** in `.planning/fleetman_project_context.md` after completing each phase.
+2. **One task per agent session.** Fresh agent, hand it the context file + specific files, execute, verify, commit, kill.
+3. **Atomic git commits.** `git commit -m "feat(phase-0): create vehicles table migration"`
+4. **Update Iteration Log** after each phase.
+5. **Cloud-Agnostic mandate.** Never call Supabase SDK directly in Widgets/Pages. Always use Repository interfaces.
