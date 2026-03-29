@@ -29,43 +29,64 @@ The platform utilizes strict Role-Based Access Control (RBAC) to ensure users on
 
 ---
 
-## 3. Core Modules & Workflows
+## 3. Global UX Workflow & Core Modules
 
 To support clients of different sizes and capabilities, the platform is designed with **Togglable Modules**. A basic client might only want maintenance tracking, while an advanced client wants the full Kiosk and geofencing experience.
 
-### 3.1 Maintenance & Work Order Loop (Core)
-- **Reporting:** Driver/Gatekeeper logs an "Issue" (e.g., broken mirror) with a photo.
-- **Triage:** Park Manager reviews the Issue on the web dashboard and converts it into a "Work Order" assigned to a Mechanic.
-- **Resolution:** Mechanic opens the Mobile App, views the task, logs spare parts used, inputs the cash cost in DZD, uploads a photo of the receipt/repair, and marks it "Complete".
+### 3.1 The "Happy Path" Maintenance Loop
+The UX is designed to be frictionless, moving from field reporting to management resolution in clicks.
+1. **Reporting (Mobile):** Driver notices a defect during their shift. They open the app, tap "Signaler un Problème" (Report Issue), snap a photo, add a 1-sentence description, and submit.
+2. **Triage (Web Admin):** The Park Manager receives a notification (bell icon). They open the web dashboard, see the issue in the "Pending" column (Kanban style). They drag it to "In Progress" and assign a Mechanic from a dropdown.
+3. **Execution (Mobile):** The Mechanic gets a push notification. They open the app, go to "My Tasks". They fix the issue, log the parts used (e.g., "Plaquettes de frein"), enter the cost (e.g., "4500 DZD"), upload a photo of the receipt, and tap "Complete".
+4. **Closing (Web Admin):** The Park Manager sees the ticket turn green ("Awaiting Approval"). They verify the cost and receipt, and click "Approve & Close". The vehicle is back online.
 
-### 3.2 The Gatekeeper "Kiosk Mode" (Togglable Feature)
+### 3.2 The Gatekeeper "Kiosk Mode" Workflow (Togglable)
 For companies with secure yards, the app provides a dedicated Kiosk Mode for the Gatekeeper (Poste Police).
-- **Time In / Time Out:** The guard scans a vehicle's QR code on an assigned tablet to log precise entry/exit times.
-- **Ordre de Mission Check:** Blocks exit if the vehicle lacks an approved mission order.
-- **Digital Logbook (Main Courante):** Replaces the physical security log. The guard can log visitors, supplier trucks, or anomalies (e.g., unauthorized access attempt) directly into the system.
-- *Activation:* This module can be toggled ON/OFF by the CEO per tenant.
+- **Setup:** A tablet is mounted at the gate, locked to the Kiosk route (`/kiosk/gate`).
+- **Entry/Exit Flow:**
+  1. Vehicle approaches. Guard scans the vehicle's QR sticker or types the first 3 digits of the plate.
+  2. Large UI buttons appear: **[ENTRÉE]** and **[SORTIE]**.
+  3. Guard taps [SORTIE]. The system instantly checks for a valid "Ordre de Mission" (Mission Order). If valid, screen flashes green and logs the timestamp. If invalid, the screen flashes red and blocks exit.
+- **Digital Logbook (Main Courante):** Guard taps the "Journal" tab to log non-fleet visitors (e.g., "Camion Naftal - Livraison, 14:00") or anomalies.
+- *Activation:* Toggled ON/OFF per tenant via billing.
 
-### 3.3 Driver eDVIR & Geofencing (Togglable Feature)
-- **Pre-Trip Inspection:** Driver logs into the app, sees their assigned vehicle, and completes a checklist (Tires, Fluids, Lights, Mirrors, Odometer).
-- **Geofenced Integrity:** To prevent drivers from filling out the form from home, the app checks if the phone's GPS is within 50 meters of the company yard. 
-- *Activation:* Geofencing can be toggled OFF by the CEO if GPS tracking is deemed too rigid for their specific workflow.
+### 3.3 Driver eDVIR & Geofencing Workflow (Togglable)
+- **Pre-Trip:** Driver logs in, selects vehicle, and runs through a 5-step checklist (Tires, Fluids, Lights, Odometer, Physical Damage).
+- **Fraud Prevention:** The app requests GPS coordinates. If the driver is not physically inside the predefined yard geo-fence (e.g., 50m radius of the depot), the app prevents form submission.
+- *Activation:* Geofencing can be toggled OFF by the CEO for remote logic companies.
 
 ---
 
-## 4. Public Face: Landing Page & Onboarding
+## 4. Public Face & Onboarding Workflow
 
 ### 4.1 Marketing Landing Page
 - **Hero Section:** High-contrast, dark theme showcasing mobile and web dashboards. Call to action: "Essai gratuit 14 jours" (14-day free trial).
-- **Trust Elements:** Local compliance badges, data sovereignty guarantees, pricing tiers (Starter, Pro, Enterprise).
+- **Value Proposition:** "Réduisez l'immobilisation de vos véhicules de 30%."
+- **Trust Elements:** Local compliance badges (Hébergé en Algérie, Loi 18-07), data sovereignty guarantees.
 
 ### 4.2 Frictionless Onboarding Wizard
-1. **Account Creation:** Email, secure password, Company Name (generates Tenant ID).
-2. **Context Gathering:** Select fleet size (helps FleetMan staff qualify the lead).
-3. **The 'Aha' Moment:** The user inputs one vehicle plate number. They are instantly dropped into a populated dashboard with a checklist: *Add a driver, Log an issue, Complete setup.*
+1. **Account Creation:** Clean, split-screen UI. Email, password, and Company Name. (Behind the scenes: Auto-provisions a secure Supabase Tenant ID).
+2. **Context Gathering:** Select fleet size (1-15, 16-50, 50+). This routes the user to the correct pricing tier offering.
+3. **The 'Aha' Moment:** The user inputs one vehicle plate number. They are instantly dropped into a populated dashboard with a checklist widget: *Add a driver, Log an issue, Complete setup.*
 
 ---
 
-## 5. Security & Multi-Tenancy (Production Readiness)
+## 5. Pricing Strategy & Market Segmentation (Algerian Market)
+
+It is critical to position FleetMan strictly as a **Fleet Management & Maintenance SaaS**, *not* a GPS tracking/telematics hardware solution. While local GPS tracking providers sell hardware boxes (1,500 to 4,000 DZD/veh/month), FleetMan focuses purely on operational software efficiency: preventive maintenance, digital work orders, eDVIRs, and gate logging. Because we require zero hardware installation, we can price aggressively, scale instantly, and achieve high ROI based strictly on workflow optimization.
+
+| Tier | Target Audience | Features Included | Estimated Price (DZD) |
+|------|-----------------|-------------------|-----------------------|
+| **Starter** | TPE (1 - 15 Vehicles) | Core Maintenance Loop, Web Dashboard, Mobile Driver App (Basic), Max 3 Admin seats. | **~1,200 DZD** / veh / month |
+| **Pro** | SMB/PME (16 - 50 Vehicles) | Starter + Total eDVIR, Geo-fencing capabilities, unlimited internal users, CSV Exports. | **~2,000 DZD** / veh / month |
+| **Enterprise** | Large Fleets (50+ Vehicles) | Pro + Gatekeeper Kiosk (Main Courante), Ordre de Mission Verification, Dedicated Account Manager. | **Custom Setup Fee** + Volume Discount (e.g., ~1,500 DZD / veh) |
+
+> [!TIP]
+> **Market penetration tactic:** In Algeria, SMBs are hesitant to buy software with an automated credit card subscription. We will allow the 14-day trial, then require payment via **CCP/BaridiMob** (manual verification via AdminOps) for Starter/Pro tiers, migrating to fully automated Edahabia/CIB (Chargily) once trust is established.
+
+---
+
+## 6. Security & Multi-Tenancy (Production Readiness)
 
 A B2B SaaS must guarantee data isolation and security.
 
