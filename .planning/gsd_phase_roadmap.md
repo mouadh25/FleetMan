@@ -92,10 +92,11 @@ These tokens are defined ONCE in:
 | [x] | 0.6 | `inventory_parts` + `vendors` tables | `.sql` |
 | [x] | 0.7 | `tenants` table (subscriptions, limits, approval_status) | `.sql` |
 | [x] | 0.8 | Row Level Security (RLS) policies for all tables | `.sql` |
-| [x] | 0.9 | Execute migrations on Supabase | Live DB |
+| [x] | 0.9 | Execute `0000_fleetman_initial_schema` migration on Supabase | Live DB |
+| [x] | 0.9.1| Execute `0001_fleetman_v4_kpi_schema_update` migration for full Anti-Cheat Architecture | Live DB |
 | [x] | 0.10 | Generate TypeScript types | `database.types.ts` |
 
-**Verify:** `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'` → 7 tables.
+**Verify:** `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'` → 16 tables.
 
 ---
 
@@ -136,7 +137,6 @@ These tokens are defined ONCE in:
 | [ ] | 2.4 | Configure ESLint + Prettier | `.eslintrc.js`, `.prettierrc` |
 | [ ] | 2.5 | **Link GitHub repo to Vercel** (auto-deploy `main` to production URL) | Vercel project |
 | [ ] | 2.6 | **GitHub Actions: Web CI** — on PR: `npm run lint` + `npm run build` | `.github/workflows/web_ci.yml` |
-| [ ] | 2.7 | **Database Migration:** Expand `vehicle_status` enum (add 2 states), add missing `vehicles` columns (`starting_odometer`, `autorisation_circulation_expiry`). | `.sql` |
 | [ ] | 2.8 | Web Login (Supabase Auth SSR, bilingual) | `login/page.tsx` |
 | [ ] | 2.9 | "Add Vehicle" form (plate, model, odometer, legal doc upload) | `vehicles/new/page.tsx` |
 | [ ] | 2.10 | Vehicle List (filterable, searchable) | `vehicles/page.tsx` |
@@ -154,7 +154,6 @@ These tokens are defined ONCE in:
 
 | Status | Task | Atomic Action | Output |
 |---|---|---|---|
-| [ ] | 3.0 | **Database Migration:** Create `gate_logs` table (requires `vehicle_id`, `logged_by`, `type`) and update `issues` (+`priority` enum expansion). | `.sql` |
 | [ ] | 3.1 | QR Scanner screen | `qr_scanner_screen.dart` |
 | [ ] | 3.2 | Audit Form (odometer, damage checklist, camera + Voice Notes, Pass/Fail) | `audit_form_screen.dart` |
 | [ ] | 3.3 | Photo & Audio Upload (S3-Compatible) | `storage_service.dart` |
@@ -171,7 +170,6 @@ These tokens are defined ONCE in:
 
 | Status | Task | Atomic Action | Output |
 |---|---|---|---|
-| [ ] | 4.0 | **Database Migration:** Create `work_order_parts`, `fuel_logs`, `vendor_ratings` tables. Add `description`, `completed_at`, `type` cols to `work_orders`. | `.sql` |
 | [ ] | 4.1 | Office Manager Issues Inbox (web) | `issues/page.tsx` |
 | [ ] | 4.2 | "Convert to Work Order" action | `work-orders/new/page.tsx` |
 | [ ] | 4.3 | Mechanic "My Work Orders" queue (mobile) | `work_orders_screen.dart` |
@@ -192,7 +190,6 @@ These tokens are defined ONCE in:
 
 | Status | Task | Atomic Action | Output |
 |---|---|---|---|
-| [ ] | 5.0 | **Database Migration:** Create `driver_assignments` and `ordres_de_mission` tables. | `.sql` |
 | [ ] | 5.1 | Vehicle Selection Home Screen | `vehicle_selection_screen.dart` |
 | [ ] | 5.2 | eDVIR Checklist (Tires, Lights, Mirrors, Fluids, Odometer) | `edvir_checklist_screen.dart` |
 | [ ] | 5.3 | Driver Assignment calendar (web, drag-drop) | `calendar/page.tsx` |
@@ -226,7 +223,6 @@ These tokens are defined ONCE in:
 
 | Status | Task | Atomic Action | Output |
 |---|---|---|---|
-| [ ] | 6.5.0 | **Database Migration:** Create `payments` table. Add `status` column to `tenants` table. | `.sql` |
 | [ ] | 6.5.1 | Create `/admin` route group with `super_admin` middleware guard | `admin/layout.tsx` |
 | [ ] | 6.5.2 | Build Tenant Dashboard (status filters, trial countdown) | `admin/tenants/page.tsx` |
 | [ ] | 6.5.3 | Build Approve/Reject/Suspend tenant actions | Admin API routes |
@@ -243,7 +239,6 @@ These tokens are defined ONCE in:
 | Status | Task | Atomic Action | Output |
 |---|---|---|---|
 | | | **Landing Page (Public Marketing)** | |
-| [ ] | 7.0 | **Database Migration:** Create `leads` and `maintenance_schedules` tables. | `.sql` |
 | [ ] | 7.1 | Build the public landing page (hero, features, pricing tiers, CTA "Request Demo") | `web/app/(public)/page.tsx` |
 | [ ] | 7.2 | SEO optimization (meta tags, OG images, structured data) | `layout.tsx` metadata |
 | [ ] | 7.3 | "Request Demo" form → stores lead in Supabase `leads` table | Edge Function |
