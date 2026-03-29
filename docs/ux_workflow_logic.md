@@ -41,7 +41,12 @@ A world-class fleet management platform separates the noise based on who is hold
 2. **Time Logging:** The Driver clicks "Time Out" to start their mission. *(Phase 2: secured by GPS).*
 3. **Pre-Departure eDVIR:** Before leaving, the app forces them to run the physical checklist (Tires, Lights, Mirrors) instead of the Park Manager doing it for them.
 4. **Accountability Transfer:** By clicking "Submit", the driver assumes legal responsibility, giving the Park Manager proof they signed off on the truck's condition before departure.
-5. **On-Trip Fuel Logging (Premium):** The driver can scan fuel receipts to log liters and DZD costs. **Top Tier Feature:** The app grabs a silent, one-off GPS ping at the moment of submission to prove the driver is actually standing at the Naomi gas station (Anti-cheat).
+5. **On-Trip Fuel Logging (Premium):** The driver logs fuel using a 3-step, zero-math interface customized for Algerian subsidies:
+   - Takes a photo of the **Receipt**.
+   - Takes a photo of the **Dashboard Odometer**.
+   - Enters ONLY the **Amount Paid (DZD)**.
+   *(Backend auto-calculates total liters based on the truck's assigned `fuel_type`).*
+   **Top Tier Feature:** The app grabs a silent, one-off GPS ping at the moment of submission to prove the driver is actually standing at the Naomi/Naftal gas station (Anti-cheat).
 
 ---
 

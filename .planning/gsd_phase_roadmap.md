@@ -94,6 +94,7 @@ These tokens are defined ONCE in:
 | [x] | 0.8 | Row Level Security (RLS) policies for all tables | `.sql` |
 | [x] | 0.9 | Execute `0000_fleetman_initial_schema` migration on Supabase | Live DB |
 | [x] | 0.9.1| Execute `0001_fleetman_v4_kpi_schema_update` migration for full Anti-Cheat Architecture | Live DB |
+| [x] | 0.9.2| Execute `0002_fleetman_fuel_type_update` migration for auto-fuel Liters calculation in Algeria | Live DB |
 | [x] | 0.10 | Generate TypeScript types | `database.types.ts` |
 
 **Verify:** `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'` → 16 tables.

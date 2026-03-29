@@ -597,9 +597,9 @@ The following 3 KPIs were identified in the second verification against Fleetio,
 | **Formula** | `Fuel Efficiency = (Liters Filled × 100) / (Odometer at Fill - Previous Odometer at Fill)` — uses the industry-standard "fill-to-fill" method |
 | **Card Display** | L/100km per vehicle with trend line. Green if at or below manufacturer baseline, Red if 20%+ above. Fleet-wide average shown as big number. |
 | **Data Source (Current Schema)** | ❌ Not possible — no fuel tracking exists |
-| **Schema Gap** | Requires `fuel_logs` table: id, tenant_id, vehicle_id, logged_by, odometer_at_fill, liters, cost_dzd, vendor_name, receipt_url, created_at (see Section 18.2). The Park Manager or Office Manager logs each fuel receipt. |
+| **Schema Gap** | Requires `fuel_logs` table: id, tenant_id, vehicle_id, logged_by, odometer_at_fill, liters (auto-calculated), cost_dzd, vendor_name, receipt_url, odometer_photo_url, created_at. Requires `vehicles.fuel_type` ENUM. |
 | **Who Sees It** | CEO (Web), Park Manager (Web) |
-| **Realistic for MVP?** | ✅ Yes — only requires manual receipt entry. No hardware. Core to the Anti-GPS value prop: "We help you find fuel leaks without a GPS." |
+| **Realistic for MVP?** | ✅ Yes. Core to the Anti-GPS value prop: "We help you find fuel leaks without a GPS." Driver/Manager only inputs DZD amount and two photos (Receipt + Odometer); system uses `fuel_type` to calculate exact liters via Algerian subsidy standards. |
 
 #### KPI 14: First-Time Fix Rate
 

@@ -59,7 +59,12 @@ For companies with secure yards, the app provides a dedicated Kiosk Mode for the
 By default, the **Field Park Manager** assumes the responsibility of inspecting the vehicles before they leave the yard, as it is unrealistic to expect 100% of drivers to use a mobile app. 
 
 - **Default Pre-Trip (Park Manager):** The Park Manager walks the yard, selects the vehicle, and runs through the 5-step checklist (Tires, Fluids, Lights, Odometer, Physical Damage) before handing over the keys.
-- **The Driver App Exception (Togglable):** If the Office Manager explicitly activates a specific Driver, that driver can log into their own restricted app to submit the eDVIR and **Log Fuel Receipts** instead. 
+- **The Driver App Exception (Togglable):** If activated, the driver uses a highly simplified interface to **Log Fuel**. Because fuel prices are standardized in Algeria via subsidies, the driver does *not* enter the price per liter or total liters. They only:
+   1. Enter the **Amount Paid (DZD)**
+   2. Snap a photo of the **Receipt**
+   3. Snap a photo of the **Odometer**
+   
+   *The system automatically calculates the exact liters based on the vehicle's pre-configured `fuel_type` (Essence/Mazout/Sirghaz).* 
 - **The "Triangle of Truth" (Anti-Cheat):** As part of the Driver App exception, Top-Tier Premium clients benefit from a silent, one-time GPS ping captured exactly when the driver submits a fuel log. This, combined with Gatekeeper logs and Mechanic odometers, feeds a **Data Health Score (0-100%)** that flags cheating drivers instantly to the CEO.
 - *Activation:* Geofencing for the eDVIR is a Phase 2 Scale feature, configurable in AdminOps.
 
