@@ -10,12 +10,12 @@ From the 16 Fleetio screenshots analyzed, here is the extracted design language:
 
 | Role | Fleetio Original | FleetMan Adaptation | Rationale |
 |------|-----------------|---------------------|-----------|
-| **Brand / Primary** | Emerald Green `#2E7D32` | Same or slightly deeper `#1B5E20` | Fleetio's green = trust, safety, operational readiness. Keep it. |
-| **Sidebar Active** | Light Green tint `#E8F5E9` | Same | Active nav item background in Fleetio's sidebar |
-| **Sidebar BG (Default)** | White `#FFFFFF` | White (Light) / `#1E1E1E` (Dark) | Fleetio offers Green, Light, and Dark Gray sidebar themes |
+| **Brand / Primary** | Emerald Green `#2E7D32` | Deep Blue `#1A3A5C` | Resolves conflict with Roadmap. Deep Blue = professional corporate fleet management. |
+| **Sidebar Active** | Light Green tint `#E8F5E9` | Light Blue tint `#E3F2FD` | Active nav item background adapted to blue theme |
+| **Sidebar BG (Default)** | White `#FFFFFF` | White (Light) / `#121212` (Dark) | Fleetio offers various sidebar themes, aligned to our dark mode tokens |
 | **Top Bar** | White `#FFFFFF` | Same | Clean, minimal topbar with search and quick-add |
-| **Accent / CTA** | Green `#43A047` | Same | "Add Vehicle", "Add Service Entry" buttons |
-| **Status: Active** | Green dot `#4CAF50` | Same | Vehicle status badges |
+| **Accent / CTA** | Green `#43A047` | Safety Orange `#F28C28` | High visibility for critical actions (per Roadmap tokens) |
+| **Status: Active** | Green dot `#4CAF50` | Same | Vehicle status badges remain semantic traffic-light colors |
 | **Status: Sold/Inactive** | Gray dot `#9E9E9E` | Adapt to `Hors Service` | |
 | **Status: Overdue** | Red text `#D32F2F` | Same | Overdue service reminders |
 | **Status: Due Soon** | Orange/Amber `#F57F17` | Same | Upcoming maintenance warnings |

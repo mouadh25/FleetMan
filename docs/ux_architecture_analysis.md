@@ -671,7 +671,7 @@ The following 3 KPIs were identified in the second verification against Fleetio,
 
 | # | Gap | Source of Conflict | Severity |
 |---|-----|--------------------|----------|
-| 1 | **Color System Conflict:** Roadmap says Deep Blue primary. Design research says Emerald Green. Which is final? | `gsd_phase_roadmap.md` vs `design_system_admin_panel_research.md` | 🔴 Blocks Phase 1 |
+| 1 | **Color System Conflict:** ~~Roadmap says Deep Blue...~~ **RESOLVED:** Deep Blue (#1A3A5C) is now the formalized primary color across all docs. `design_system_admin_panel_research.md` was updated. | `ux_architecture_analysis.md` | 🟢 Resolved |
 | 2 | **Vehicle Status Enum:** Deployed DB has 4 states. UX workflow defines 6 states. See Section 18.2 for required migration. | `0000_fleetman_initial_schema.sql` vs `ux_workflow_logic.md` | 🟡 Migration needed before Phase 2 |
 | 3 | **9 Missing Tables:** gate_logs, driver_assignments, ordres_de_mission, work_order_parts, **fuel_logs**, maintenance_schedules, leads, payments, vendor_ratings. See Section 18.2. | UX workflows + KPI analysis vs deployed schema | 🟡 Migrations needed incrementally per phase |
 | 4 | **17+ Missing Columns:** tenants needs 7, profiles needs 2, vehicles needs 4 (incl. starting_odometer), work_orders needs 7 (incl. completed_at, type), issues needs 2. See Sections 18.2 and 20.4. | UX workflows + KPI requirements vs deployed schema | 🟡 Migrations needed incrementally per phase |

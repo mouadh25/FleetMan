@@ -119,13 +119,23 @@ A B2B SaaS must guarantee data isolation and security.
 
 | Table | Purpose | Key Columns |
 |-------|---------|-------------|
-| `tenants` | Client companies | id, name, plan, status, trial_ends_at |
+| `tenants` | Client companies | id, name, subscription_tier, status |
 | `profiles` | All users | id, tenant_id, auth_id, full_name, role[] |
-| `vehicles` | Fleet assets | id, tenant_id, make, license_plate, status |
-| `issues` | Reported defects | id, tenant_id, vehicle_id, description, status |
-| `work_orders` | Active repairs | id, tenant_id, issue_id, mechanic_id, cost_dzd |
-| `edvir_logs` | Driver inspections | id, tenant_id, vehicle_id, driver_id, pass_fail |
-| `gate_logs` | Kiosk entries | id, tenant_id, vehicle_id, type (in/out/anomaly) |
+| `vehicles` | Fleet assets | id, tenant_id, plate_number, status, starting_odometer |
+| `issues` | Reported defects | id, tenant_id, vehicle_id, description, status, priority |
+| `work_orders` | Active repairs | id, tenant_id, issue_id, mechanic_id, status, type, completed_at |
+| `edvir_inspections` | Driver inspections | id, tenant_id, vehicle_id, inspector_id, is_pass |
+| `inventory_parts` | Warehouse stock | id, tenant_id, name, part_number, stock_quantity |
+| `vendors` | External suppliers | id, tenant_id, name, contact_number |
+| `work_order_parts` | Repair costs (Junction) | id, work_order_id, inventory_part_id, quantity, unit_cost_dzd, source |
+| `fuel_logs` | Fuel efficiency / CPK | id, tenant_id, vehicle_id, odometer_at_fill, liters, cost_dzd |
+| `gate_logs` | Kiosk entries / Utilization | id, tenant_id, vehicle_id, type (in/out), odometer |
+| `driver_assignments`| Calendar tracking | id, tenant_id, vehicle_id, driver_id, status |
+| `ordres_de_mission` | Validated departures | id, tenant_id, vehicle_id, driver_id, pdf_url |
+| `maintenance_schedules`| Preventive alerts | id, tenant_id, vehicle_id, interval_km, next_due_date |
+| `payments` | Cash/Wire logs | id, tenant_id, amount_dzd, method, verified_by |
+| `leads` | Website demos | id, company_name, contact_name, fleet_size |
+| `vendor_ratings` | QoS & Pricing ranking | id, tenant_id, vendor_id, quality_score, pricing_score |
 
 ---
 
