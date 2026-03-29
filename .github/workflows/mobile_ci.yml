@@ -2,57 +2,45 @@ name: Mobile CI
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'mobile/**'
-      - '.github/workflows/mobile_ci.yml'
+    branches: [main]
   pull_request:
-    paths:
-      - 'mobile/**'
+    branches: [main]
 
 jobs:
   build:
+    name: Flutter Analyze & Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.22.0'
           channel: 'stable'
+          cache: true
 
-      - name: Generate Android Platform Shell
-        working-directory: ./mobile
-        run: |
-          # Backup our curated pubspec before flutter create overwrites it
-          cp pubspec.yaml pubspec.yaml.bak
-          flutter create . --platforms=android --org dz.fleetman --project-name fleetman_mobile
-          # Restore our curated pubspec with pinned dependencies
-          mv pubspec.yaml.bak pubspec.yaml
-
-      - name: Install Dependencies
-        working-directory: ./mobile
+      - name: Install dependencies
+        working-directory: mobile
         run: flutter pub get
 
-      - name: Flutter Analyze
-        working-directory: ./mobile
-        run: flutter analyze --no-fatal-infos
+      - name: Generate l10n
+        working-directory: mobile
+        run: flutter gen-l10n
 
-      - name: Build Debug APK
-        working-directory: ./mobile
+      - name: Analyze code
+        working-directory: mobile
+        run: flutter analyze
+
+      - name: Build debug APK
+        working-directory: mobile
         run: flutter build apk --debug
 
-      - name: Upload APK Artifact
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: fleetman-debug-apk
           path: mobile/build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 14
