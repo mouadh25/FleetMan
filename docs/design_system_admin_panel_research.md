@@ -69,6 +69,19 @@ From the screenshots, these core components are needed:
 - [ ] `Modal` — Centered overlay for confirmations, detail previews
 - [ ] `EmptyState` — Illustration + call-to-action when no data exists
 
+### Mobile App (Fleetio Go) UI/UX Analysis
+
+The Fleetio Go mobile app is optimized for field operations (drivers, mechanics) with a focus on speed, offline readiness, and extreme simplicity.
+
+**Key Mobile UI/UX Patterns:**
+1. **Adaptive Navigation:** Fixed bottom tab bar (`Home`, `Search`, `Browse`, `More`) with a dark theme `#262C2B` to separate it from content.
+2. **Action-Oriented Dashboard:** The mobile Home screen isn't about charts; it's about actions. It features large, touch-friendly "Shortcuts" (e.g., *Scan Barcode*, *Start Inspection*, *Log Fuel*).
+3. **Barcode/OCR primacy:** The core workflow revolves around scanning a vehicle's VIN or QR code to instantly pull up its profile, completely bypassing manual search.
+4. **Contextual Widgets:** Below shortcuts, widgets show "My Active Work Orders" or "Overdue Inspections" personalized directly to the logged-in user.
+5. **Offline Support:** The UI clearly indicates when the app is offline and queues actions locally until connectivity is restored.
+
+**FleetMan Mobile Adaptation:** We will adopt this exact structure for the Flutter app. A bottom navigation bar, a high-contrast action-oriented home page with QR scanning prominently featured, and heavy use of the primary green (`#1B5E20`) for call-to-action buttons.
+
 ---
 
 ## Part 2: AdminOps Panel (Super Admin / Platform Operations)
