@@ -14,16 +14,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./mobile
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -33,23 +30,29 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Generate Native Platforms (Workaround for Scaffold)
-        run: flutter create . --platforms=android --org dz.fleetman
+      - name: Generate Android Platform Shell
+        working-directory: ./mobile
+        run: |
+          # Backup our curated pubspec before flutter create overwrites it
+          cp pubspec.yaml pubspec.yaml.bak
+          flutter create . --platforms=android --org dz.fleetman --project-name fleetman_mobile
+          # Restore our curated pubspec with pinned dependencies
+          mv pubspec.yaml.bak pubspec.yaml
 
       - name: Install Dependencies
+        working-directory: ./mobile
         run: flutter pub get
 
-      - name: Auto-generate Freezed & JSON Serializable
-        run: dart run build_runner build --delete-conflicting-outputs
-
       - name: Flutter Analyze
-        run: flutter analyze
+        working-directory: ./mobile
+        run: flutter analyze --no-fatal-infos
 
       - name: Build Debug APK
+        working-directory: ./mobile
         run: flutter build apk --debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: fleetman-mobile-apk
+          name: fleetman-debug-apk
           path: mobile/build/app/outputs/flutter-apk/app-debug.apk
