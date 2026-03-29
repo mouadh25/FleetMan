@@ -106,11 +106,11 @@ These tokens are defined ONCE in:
 
 | Status | Task | Atomic Action | Output |
 |---|---|---|---|
-| [ ] | 1.1 | Scaffold Flutter project | `/mobile` |
-| [ ] | 1.2 | Add Supabase SDK + GoRouter + Riverpod + `flutter_localizations` + `intl` | `pubspec.yaml` |
-| [ ] | 1.3 | Configure `flutter_lints` + custom `analysis_options.yaml` | `analysis_options.yaml` |
-| [ ] | 1.4 | **Create Design Token theme** (colors, fonts, spacing, touch targets) | `lib/core/theme/app_theme.dart` |
-| [ ] | 1.5 | **Setup l10n** — create `l10n.yaml`, `app_fr_DZ.arb` (template), `app_ar_DZ.arb` | `lib/l10n/` |
+| [x] | 1.1 | Scaffold Flutter project | `/mobile` |
+| [x] | 1.2 | Add Supabase SDK + GoRouter + Riverpod + `flutter_localizations` + `intl` | `pubspec.yaml` |
+| [x] | 1.3 | Configure `flutter_lints` + custom `analysis_options.yaml` | `analysis_options.yaml` |
+| [x] | 1.4 | **Create Design Token theme** (colors, fonts, spacing, touch targets) | `lib/core/theme/app_theme.dart` |
+| [x] | 1.5 | **Setup l10n** — create `l10n.yaml`, `app_fr_DZ.arb` (template), `app_ar_DZ.arb` | `lib/l10n/` |
 | [ ] | 1.6 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
 | [ ] | 1.7 | Auth Screens (Cloudflare Turnstile, 6-Digit OTP, Email verification) | `login_screen.dart` |
 | [ ] | 1.8 | Registration & OTP Verification Screens | `register_screen.dart` |
@@ -198,6 +198,7 @@ These tokens are defined ONCE in:
 | [ ] | 5.3 | Driver Assignment calendar (web, drag-drop) | `calendar/page.tsx` |
 | [ ] | 5.4 | Automated Ordre de Mission PDF | Supabase Edge Function |
 | [ ] | 5.5 | Office Manager Toggle: "Enable Driver App Access" | `admin/drivers/page.tsx` |
+| [ ] | 5.6 | **Driver App Fuel Logging (with Premium Top-Tier Silent Geo-Ping)** | `driver_fuel_screen.dart` |
 
 **Verify:** Login as Park Manager → run eDVIR on a truck. Assign driver on Web. Toggle "App Access" for Driver to test the exception flow.
 
@@ -214,6 +215,7 @@ These tokens are defined ONCE in:
 | [ ] | 6.4 | Vendor Spend report | `reports/vendors/page.tsx` |
 | [ ] | 6.5 | Export to CSV on all tables | Utility function |
 | [ ] | 6.6 | Legal Document Expiry alerts | Dashboard component |
+| [ ] | 6.7 | **Data Health / Driver Score KPI** (The Triangle of Truth widget) | Dashboard widget |
 
 **Verify:** Populate 5 vehicles + 10 work orders → confirm charts → export CSV → validate in Excel.
 

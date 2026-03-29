@@ -41,6 +41,7 @@ A world-class fleet management platform separates the noise based on who is hold
 2. **Time Logging:** The Driver clicks "Time Out" to start their mission. *(Phase 2: secured by GPS).*
 3. **Pre-Departure eDVIR:** Before leaving, the app forces them to run the physical checklist (Tires, Lights, Mirrors) instead of the Park Manager doing it for them.
 4. **Accountability Transfer:** By clicking "Submit", the driver assumes legal responsibility, giving the Park Manager proof they signed off on the truck's condition before departure.
+5. **On-Trip Fuel Logging (Premium):** The driver can scan fuel receipts to log liters and DZD costs. **Top Tier Feature:** The app grabs a silent, one-off GPS ping at the moment of submission to prove the driver is actually standing at the Naomi gas station (Anti-cheat).
 
 ---
 
@@ -95,10 +96,11 @@ A world-class fleet management platform separates the noise based on who is hold
 ### The Daily Workflow:
 1. **The Executive Snapshot:** Logs in. The landing page shows the **Total Cost of Ownership (TCO)** pie chart (e.g., 40% Fuel, 30% Maintenance, 30% Depreciation/Lease).
 2. **Cost per Kilometer (CPK):** The most important metric. Looks at a ranked list of vehicles by CPK. Sees that Truck #4 is costing 45 DZD/km to run, while the fleet average is 15 DZD/km. (Decision: Sell Truck #4).
-3. **Repair Validation (Approval Workflows):** 
+3. **Data Health & Driver Notation (The Triangle of Truth):** Reviews a 0-100% Data Health Score for the fleet. This KPI mathematically cross-references the Gatekeeper's logs against the Driver's fuel logs and the Mechanic's repairs. Any cheating or false odometer tracking instantly drops the score into the red, alerting the CEO to investigate the specific driver.
+4. **Repair Validation (Approval Workflows):** 
    - Routine minor repairs are auto-approved based on **preconfigured client thresholds** (e.g., auto-approve anything under 20,000 DZD).
    - High-cost repairs (e.g., a 150,000 DZD engine rebuild) break the threshold and are flagged. The CEO reviews the mechanic's photos and parts list, then clicks "Approve Financials" or "Reject".
-4. **Vendor Spend & Efficiency Review:** Reviews aggregated reporting on the "Top and Bottom Performing" vendors and drivers (data annotated by the Office Manager) to make high-level decisions on supplier contracts.
+5. **Vendor Spend & Efficiency Review:** Reviews aggregated reporting on the "Top and Bottom Performing" vendors and drivers (data annotated by the Office Manager) to make high-level decisions on supplier contracts.
 
 ### UX Feel & Rules:
 *   **Visual Storytelling:** Red text for budget overruns, green for savings. 
