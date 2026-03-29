@@ -106,18 +106,18 @@ These tokens are defined ONCE in:
 
 | Status | Task | Atomic Action | Output |
 |---|---|---|---|
-| [ ] | 1.1 | Scaffold Flutter project | `/mobile` |
-| [ ] | 1.2 | Add Supabase SDK + GoRouter + Riverpod + `flutter_localizations` + `intl` | `pubspec.yaml` |
-| [ ] | 1.3 | Configure `flutter_lints` + custom `analysis_options.yaml` | `analysis_options.yaml` |
-| [ ] | 1.4 | **Create Design Token theme** (colors, fonts, spacing, touch targets) | `lib/core/theme/app_theme.dart` |
-| [ ] | 1.5 | **Setup l10n** — create `l10n.yaml`, `app_fr_DZ.arb` (template), `app_ar_DZ.arb` | `lib/l10n/` |
-| [ ] | 1.6 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
-| [ ] | 1.7 | Auth Screens (Cloudflare Turnstile, 6-Digit OTP, Email verification) | `login_screen.dart` |
-| [ ] | 1.8 | Registration & OTP Verification Screens | `register_screen.dart` |
-| [ ] | 1.9 | Role Router (fetch `profiles.roles` → navigate) | `role_router.dart` |
-| [ ] | 1.10 | Stub Home Screens per role | 3 stub files |
-| [ ] | 1.11 | **GitHub Actions: Flutter CI** — on push: `flutter analyze` + `flutter build apk --debug` | `.github/workflows/mobile_ci.yml` |
-| [ ] | 1.12 | **GitHub Actions: APK Artifact** — upload built APK as downloadable artifact | Same workflow file |
+| [x] | 1.1 | Scaffold Flutter project | `/mobile` |
+| [x] | 1.2 | Add Supabase SDK + GoRouter + Riverpod + `flutter_localizations` + `intl` | `pubspec.yaml` |
+| [x] | 1.3 | Configure `flutter_lints` + custom `analysis_options.yaml` | `analysis_options.yaml` |
+| [x] | 1.4 | **Create Design Token theme** (colors, fonts, spacing, touch targets) | `lib/core/theme/app_theme.dart` |
+| [x] | 1.5 | **Setup l10n** — create `l10n.yaml`, `app_fr_DZ.arb` (template), `app_ar_DZ.arb` | `lib/l10n/` |
+| [x] | 1.6 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
+| [x] | 1.7 | Auth Screens (Email/Password Login) | `login_screen.dart` |
+| [x] | 1.8 | Registration Screen | `register_screen.dart` |
+| [x] | 1.9 | Role Router (fetch `profiles.roles` → navigate) | `role_router.dart` |
+| [x] | 1.10 | Stub Home Screens per role | 3 stub files |
+| [x] | 1.11 | **GitHub Actions: Flutter CI** — on push: `flutter analyze` + `flutter build apk --debug` | `.github/workflows/mobile_ci.yml` |
+| [x] | 1.12 | **GitHub Actions: APK Artifact** — upload built APK as downloadable artifact | Same workflow file |
 
 **Verify:** Push code → GitHub Actions runs → lint passes → APK downloadable → install on phone → toggle AR-DZ/FR-DZ → UI flips RTL → register → set roles → correct home screen.
 
