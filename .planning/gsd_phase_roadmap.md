@@ -1,4 +1,4 @@
-# GSD Phase Roadmap: FleetMan MVP (v2)
+# GSD Phase Roadmap: FleetMan MVP (v3)
 
 > **Methodology:** Pure GSD (Get Shit Done) - Burn-and-Replace Sessions  
 > **Stack:** Flutter (Mobile) + Next.js (Web) + Supabase (Backend)
@@ -23,6 +23,52 @@
 > [!CAUTION]
 > **Every Supabase interaction MUST be wrapped behind a repository/service interface.**  
 > Never call `supabase.from('vehicles').select()` directly in a Widget or Page. Always call `vehicleRepository.getAll()`. This guarantees that when MVP2 migrates to a sovereign VPS (Algérie Telecom / ICOSNET / MinIO), you swap ONE file per service — not 50 screens.
+
+### Mobile Distribution Strategy: Native APK (NOT PWA)
+
+> [!IMPORTANT]
+> FleetMan is a **native Flutter APK** targeting the Google Play Store. NOT a PWA.
+
+**Why native APK over PWA:**
+- **Camera access:** Damage photos, receipt OCR, and QR scanning require deep hardware integration that PWAs cannot reliably provide.
+- **GPS geofencing:** The anti-cheat geofence for driver eDVIR requires background location access, which is sandboxed/blocked in most mobile browsers.
+- **Offline-first:** Native SQLite/Hive storage is far more robust than browser-based IndexedDB for queuing 50+ audits in Algerian dead zones.
+- **Play Store trust:** Algerian SME fleet managers trust installed apps more than browser bookmarks.
+- **Build on cloud:** GitHub Actions builds the APK so the developer's local PC is never the bottleneck.
+
+### Localization Architecture: AR-DZ (الدارجة) + FR-DZ
+
+> [!IMPORTANT]
+> Localization is NOT a Phase 7 afterthought. It is baked in from Phase 1.
+
+**Strategy:**
+- **Primary language:** `fr_DZ` (Algerian French) — Used for all formal UI labels, legal documents, and business reports.
+- **Secondary language:** `ar_DZ` (Algerian Arabic / Darija) — Used for field worker interfaces (drivers, mechanics).
+- All strings use `.arb` (Application Resource Bundle) files: `app_fr_DZ.arb` (template) + `app_ar_DZ.arb`.
+- **RTL support:** All Flutter layouts use `EdgeInsetsDirectional` and `AlignmentDirectional` (never `left`/`right`).
+- **Next.js:** Uses `next-intl` with `fr-DZ` and `ar-DZ` locale routing.
+- **Number/Currency formatting:** `NumberFormat` with `fr_DZ` locale for DZD currency display.
+
+### UI Design System (Design Tokens)
+
+Before any screen is built, a shared Design Token file defines the visual DNA of the entire app:
+
+| Token | Value | Rationale |
+|-------|-------|-----------|
+| **Primary Color** | Deep Blue `#1A3A5C` | Professional fleet management feel |
+| **Accent Color** | Safety Orange `#F28C28` | High visibility for alerts and CTAs |
+| **Error Color** | Red `#D32F2F` | Budget overruns, failed inspections |
+| **Success Color** | Green `#2E7D32` | Passed audits, approved costs |
+| **Background (Light)** | `#F5F7FA` | Clean, readable |
+| **Background (Dark)** | `#121212` | Night mode for early morning field managers |
+| **Font (Latin)** | Inter / Roboto | Clean, professional, Google Fonts |
+| **Font (Arabic)** | Noto Sans Arabic | Full Darija/MSA glyph support |
+| **Touch Target** | Min 48x48dp | Algerian sun glare + gloved hands |
+| **Border Radius** | 12px | Modern, rounded feel |
+
+These tokens are defined ONCE in:
+- **Flutter:** `lib/core/theme/app_theme.dart`
+- **Next.js:** `styles/design-tokens.css` (CSS custom properties)
 
 ---
 
@@ -50,46 +96,50 @@
 
 ---
 
-## Phase 1: Auth, Role Routing & Mobile CI/CD (Days 3-5)
-**Goal:** Login → RBAC routing → Flutter builds on GitHub Actions → APK available for field testing.
+## Phase 1: Design System, Auth, Localization & Mobile CI/CD (Days 3-6)
+**Goal:** Design tokens → Bilingual login → RBAC routing → Flutter builds on GitHub Actions → APK available for testing.
 
 > ☁️ **Cloud-Agnostic Rule:** Auth logic wrapped in `AuthRepository` interface. Supabase-specific calls isolated in `SupabaseAuthRepository implements AuthRepository`.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
 | 1.1 | Scaffold Flutter project | `/mobile` |
-| 1.2 | Add Supabase SDK + GoRouter + Riverpod | `pubspec.yaml` |
+| 1.2 | Add Supabase SDK + GoRouter + Riverpod + `flutter_localizations` + `intl` | `pubspec.yaml` |
 | 1.3 | Configure `flutter_lints` + custom `analysis_options.yaml` | `analysis_options.yaml` |
-| 1.4 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
-| 1.5 | Login Screen (high-contrast, AR/FR toggle) | `login_screen.dart` |
-| 1.6 | Registration Screen | `register_screen.dart` |
-| 1.7 | Role Router (fetch `profiles.roles` → navigate) | `role_router.dart` |
-| 1.8 | Stub Home Screens per role | 3 stub files |
-| 1.9 | **GitHub Actions: Flutter CI** — on push: `flutter analyze` + `flutter build apk --debug` | `.github/workflows/mobile_ci.yml` |
-| 1.10 | **GitHub Actions: APK Artifact** — upload built APK as downloadable artifact on every push | Same workflow file |
+| 1.4 | **Create Design Token theme** (colors, fonts, spacing, touch targets) | `lib/core/theme/app_theme.dart` |
+| 1.5 | **Setup l10n** — create `l10n.yaml`, `app_fr_DZ.arb` (template), `app_ar_DZ.arb` | `lib/l10n/` |
+| 1.6 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
+| 1.7 | Login Screen (high-contrast, bilingual AR-DZ/FR-DZ toggle, RTL-ready) | `login_screen.dart` |
+| 1.8 | Registration Screen | `register_screen.dart` |
+| 1.9 | Role Router (fetch `profiles.roles` → navigate) | `role_router.dart` |
+| 1.10 | Stub Home Screens per role | 3 stub files |
+| 1.11 | **GitHub Actions: Flutter CI** — on push: `flutter analyze` + `flutter build apk --debug` | `.github/workflows/mobile_ci.yml` |
+| 1.12 | **GitHub Actions: APK Artifact** — upload built APK as downloadable artifact | Same workflow file |
 
-**Verify:** Push code → GitHub Actions runs → lint passes → debug APK downloadable from Actions tab → install on phone → register → set roles → confirm correct home screen.
+**Verify:** Push code → GitHub Actions runs → lint passes → APK downloadable → install on phone → toggle AR-DZ/FR-DZ → UI flips RTL → register → set roles → correct home screen.
 
 ---
 
-## Phase 2: Vehicle Onboarding & Web CI/CD (Days 6-8)
-**Goal:** Add vehicles, view Vehicle Detail Card, auto-deploy web portal to Vercel on every push.
+## Phase 2: Vehicle Onboarding, Web Design System & CI/CD (Days 7-9)
+**Goal:** Web design tokens → Add vehicles → Vehicle Detail Card → auto-deploy to Vercel.
 
 > ☁️ **Cloud-Agnostic Rule:** File uploads use `StorageRepository` wrapping S3-Compatible API. Next.js uses `VehicleRepository` interface (no raw Supabase calls in pages).
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
 | 2.1 | Scaffold Next.js project | `/web` |
-| 2.2 | Configure ESLint + Prettier | `.eslintrc.js`, `.prettierrc` |
-| 2.3 | **Link GitHub repo to Vercel** (auto-deploy `main` to production URL) | Vercel project |
-| 2.4 | **GitHub Actions: Web CI** — on PR: `npm run lint` + `npm run build` | `.github/workflows/web_ci.yml` |
-| 2.5 | Web Login (Supabase Auth SSR) | `login/page.tsx` |
-| 2.6 | "Add Vehicle" form (plate, model, odometer, legal doc upload) | `vehicles/new/page.tsx` |
-| 2.7 | Vehicle List (filterable, searchable) | `vehicles/page.tsx` |
-| 2.8 | Vehicle Detail Card (status, driver, CPK, legal expiry) | `vehicles/[id]/page.tsx` |
-| 2.9 | Flutter mobile Vehicle Card (QR scan) | `vehicle_card_screen.dart` |
+| 2.2 | **Create Web Design Token system** (CSS custom properties matching Flutter theme) | `styles/design-tokens.css` |
+| 2.3 | **Setup `next-intl`** for FR-DZ / AR-DZ locale routing + RTL | `i18n/` config |
+| 2.4 | Configure ESLint + Prettier | `.eslintrc.js`, `.prettierrc` |
+| 2.5 | **Link GitHub repo to Vercel** (auto-deploy `main` to production URL) | Vercel project |
+| 2.6 | **GitHub Actions: Web CI** — on PR: `npm run lint` + `npm run build` | `.github/workflows/web_ci.yml` |
+| 2.7 | Web Login (Supabase Auth SSR, bilingual) | `login/page.tsx` |
+| 2.8 | "Add Vehicle" form (plate, model, odometer, legal doc upload) | `vehicles/new/page.tsx` |
+| 2.9 | Vehicle List (filterable, searchable) | `vehicles/page.tsx` |
+| 2.10 | Vehicle Detail Card (status, driver, CPK, legal expiry) | `vehicles/[id]/page.tsx` |
+| 2.11 | Flutter mobile Vehicle Card (QR scan) | `vehicle_card_screen.dart` |
 
-**Verify:** Push code → GitHub Actions lint passes → Vercel auto-deploys → open live URL → add 3 vehicles → confirm list and detail card render correctly.
+**Verify:** Push code → GitHub Actions lint passes → Vercel auto-deploys → open live URL → toggle FR-DZ/AR-DZ → UI flips RTL → add 3 vehicles → confirm list + detail card.
 
 ---
 
@@ -163,20 +213,28 @@
 
 ---
 
-## Phase 7: UX Polish & Beta Release (Days 25-28)
-**Goal:** Bilingual UI, PM alerts, onboarding wizard, deploy to staging.
+## Phase 7: Landing Page, Client Onboarding & Beta Release (Days 25-29)
+**Goal:** Public marketing page, guided onboarding wizard, PM alerts, and final beta deployment.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 7.1 | Predictive PM Alert engine (distance + time based) | Edge Function |
-| 7.2 | PM Calendar view (web) | Calendar component |
-| 7.3 | Arabic/French language toggle (RTL for Flutter + Next.js) | Localization files |
-| 7.4 | UI polish pass (high-contrast, animations, loading states) | All screens |
-| 7.5 | Client Onboarding wizard | `onboarding/page.tsx` |
-| 7.6 | Deploy Web to Vercel (staging) | Staging URL |
-| 7.7 | Build debug APK for field testing | `.apk` |
+| | **Landing Page (Public Marketing)** | |
+| 7.1 | Build the public landing page (hero, features, pricing tiers, CTA "Request Demo") | `web/app/(public)/page.tsx` |
+| 7.2 | SEO optimization (meta tags, OG images, structured data) | `layout.tsx` metadata |
+| 7.3 | "Request Demo" form → stores lead in Supabase `leads` table | Edge Function |
+| | **Client Onboarding Wizard** | |
+| 7.4 | Step 1: Company Profile (name, logo, yard GPS coordinates for geofence) | `onboarding/step-1.tsx` |
+| 7.5 | Step 2: Add First Vehicles (bulk import or one-by-one) | `onboarding/step-2.tsx` |
+| 7.6 | Step 3: Upload Legal Documents (Assurance, Contrôle Technique per vehicle) | `onboarding/step-3.tsx` |
+| 7.7 | Step 4: Set Financial Thresholds (auto-approve limit in DZD, PM alert intervals) | `onboarding/step-4.tsx` |
+| 7.8 | Step 5: Invite Team (enter emails/phones → assign roles) | `onboarding/step-5.tsx` |
+| | **Predictive Maintenance & Polish** | |
+| 7.9 | Predictive PM Alert engine (distance-based + time-based early warnings) | Edge Function |
+| 7.10 | PM Calendar view (web, upcoming maintenance events) | Calendar component |
+| 7.11 | Final UI polish pass (high-contrast, animations, loading states, empty states) | All screens |
+| 7.12 | Build release APK for field testing | `.apk` via GitHub Actions |
 
-**Verify:** Full E2E walkthrough in both Arabic and French. PM alert fires correctly.
+**Verify:** Visit landing page → submit demo lead → confirm in DB. Register new company → complete all 5 onboarding steps → confirm vehicles + roles created. PM alert fires correctly. Full E2E walkthrough in both AR-DZ and FR-DZ.
 
 > [!WARNING]
 > **MVP1 ENDS HERE.** At this point you have a feature-complete beta. You hand it to 2-3 real Algerian fleet operators for UX validation. Collect feedback in the Iteration Log. Fix UX glitches. Only after the UX logic is fully approved do you proceed to MVP2.
