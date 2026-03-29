@@ -10,16 +10,13 @@
 ### Two-Milestone Approach
 
 > [!IMPORTANT]
-> **MVP1 (Phases 0–7):** Feature-complete, UX-validated Beta.  
-> **MVP2 (Phases 8–10):** Production Hardening — CI/CD, Security Audit, Sovereign VPS Migration.
+> **MVP1 (Phases 0–7):** Feature-complete beta WITH live CI/CD pipeline, linting, and auto-deploy from Day 1.  
+> **MVP2 (Phases 8–10):** Security Hardening, Code Refactoring, and Sovereign VPS Migration.
 
-**Rationale:** If you bundle linting, CI/CD pipelines, security audits, and production hardening into every feature phase, you will triple your development time and optimize code that might get rewritten after UX testing. The correct strategy is:
-
-1. **Build fast** → get the full data loop working (Field Manager → Driver → Office → Mechanic → CEO).
-2. **Validate the UX** → put it in real users' hands, discover glitches, iterate (using the Iteration Log).
-3. **Harden once** → after the UX logic is locked, do ONE dedicated sprint for CI/CD, lint, docs, security, and sovereign deployment.
-
-This prevents wasted engineering on screens that might change after user feedback.
+**Rationale:**
+1. **CI/CD + Lint + Deploy are Day 1 infrastructure.** The developer's local PC cannot handle heavy Flutter/Next.js builds. GitHub Actions provides free cloud compute. Vercel provides instant preview URLs. Without these, the developer cannot visually test UX or give proper feedback.
+2. **Security hardening is deferred.** Penetration testing, RLS audits, rate limiting, and input sanitization are done AFTER the UX logic is fully approved by real users. No point hardening a screen that might be redesigned.
+3. **Sovereign VPS is the final gate.** Only after the app is feature-complete AND security-hardened does it migrate to Algerian soil.
 
 ### Cloud-Agnostic Mandate
 
@@ -53,8 +50,8 @@ This prevents wasted engineering on screens that might change after user feedbac
 
 ---
 
-## Phase 1: Auth & Role Routing (Days 3-5)
-**Goal:** Login → RBAC role-based navigation.
+## Phase 1: Auth, Role Routing & Mobile CI/CD (Days 3-5)
+**Goal:** Login → RBAC routing → Flutter builds on GitHub Actions → APK available for field testing.
 
 > ☁️ **Cloud-Agnostic Rule:** Auth logic wrapped in `AuthRepository` interface. Supabase-specific calls isolated in `SupabaseAuthRepository implements AuthRepository`.
 
@@ -62,31 +59,37 @@ This prevents wasted engineering on screens that might change after user feedbac
 |------|---------------|--------|
 | 1.1 | Scaffold Flutter project | `/mobile` |
 | 1.2 | Add Supabase SDK + GoRouter + Riverpod | `pubspec.yaml` |
-| 1.3 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
-| 1.4 | Login Screen (high-contrast, AR/FR toggle) | `login_screen.dart` |
-| 1.5 | Registration Screen | `register_screen.dart` |
-| 1.6 | Role Router (fetch `profiles.roles` → navigate) | `role_router.dart` |
-| 1.7 | Stub Home Screens per role | 3 stub files |
+| 1.3 | Configure `flutter_lints` + custom `analysis_options.yaml` | `analysis_options.yaml` |
+| 1.4 | Create `AuthRepository` interface + `SupabaseAuthRepository` impl | `auth_repository.dart` |
+| 1.5 | Login Screen (high-contrast, AR/FR toggle) | `login_screen.dart` |
+| 1.6 | Registration Screen | `register_screen.dart` |
+| 1.7 | Role Router (fetch `profiles.roles` → navigate) | `role_router.dart` |
+| 1.8 | Stub Home Screens per role | 3 stub files |
+| 1.9 | **GitHub Actions: Flutter CI** — on push: `flutter analyze` + `flutter build apk --debug` | `.github/workflows/mobile_ci.yml` |
+| 1.10 | **GitHub Actions: APK Artifact** — upload built APK as downloadable artifact on every push | Same workflow file |
 
-**Verify:** Register → set roles in Supabase → login → confirm correct home screen.
+**Verify:** Push code → GitHub Actions runs → lint passes → debug APK downloadable from Actions tab → install on phone → register → set roles → confirm correct home screen.
 
 ---
 
-## Phase 2: Vehicle Onboarding (Days 6-8)
-**Goal:** Add vehicles, view Vehicle Detail Card.
+## Phase 2: Vehicle Onboarding & Web CI/CD (Days 6-8)
+**Goal:** Add vehicles, view Vehicle Detail Card, auto-deploy web portal to Vercel on every push.
 
 > ☁️ **Cloud-Agnostic Rule:** File uploads use `StorageRepository` wrapping S3-Compatible API. Next.js uses `VehicleRepository` interface (no raw Supabase calls in pages).
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
 | 2.1 | Scaffold Next.js project | `/web` |
-| 2.2 | Web Login (Supabase Auth SSR) | `login/page.tsx` |
-| 2.3 | "Add Vehicle" form (plate, model, odometer, legal doc upload) | `vehicles/new/page.tsx` |
-| 2.4 | Vehicle List (filterable, searchable) | `vehicles/page.tsx` |
-| 2.5 | Vehicle Detail Card (status, driver, CPK, legal expiry) | `vehicles/[id]/page.tsx` |
-| 2.6 | Flutter mobile Vehicle Card (QR scan) | `vehicle_card_screen.dart` |
+| 2.2 | Configure ESLint + Prettier | `.eslintrc.js`, `.prettierrc` |
+| 2.3 | **Link GitHub repo to Vercel** (auto-deploy `main` to production URL) | Vercel project |
+| 2.4 | **GitHub Actions: Web CI** — on PR: `npm run lint` + `npm run build` | `.github/workflows/web_ci.yml` |
+| 2.5 | Web Login (Supabase Auth SSR) | `login/page.tsx` |
+| 2.6 | "Add Vehicle" form (plate, model, odometer, legal doc upload) | `vehicles/new/page.tsx` |
+| 2.7 | Vehicle List (filterable, searchable) | `vehicles/page.tsx` |
+| 2.8 | Vehicle Detail Card (status, driver, CPK, legal expiry) | `vehicles/[id]/page.tsx` |
+| 2.9 | Flutter mobile Vehicle Card (QR scan) | `vehicle_card_screen.dart` |
 
-**Verify:** Add 3 vehicles via web → confirm list renders → open detail card → all fields correct.
+**Verify:** Push code → GitHub Actions lint passes → Vercel auto-deploys → open live URL → add 3 vehicles → confirm list and detail card render correctly.
 
 ---
 
@@ -182,21 +185,24 @@ This prevents wasted engineering on screens that might change after user feedbac
 
 # MILESTONE 2: Production Hardening & Sovereign Deployment (2 Weeks)
 
-## Phase 8: CI/CD Pipeline & Code Quality (Days 29-32)
-**Goal:** Automated build, lint, test, and deploy pipeline.
+## Phase 8: Code Refactoring & Documentation (Days 29-32)
+**Goal:** Clean up technical debt accumulated during rapid MVP1 development. Write proper documentation.
+
+> [!NOTE]
+> CI/CD pipelines, linting, and Vercel auto-deploy were already set up in Phases 1-2. This phase focuses exclusively on code quality and knowledge capture.
 
 | Task | Atomic Action | Output |
 |------|---------------|--------|
-| 8.1 | Configure GitHub Actions: Flutter analyze + test on PR | `.github/workflows/mobile.yml` |
-| 8.2 | Configure GitHub Actions: Next.js lint + build on PR | `.github/workflows/web.yml` |
-| 8.3 | Configure GitHub Actions: Auto-deploy to Vercel on merge to `main` | `.github/workflows/deploy.yml` |
-| 8.4 | Add `flutter_lints` + custom lint rules | `analysis_options.yaml` |
-| 8.5 | Add ESLint + Prettier to Next.js | `.eslintrc.js`, `.prettierrc` |
-| 8.6 | Refactor all code to pass lint (zero warnings) | All files |
-| 8.7 | Add inline code documentation (DartDoc / JSDoc) on all public APIs | All files |
-| 8.8 | Write the comprehensive User Manual | `docs/user_manual.md` |
+| 8.1 | Deep refactor pass: eliminate code duplication across Flutter screens | All `.dart` files |
+| 8.2 | Deep refactor pass: standardize Next.js page patterns and shared hooks | All `.tsx` files |
+| 8.3 | Fix all lint warnings to zero (enforce strict lint compliance) | All files |
+| 8.4 | Add inline code documentation (DartDoc) on all public APIs and Repositories | All `.dart` files |
+| 8.5 | Add inline code documentation (JSDoc) on all public APIs and hooks | All `.tsx` files |
+| 8.6 | Write Flutter widget tests for critical flows (Auth, eDVIR, Gate Log) | `/test` directory |
+| 8.7 | Write the comprehensive User Manual | `docs/user_manual.md` |
+| 8.8 | Write the API / Repository Architecture Guide (for future developers) | `docs/architecture_guide.md` |
 
-**Verify:** Push a PR → GitHub Actions runs → lint passes → build succeeds → auto-deploys to Vercel.
+**Verify:** `flutter analyze` → zero warnings. `npm run lint` → zero warnings. All widget tests pass. User manual covers all 6 personas.
 
 ---
 
