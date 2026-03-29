@@ -118,7 +118,8 @@ From `global_product_requirements.md` Section 3.3 and `ux_workflow_logic.md` Sec
    - Driver logs in. Sees **only** the vehicle assigned to them via the calendar.
    - Driver clicks "Time Out" to start their mission.
    - App forces them to run the eDVIR checklist before departure.
-   - By clicking "Submit," the driver assumes legal accountability for the vehicle's pre-departure condition.
+   - Driver can scan Fuel Receipts to log their own fuel consumption.
+   - **Top Tier (Premium) Feature:** Silent discrete geo-ping. When the driver presses "Submit Fuel Log", the app grabs a one-time GPS coordinate to prove they are physically at the gas station.
 4. If toggled OFF (default):
    - The driver is just a text-name on the Office Manager's calendar.
    - Zero software interaction. Completely invisible to the software layer.
@@ -625,6 +626,18 @@ The following 3 KPIs were identified in the second verification against Fleetio,
 | **Industry Benchmark** | 95%+ is best-in-class. Below 80% = high risk of emergency breakdowns. |
 | **Realistic for MVP?** | 🟡 Partial — requires maintenance schedule setup first. Phase 7 feature, but data model should be ready. |
 
+#### KPI 16: Data Health Score / Driver Notation (The "Triangle of Truth")
+
+| Attribute | Value |
+|-----------|-------|
+| **What it shows** | A reliability percentage tracking how much a specific vehicle (or driver) can be trusted. It detects cheating by triangulating data between the Gatekeeper, Driver, and Mechanic. |
+| **Formula** | `Base 100% - penalty_deductions`. Penalties applied when: Gatekeeper odometer contradicts Driver fuel log receipt; Receipts are missing odometer readings. |
+| **Card Display** | A large percentage widget (0-100%). Vehicles/Drivers with < 75% are flagged red indicating active cheating or extreme negligence. |
+| **Data Source (Current Schema)** | Derived calculation comparing `gate_logs.odometer`, `work_orders` odometers, and `fuel_logs.odometer_at_fill`. |
+| **Schema Gap** | Fully solvable via server-side business logic using the existing/planned base tables. To streamline, `fuel_logs` has a simple column: `is_missing_odometer` (Boolean). |
+| **Who Sees It** | CEO, Park Manager (Web) |
+| **Realistic for MVP?** | ✅ Yes. Core to the Anti-cheat value proposition. |
+
 ---
 
 ### 20.4 KPI Data Requirements Summary
@@ -664,6 +677,7 @@ The following 3 KPIs were identified in the second verification against Fleetio,
 | 13. Fuel Efficiency (L/100km) | ✅ | ✅ | ❌ | ❌ |
 | 14. First-Time Fix Rate | ✅ | ✅ | ❌ | ❌ |
 | 15. PM Compliance Rate | ✅ (aggregate) | ✅ (detail) | ❌ | ❌ |
+| 16. Data Health / Driver Score| ✅ | ✅ | ❌ | ❌ |
 
 ---
 
