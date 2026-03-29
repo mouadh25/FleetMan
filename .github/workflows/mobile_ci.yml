@@ -1,0 +1,55 @@
+name: Mobile CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile_ci.yml'
+  pull_request:
+    paths:
+      - 'mobile/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./mobile
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Generate Native Platforms (Workaround for Scaffold)
+        run: flutter create . --platforms=android --org dz.fleetman
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Auto-generate Freezed & JSON Serializable
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Flutter Analyze
+        run: flutter analyze
+
+      - name: Build Debug APK
+        run: flutter build apk --debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fleetman-mobile-apk
+          path: mobile/build/app/outputs/flutter-apk/app-debug.apk
