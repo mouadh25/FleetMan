@@ -19,5 +19,15 @@
   "confirmPasswordLabel": "Confirmer le mot de passe",
   "signUpButton": "S'inscrire",
   "passwordMismatch": "Les mots de passe ne correspondent pas",
-  "signOutButton": "Déconnexion"
+  "signOutButton": "Déconnexion",
+  "vehicleDetails": "Détails du véhicule",
+  "plateNumber": "Matricule",
+  "make": "Marque",
+  "model": "Modèle",
+  "odometer": "Kilométrage",
+  "year": "Année",
+  "statusActive": "Actif",
+  "statusInMaintenance": "En maintenance",
+  "statusOutOfService": "Hors service",
+  "scanQrButton": "Scanner le QR Code"
 }

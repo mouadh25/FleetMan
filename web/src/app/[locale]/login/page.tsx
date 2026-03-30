@@ -28,6 +28,7 @@ export default function LoginPage() {
       router.push('/');
       router.refresh();
     } catch (err) {
+      console.error('Login error:', err);
       setError(t('loginError'));
     } finally {
       setLoading(false);

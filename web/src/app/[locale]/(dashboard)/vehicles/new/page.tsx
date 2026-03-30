@@ -3,11 +3,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { createClient } from '@/lib/supabase/client';
 import { SupabaseVehicleRepository } from '@/lib/repositories/supabase-vehicle-repository';
-import type { Vehicle } from '@/lib/repositories/vehicle-repository';
+import type { Vehicle, CreateVehicleDTO, FuelType } from '@/lib/repositories/vehicle-repository';
 import styles from '../vehicles.module.css';
 
+/**
+ * Page component for adding a new vehicle to the workspace.
+ * Captures basic vehicle details via a form and persists them to the repository.
+ * @returns React component
+ */
 export default function AddVehiclePage() {
   const t = useTranslations('Vehicles');
   const tc = useTranslations('Common');
@@ -22,6 +28,7 @@ export default function AddVehiclePage() {
     year: new Date().getFullYear(),
     status: 'active',
     odometer_km: 0,
+    fuel_type: 'diesel' as FuelType,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -39,38 +46,24 @@ export default function AddVehiclePage() {
 
     try {
       const supabase = createClient();
-      
-      // We need the user's workspace_id
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('workspace_id')
-        .eq('id', user.id)
-        .single();
-        
-      if (!profile?.workspace_id) throw new Error('No workspace found');
-
       const repo = new SupabaseVehicleRepository(supabase);
       
-      const newVehicle: Omit<Vehicle, 'id' | 'created_at' | 'updated_at'> = {
-        workspace_id: profile.workspace_id,
+      const newVehicle: CreateVehicleDTO = {
         plate_number: formData.plate_number!,
         make: formData.make!,
         model: formData.model!,
         year: formData.year!,
-        status: formData.status as any,
         odometer_km: formData.odometer_km!,
+        fuel_type: (formData.fuel_type as FuelType) || 'diesel',
       };
 
       await repo.create(newVehicle);
       
       router.push('/vehicles');
       router.refresh();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || tc('errorGeneric'));
+      setError(err instanceof Error ? err.message : tc('errorGeneric'));
     } finally {
       setLoading(false);
     }
@@ -79,9 +72,9 @@ export default function AddVehiclePage() {
   return (
     <div className={styles.formContainer}>
       <div className={styles.detailHeader}>
-        <a href="/vehicles" className={styles.backLink}>
+        <Link href="/vehicles" className={styles.backLink}>
           ←
-        </a>
+        </Link>
         <h1 className={styles.pageTitle} style={{ margin: 0 }}>{t('addVehicle')}</h1>
       </div>
 
@@ -116,6 +109,22 @@ export default function AddVehiclePage() {
                 <option value="active">{t('statusActive')}</option>
                 <option value="in_maintenance">{t('statusInMaintenance')}</option>
                 <option value="out_of_service">{t('statusOutOfService')}</option>
+              </select>
+            </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="fuel_type" className={styles.formLabel}>{t('fuelType', { fallback: 'Fuel Type' })}</label>
+              <select
+                id="fuel_type"
+                name="fuel_type"
+                value={formData.fuel_type}
+                onChange={handleChange}
+                className={styles.formSelect}
+                required
+              >
+                <option value="diesel">Diesel</option>
+                <option value="essence_sans_plomb">Essence Sans Plomb</option>
+                <option value="sirghaz_gplc">Sirghaz GPLC</option>
               </select>
             </div>
 
@@ -176,9 +185,9 @@ export default function AddVehiclePage() {
           </div>
 
           <div className={styles.formActions}>
-            <a href="/vehicles" className={styles.cancelButton}>
+            <Link href="/vehicles" className={styles.cancelButton}>
               {tc('cancel')}
-            </a>
+            </Link>
             <button type="submit" className={styles.submitButton} disabled={loading}>
               {loading ? tc('loading') : t('saveVehicle')}
             </button>

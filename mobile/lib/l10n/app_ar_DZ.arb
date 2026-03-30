@@ -15,5 +15,15 @@
   "confirmPasswordLabel": "تأكيد كلمة المرور",
   "signUpButton": "تسجيل",
   "passwordMismatch": "كلمات المرور غير متطابقة",
-  "signOutButton": "تسجيل الخروج"
+  "signOutButton": "تسجيل الخروج",
+  "vehicleDetails": "تفاصيل المركبة",
+  "plateNumber": "رقم التسجيل (Matricule)",
+  "make": "العلامة",
+  "model": "الموديل",
+  "odometer": "العداد (كم)",
+  "year": "السنة",
+  "statusActive": "نشط",
+  "statusInMaintenance": "في الصيانة",
+  "statusOutOfService": "خارج الخدمة",
+  "scanQrButton": "مسح رمز QR"
 }

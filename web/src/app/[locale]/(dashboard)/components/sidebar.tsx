@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { createClient } from '@/lib/supabase/client';
 import styles from '../dashboard.module.css';
 
@@ -18,6 +19,12 @@ const navItems = [
   { key: 'settings', icon: '⚙️', href: '/settings' },
 ];
 
+/**
+ * Sidebar component that provides main navigation.
+ * 
+ * @param {SidebarProps} props - The component props containing user details.
+ * @returns React component
+ */
 export function Sidebar({ userName, roles }: SidebarProps) {
   const t = useTranslations('Nav');
   const tc = useTranslations('Common');
@@ -49,14 +56,14 @@ export function Sidebar({ userName, roles }: SidebarProps) {
               : pathname.includes(item.href);
 
           return (
-            <a
+            <Link
               key={item.key}
-              href={item.href}
+              href={item.href as any}
               className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
             >
               <span className={styles.navIcon}>{item.icon}</span>
-              {t(item.key as any)}
-            </a>
+              {t(item.key as Parameters<typeof t>[0])}
+            </Link>
           );
         })}
       </nav>

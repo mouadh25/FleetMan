@@ -3,11 +3,16 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { createClient } from '@/lib/supabase/client';
 import { SupabaseVehicleRepository } from '@/lib/repositories/supabase-vehicle-repository';
 import type { Vehicle } from '@/lib/repositories/vehicle-repository';
 import styles from '../vehicles.module.css';
 
+/**
+ * Displays detailed information about a specific vehicle.
+ * @returns React component
+ */
 export default function VehicleDetailPage() {
   const t = useTranslations('Vehicles');
   const tc = useTranslations('Common');
@@ -23,6 +28,10 @@ export default function VehicleDetailPage() {
     }
   }, [params.id]);
 
+  /**
+   * Fetches an individual vehicle by its ID.
+   * @param id The vehicle UUID
+   */
   const loadVehicle = async (id: string) => {
     try {
       const supabase = createClient();
@@ -69,9 +78,9 @@ export default function VehicleDetailPage() {
   return (
     <div>
       <div className={styles.detailHeader}>
-        <a href="/vehicles" className={styles.backLink}>
+        <Link href="/vehicles" className={styles.backLink}>
           ←
-        </a>
+        </Link>
         <h1 className={styles.pageTitle} style={{ margin: 0 }}>
           {vehicle.plate_number}
         </h1>

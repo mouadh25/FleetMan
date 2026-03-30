@@ -2,12 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { createClient } from '@/lib/supabase/client';
 import { SupabaseVehicleRepository } from '@/lib/repositories/supabase-vehicle-repository';
 import type { Vehicle } from '@/lib/repositories/vehicle-repository';
 import styles from './vehicles.module.css';
 import dashStyles from '../dashboard.module.css';
 
+/**
+ * Displays a list of all vehicles assigned to the current user's workspace.
+ * Provides search capability and filtering by vehicle status.
+ * @returns React component
+ */
 export default function VehiclesPage() {
   const t = useTranslations('Vehicles');
   const tc = useTranslations('Common');
@@ -20,6 +26,9 @@ export default function VehiclesPage() {
     loadVehicles();
   }, []);
 
+  /**
+   * Loads the vehicles from the repository.
+   */
   const loadVehicles = async () => {
     try {
       const supabase = createClient();
@@ -68,9 +77,9 @@ export default function VehiclesPage() {
     <div>
       <div className={styles.vehiclesHeader}>
         <h1 className={dashStyles.pageTitle}>{t('title')}</h1>
-        <a href="/vehicles/new" className={styles.addButton}>
+        <Link href="/vehicles/new" className={styles.addButton}>
           + {t('addVehicle')}
-        </a>
+        </Link>
       </div>
 
       <div className={styles.toolbar}>
@@ -102,9 +111,9 @@ export default function VehiclesPage() {
       ) : (
         <div className={styles.vehicleGrid}>
           {filtered.map((vehicle) => (
-            <a
+            <Link
               key={vehicle.id}
-              href={`/vehicles/${vehicle.id}`}
+              href={`/vehicles/${vehicle.id}` as any}
               className={styles.vehicleCard}
             >
               <div className={styles.cardHeader}>
@@ -129,7 +138,7 @@ export default function VehiclesPage() {
                   <span className={styles.cardValue}>{vehicle.year}</span>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       )}
