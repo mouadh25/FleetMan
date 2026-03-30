@@ -25,7 +25,17 @@
     "passwordLabel": "Mot de passe",
     "loginButton": "Connexion",
     "loginError": "Email ou mot de passe incorrect",
-    "forgotPassword": "Mot de passe oublié ?"
+    "forgotPassword": "Mot de passe oublié ?",
+    "registerTitle": "Créer un compte",
+    "registerSubtitle": "Rejoignez FleetMan",
+    "fullNameLabel": "Nom complet",
+    "companyNameLabel": "Nom de l'entreprise",
+    "registerButton": "S'inscrire",
+    "registerError": "Erreur lors de la création du compte",
+    "noAccount": "Pas encore de compte ?",
+    "signUpLink": "Créer un compte",
+    "hasAccount": "Déjà un compte ?",
+    "loginLink": "Se connecter"
   },
   "Nav": {
     "dashboard": "Tableau de bord",

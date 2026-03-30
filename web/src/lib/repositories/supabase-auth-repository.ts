@@ -29,6 +29,32 @@ export class SupabaseAuthRepository implements AuthRepository {
     };
   }
 
+  async signUp(email: string, password: string, fullName: string, companyName: string): Promise<AuthUser> {
+    const { data, error } = await this.supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+          company_name: companyName,
+        },
+      },
+    });
+
+    if (error) throw new Error(error.message);
+
+    // Triggers will automatically confirm emails. If no session is returned, sign in manually.
+    if (!data.session) {
+      await this.signIn(email, password);
+    }
+
+    const currentUser = await this.getCurrentUser();
+    if (!currentUser) {
+      throw new Error('Sign up succeeded but user profile could not be retrieved');
+    }
+    return currentUser;
+  }
+
   async signOut(): Promise<void> {
     const { error } = await this.supabase.auth.signOut();
     if (error) throw new Error(error.message);

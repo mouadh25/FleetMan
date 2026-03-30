@@ -25,7 +25,17 @@
     "passwordLabel": "كلمة المرور",
     "loginButton": "دخول",
     "loginError": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
-    "forgotPassword": "نسيت كلمة المرور؟"
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "registerTitle": "إنشاء حساب",
+    "registerSubtitle": "انضم إلى فليت مان",
+    "fullNameLabel": "الاسم الكامل",
+    "companyNameLabel": "اسم الشركة",
+    "registerButton": "تسجيل",
+    "registerError": "خطأ أثناء إنشاء الحساب",
+    "noAccount": "ليس لديك حساب؟",
+    "signUpLink": "إنشاء حساب",
+    "hasAccount": "لديك حساب بالفعل؟",
+    "loginLink": "تسجيل الدخول"
   },
   "Nav": {
     "dashboard": "لوحة التحكم",

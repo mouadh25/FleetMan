@@ -12,6 +12,7 @@ export interface AuthUser {
 
 export interface AuthRepository {
   signIn(email: string, password: string): Promise<AuthUser>;
+  signUp(email: string, password: string, fullName: string, companyName: string): Promise<AuthUser>;
   signOut(): Promise<void>;
   getCurrentUser(): Promise<AuthUser | null>;
 }
