@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { SupabaseVehicleRepository } from '@/lib/repositories/supabase-vehicle-repository';
+import type { Vehicle } from '@/lib/repositories/vehicle-repository';
 import styles from '../vehicles.module.css';
-import dashStyles from '../../dashboard.module.css';
 
 export default function AddVehiclePage() {
   const t = useTranslations('Vehicles');
@@ -15,19 +15,21 @@ export default function AddVehiclePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState<Partial<Vehicle>>({
     plate_number: '',
     make: '',
     model: '',
     year: new Date().getFullYear(),
-    vin: '',
-    fuel_type: 'diesel',
-    odometer_km: 0,
     status: 'active',
+    odometer_km: 0,
   });
 
-  const updateField = (field: string, value: string | number) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === 'year' || name === 'odometer_km' ? Number(value) : value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,12 +39,38 @@ export default function AddVehiclePage() {
 
     try {
       const supabase = createClient();
+      
+      // We need the user's workspace_id
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('workspace_id')
+        .eq('id', user.id)
+        .single();
+        
+      if (!profile?.workspace_id) throw new Error('No workspace found');
+
       const repo = new SupabaseVehicleRepository(supabase);
-      await repo.create(form);
+      
+      const newVehicle: Omit<Vehicle, 'id' | 'created_at' | 'updated_at'> = {
+        workspace_id: profile.workspace_id,
+        plate_number: formData.plate_number!,
+        make: formData.make!,
+        model: formData.model!,
+        year: formData.year!,
+        status: formData.status as any,
+        odometer_km: formData.odometer_km!,
+      };
+
+      await repo.create(newVehicle);
+      
       router.push('/vehicles');
       router.refresh();
-    } catch (err) {
-      setError(tc('error'));
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || tc('errorGeneric'));
     } finally {
       setLoading(false);
     }
@@ -50,112 +78,109 @@ export default function AddVehiclePage() {
 
   return (
     <div className={styles.formContainer}>
-      <h1 className={dashStyles.pageTitle}>{t('addVehicle')}</h1>
+      <div className={styles.detailHeader}>
+        <a href="/vehicles" className={styles.backLink}>
+          ←
+        </a>
+        <h1 className={styles.pageTitle} style={{ margin: 0 }}>{t('addVehicle')}</h1>
+      </div>
 
       <div className={styles.formCard}>
+        {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
+        
         <form onSubmit={handleSubmit}>
           <div className={styles.formGrid}>
             <div className={styles.formField}>
-              <label className={styles.formLabel}>{t('plateNumber')}</label>
+              <label htmlFor="plate_number" className={styles.formLabel}>{t('plateNumber')}</label>
               <input
+                id="plate_number"
+                name="plate_number"
+                type="text"
+                value={formData.plate_number}
+                onChange={handleChange}
                 className={styles.formInput}
-                value={form.plate_number}
-                onChange={(e) => updateField('plate_number', e.target.value)}
-                required
-                placeholder="00000-000-00"
-              />
-            </div>
-
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>{t('vin')}</label>
-              <input
-                className={styles.formInput}
-                value={form.vin}
-                onChange={(e) => updateField('vin', e.target.value)}
-                placeholder="VIN"
-              />
-            </div>
-
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>{t('make')}</label>
-              <input
-                className={styles.formInput}
-                value={form.make}
-                onChange={(e) => updateField('make', e.target.value)}
-                required
-                placeholder="Toyota, Hyundai..."
-              />
-            </div>
-
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>{t('model')}</label>
-              <input
-                className={styles.formInput}
-                value={form.model}
-                onChange={(e) => updateField('model', e.target.value)}
-                required
-                placeholder="Hilux, HD78..."
-              />
-            </div>
-
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>{t('year')}</label>
-              <input
-                type="number"
-                className={styles.formInput}
-                value={form.year}
-                onChange={(e) => updateField('year', parseInt(e.target.value))}
-                min={1990}
-                max={2030}
                 required
               />
             </div>
 
             <div className={styles.formField}>
-              <label className={styles.formLabel}>{t('fuelType')}</label>
+              <label htmlFor="status" className={styles.formLabel}>{t('status')}</label>
               <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
                 className={styles.formSelect}
-                value={form.fuel_type}
-                onChange={(e) => updateField('fuel_type', e.target.value)}
-              >
-                <option value="diesel">{t('fuelDiesel')}</option>
-                <option value="gasoline">{t('fuelGasoline')}</option>
-                <option value="electric">{t('fuelElectric')}</option>
-                <option value="hybrid">{t('fuelHybrid')}</option>
-              </select>
-            </div>
-
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>{t('odometer')}</label>
-              <input
-                type="number"
-                className={styles.formInput}
-                value={form.odometer_km}
-                onChange={(e) => updateField('odometer_km', parseInt(e.target.value))}
-                min={0}
-              />
-            </div>
-
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>{t('status')}</label>
-              <select
-                className={styles.formSelect}
-                value={form.status}
-                onChange={(e) => updateField('status', e.target.value)}
+                required
               >
                 <option value="active">{t('statusActive')}</option>
                 <option value="in_maintenance">{t('statusInMaintenance')}</option>
                 <option value="out_of_service">{t('statusOutOfService')}</option>
               </select>
             </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="make" className={styles.formLabel}>{t('make')}</label>
+              <input
+                id="make"
+                name="make"
+                type="text"
+                value={formData.make}
+                onChange={handleChange}
+                className={styles.formInput}
+                required
+              />
+            </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="model" className={styles.formLabel}>{t('model')}</label>
+              <input
+                id="model"
+                name="model"
+                type="text"
+                value={formData.model}
+                onChange={handleChange}
+                className={styles.formInput}
+                required
+              />
+            </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="year" className={styles.formLabel}>{t('year')}</label>
+              <input
+                id="year"
+                name="year"
+                type="number"
+                value={formData.year}
+                onChange={handleChange}
+                className={styles.formInput}
+                required
+                min="1990"
+                max={new Date().getFullYear() + 1}
+              />
+            </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="odometer_km" className={styles.formLabel}>{t('odometer')}</label>
+              <input
+                id="odometer_km"
+                name="odometer_km"
+                type="number"
+                value={formData.odometer_km}
+                onChange={handleChange}
+                className={styles.formInput}
+                required
+                min="0"
+              />
+            </div>
           </div>
 
-          {error && <p style={{ color: 'var(--error-red)', marginTop: '1rem' }}>{error}</p>}
-
           <div className={styles.formActions}>
-            <a href="/vehicles" className={styles.cancelButton}>{tc('cancel')}</a>
+            <a href="/vehicles" className={styles.cancelButton}>
+              {tc('cancel')}
+            </a>
             <button type="submit" className={styles.submitButton} disabled={loading}>
-              {loading ? tc('loading') : tc('save')}
+              {loading ? tc('loading') : t('saveVehicle')}
             </button>
           </div>
         </form>
