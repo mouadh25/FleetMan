@@ -16,6 +16,7 @@ class RegisterScreen extends ConsumerStatefulWidget {
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController();
+  final _companyController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -26,6 +27,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   void dispose() {
     _fullNameController.dispose();
+    _companyController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -43,6 +45,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text,
         fullName: _fullNameController.text.trim(),
+        companyName: _companyController.text.trim(),
       );
       // Navigation handled by GoRouter redirect on auth state change
     } on AuthException catch (e) {
@@ -110,6 +113,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return l10n.fullNameLabel;
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Company Name
+                  TextFormField(
+                    controller: _companyController,
+                    textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      labelText: l10n.companyNameLabel,
+                      prefixIcon: const Icon(Icons.business_outlined),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return l10n.companyNameLabel;
                       }
                       return null;
                     },

@@ -21,6 +21,12 @@
 2. **Security hardening is deferred.** Penetration testing, RLS audits, rate limiting, and input sanitization are done AFTER the UX logic is fully approved by real users. No point hardening a screen that might be redesigned.
 3. **Sovereign VPS is the final gate.** Only after the app is feature-complete AND security-hardened does it migrate to Algerian soil.
 
+### Execution vs. Management Platform Split
+
+> [!IMPORTANT]
+> **Mobile App (Flutter) = Field Execution Only.** Restricted entirely to data-entry roles (Drivers logging fuel/eDVIRs, Mechanics closing work orders, Gatekeepers scanning entries). MVP1 will not include complex dashboards or approval workflows on mobile to ensure rapid deployment.
+> **Web Portal (Next.js) = Fleet Management Only.** Reserved for CEOs and Park Managers executing administrative tasks (KPI Analysis, Expense Approvals, Assigning drivers, Triage boards).
+
 ### Cloud-Agnostic Mandate
 
 > [!CAUTION]

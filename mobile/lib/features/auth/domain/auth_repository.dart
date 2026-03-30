@@ -22,6 +22,7 @@ abstract class AuthRepository {
     required String email,
     required String password,
     required String fullName,
+    required String companyName,
   });
 
   /// Signs the current user out and clears the session.

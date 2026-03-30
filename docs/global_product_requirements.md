@@ -13,6 +13,7 @@ FleetMan is a production-ready, multi-tenant B2B SaaS designed to modernize flee
 
 - **Primary Goal:** Reduce Total Cost of Ownership (TCO) by minimizing downtime and digitizing maintenance flows.
 - **Differentiator:** Uniquely adapted to Algerian realities (Cash, Bank Wire, and CCP payments; AR-DZ/FR-DZ bilingual field workers; poor field internet; local server compliance. Note: CIB/Edahabia online payments are reserved for future dev with partners).
+- **Architecture Split:** Strict separation of concerns for MVP1. The Mobile App (Flutter) is heavily optimized for fast Field Execution (data entry, eDVIRs, work orders). The Web Portal (Next.js) serves as the "Command Center" restricted to Management (KPI analysis, approvals, scheduling).
 
 ---
 

@@ -11,6 +11,7 @@
   "loginError": "خطأ في تسجيل الدخول",
   "registerTitle": "إنشاء حساب",
   "fullNameLabel": "الاسم الكامل",
+  "companyNameLabel": "اسم الشركة",
   "confirmPasswordLabel": "تأكيد كلمة المرور",
   "signUpButton": "تسجيل",
   "passwordMismatch": "كلمات المرور غير متطابقة",

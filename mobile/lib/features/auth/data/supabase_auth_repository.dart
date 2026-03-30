@@ -40,14 +40,26 @@ class SupabaseAuthRepository implements AuthRepository {
     required String email,
     required String password,
     required String fullName,
+    required String companyName,
   }) async {
     try {
       final response = await _client.auth.signUp(
         email: email,
         password: password,
-        data: {'full_name': fullName},
+        data: {'full_name': fullName, 'company_name': companyName},
       );
-      final userId = response.user?.id;
+
+      // If Supabase natively enforces Confirm Email, session is null.
+      // Our database trigger automatically sets email_confirmed_at = NOW() upon insert.
+      // So we immediately attempt sign-in to create the session seamlessly.
+      if (response.session == null) {
+        await _client.auth.signInWithPassword(
+          email: email,
+          password: password,
+        );
+      }
+
+      final userId = response.user?.id ?? _client.auth.currentUser?.id;
       if (userId == null) {
         throw const AuthException('Sign-up succeeded but no user ID returned');
       }
