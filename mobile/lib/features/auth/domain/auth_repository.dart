@@ -36,23 +36,6 @@ abstract class AuthRepository {
   /// Fetches the current user's roles from the profiles table.
   /// Returns an empty list if no roles are assigned.
   Future<List<String>> getUserRoles(String userId);
-
-  // ── MVP2: OTP Methods (contract defined now, implemented later) ──
-
-  /// Sends a 6-digit OTP to the given email/phone.
-  /// Will throw [UnimplementedError] in MVP1.
-  Future<void> signInWithOtp({required String emailOrPhone}) {
-    throw UnimplementedError('OTP auth deferred to MVP2 — requires SMTP/SMS relay');
-  }
-
-  /// Verifies the OTP code.
-  /// Will throw [UnimplementedError] in MVP1.
-  Future<String> verifyOtp({
-    required String emailOrPhone,
-    required String otpCode,
-  }) {
-    throw UnimplementedError('OTP verification deferred to MVP2');
-  }
 }
 
 /// Generic auth exception for clean error handling.
