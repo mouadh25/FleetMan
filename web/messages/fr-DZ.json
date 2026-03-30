@@ -15,7 +15,8 @@
     "confirm": "Confirmer",
     "back": "Retour",
     "status": "Statut",
-    "signOut": "Déconnexion"
+    "signOut": "Déconnexion",
+    "error": "Une erreur est survenue"
   },
   "Auth": {
     "loginTitle": "Se connecter",
@@ -49,6 +50,9 @@
     "statusOutOfService": "Hors service",
     "fuelType": "Type de carburant",
     "fuelDiesel": "Gasoil",
+    "fuelGasoline": "Essence",
+    "fuelElectric": "Électrique",
+    "fuelHybrid": "Hybride",
     "fuelEssence": "Essence (Sans Plomb)",
     "fuelSirghaz": "Sirghaz (GPL-C)",
     "assignedDriver": "Chauffeur assigné",
@@ -59,6 +63,8 @@
     "costPerKm": "Coût/Km (DZD)",
     "totalCost": "Coût Total (DZD)",
     "vehicleDetails": "Détails du véhicule",
+    "vehicleInfo": "Informations véhicule",
+    "operationalInfo": "Données opérationnelles",
     "filterByStatus": "Filtrer par statut",
     "allStatuses": "Tous les statuts",
     "noVehicles": "Aucun véhicule enregistré",
