@@ -1,0 +1,77 @@
+{
+  "Index": {
+    "title": "فليتمان - إدارة الأسطول"
+  },
+  "Common": {
+    "appTitle": "فليتمان",
+    "loading": "جاري التحميل...",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "search": "بحث...",
+    "noResults": "لا توجد نتائج",
+    "actions": "الإجراءات",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "status": "الحالة",
+    "signOut": "تسجيل الخروج"
+  },
+  "Auth": {
+    "loginTitle": "تسجيل الدخول",
+    "loginSubtitle": "مرحبا بكم في فليتمان",
+    "emailLabel": "البريد الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "loginButton": "دخول",
+    "loginError": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "forgotPassword": "نسيت كلمة المرور؟"
+  },
+  "Nav": {
+    "dashboard": "لوحة القيادة",
+    "vehicles": "المركبات",
+    "maintenance": "الصيانة",
+    "reports": "التقارير",
+    "settings": "الإعدادات"
+  },
+  "Vehicles": {
+    "title": "المركبات",
+    "addVehicle": "إضافة مركبة",
+    "plateNumber": "رقم اللوحة",
+    "make": "الشركة",
+    "model": "الموديل",
+    "year": "السنة",
+    "vin": "رقم الهيكل",
+    "odometer": "عداد الكيلومترات",
+    "odometerUnit": "كم",
+    "status": "الحالة",
+    "statusActive": "نشط",
+    "statusInMaintenance": "في الصيانة",
+    "statusOutOfService": "خارج الخدمة",
+    "fuelType": "نوع الوقود",
+    "fuelDiesel": "مازوت",
+    "fuelEssence": "بنزين (بدون رصاص)",
+    "fuelSirghaz": "سيرغاز (GPL-C)",
+    "assignedDriver": "السائق المعين",
+    "legalExpiry": "انتهاء الوثائق",
+    "insuranceExpiry": "التأمين",
+    "technicalInspection": "الفحص التقني",
+    "circulationCard": "بطاقة السيارات",
+    "costPerKm": "التكلفة/كم (دج)",
+    "totalCost": "التكلفة الإجمالية (دج)",
+    "vehicleDetails": "تفاصيل المركبة",
+    "filterByStatus": "تصفية حسب الحالة",
+    "allStatuses": "كل الحالات",
+    "noVehicles": "لا توجد مركبات مسجلة",
+    "addFirstVehicle": "أضف مركبتك الأولى",
+    "createSuccess": "تمت إضافة المركبة بنجاح",
+    "createError": "خطأ في إضافة المركبة"
+  },
+  "Dashboard": {
+    "welcome": "مرحبا، {name}",
+    "totalVehicles": "إجمالي المركبات",
+    "activeVehicles": "مركبات نشطة",
+    "inMaintenance": "في الصيانة",
+    "openIssues": "مشاكل مفتوحة",
+    "fleetOverview": "نظرة عامة على الأسطول"
+  }
+}

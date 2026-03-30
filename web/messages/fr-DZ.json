@@ -1,0 +1,77 @@
+{
+  "Index": {
+    "title": "FleetMan - Gestion de flotte"
+  },
+  "Common": {
+    "appTitle": "FleetMan",
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "search": "Rechercher...",
+    "noResults": "Aucun résultat trouvé",
+    "actions": "Actions",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "status": "Statut",
+    "signOut": "Déconnexion"
+  },
+  "Auth": {
+    "loginTitle": "Se connecter",
+    "loginSubtitle": "Bienvenue sur FleetMan",
+    "emailLabel": "Adresse Email",
+    "passwordLabel": "Mot de passe",
+    "loginButton": "Connexion",
+    "loginError": "Email ou mot de passe incorrect",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "Nav": {
+    "dashboard": "Tableau de bord",
+    "vehicles": "Véhicules",
+    "maintenance": "Maintenance",
+    "reports": "Rapports",
+    "settings": "Paramètres"
+  },
+  "Vehicles": {
+    "title": "Véhicules",
+    "addVehicle": "Ajouter un véhicule",
+    "plateNumber": "N° d'immatriculation",
+    "make": "Marque",
+    "model": "Modèle",
+    "year": "Année",
+    "vin": "Numéro VIN",
+    "odometer": "Kilomètrage",
+    "odometerUnit": "km",
+    "status": "Statut",
+    "statusActive": "Actif",
+    "statusInMaintenance": "En maintenance",
+    "statusOutOfService": "Hors service",
+    "fuelType": "Type de carburant",
+    "fuelDiesel": "Gasoil",
+    "fuelEssence": "Essence (Sans Plomb)",
+    "fuelSirghaz": "Sirghaz (GPL-C)",
+    "assignedDriver": "Chauffeur assigné",
+    "legalExpiry": "Expiration documents",
+    "insuranceExpiry": "Assurance",
+    "technicalInspection": "Contrôle technique",
+    "circulationCard": "Carte Grise",
+    "costPerKm": "Coût/Km (DZD)",
+    "totalCost": "Coût Total (DZD)",
+    "vehicleDetails": "Détails du véhicule",
+    "filterByStatus": "Filtrer par statut",
+    "allStatuses": "Tous les statuts",
+    "noVehicles": "Aucun véhicule enregistré",
+    "addFirstVehicle": "Ajoutez votre premier véhicule",
+    "createSuccess": "Véhicule ajouté avec succès",
+    "createError": "Erreur lors de l'ajout du véhicule"
+  },
+  "Dashboard": {
+    "welcome": "Bienvenue, {name}",
+    "totalVehicles": "Total Véhicules",
+    "activeVehicles": "Véhicules Actifs",
+    "inMaintenance": "En Maintenance",
+    "openIssues": "Problèmes Ouverts",
+    "fleetOverview": "Aperçu de la Flotte"
+  }
+}

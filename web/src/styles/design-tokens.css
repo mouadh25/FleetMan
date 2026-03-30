@@ -1,0 +1,43 @@
+:root {
+  /* Brand Colors */
+  --primary-blue: #1A3A5C;
+  --accent-orange: #F28C28;
+
+  /* Semantic Colors */
+  --error-red: #D32F2F;
+  --success-green: #2E7D32;
+
+  /* Backgrounds */
+  --background-light: #F5F7FA;
+  --background-dark: #121212;
+
+  /* Surfaces */
+  --surface-light: #FFFFFF;
+  --surface-dark: #1E1E1E;
+
+  /* Text Colors */
+  --text-light-mode: #121212;
+  --text-dark-mode: #E0E0E0;
+
+  /* Touch Targets & Spacing */
+  --minimum-touch-target: 48px;
+  --default-border-radius: 12px;
+  
+  /* Layout */
+  --content-max-width: 1200px;
+}
+
+/* Light Theme (Default) */
+body {
+  background-color: var(--background-light);
+  color: var(--text-light-mode);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Dark Theme Support via Media Query */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--background-dark);
+    color: var(--text-dark-mode);
+  }
+}
