@@ -102,14 +102,4 @@ class SupabaseAuthRepository implements AuthRepository {
       throw AuthException('Unexpected error fetching roles: $e');
     }
   }
-
-  @override
-  Future<void> signInWithOtp({required String phone}) {
-    throw UnimplementedError('OTP features are deferred to MVP2');
-  }
-
-  @override
-  Future<String> verifyOtp({required String phone, required String otp}) {
-    throw UnimplementedError('OTP features are deferred to MVP2');
-  }
 }
