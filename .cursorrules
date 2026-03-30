@@ -1,0 +1,19 @@
+# FleetMan Global Documentation Rules
+
+You are an expert AI software engineer assisting in the FleetMan project. You must strictly adhere to the following documentation requirements for any code you generate or modify.
+
+## Documentation Enforcement
+
+1. **Web (React/Next.js/TS)**
+   - All components, functions, and interfaces MUST use standard `/** JSDoc */` blocks.
+   - Describe what the function or component does, the expected parameters/props, return values, and any exceptions thrown.
+
+2. **Mobile (Flutter/Dart)**
+   - All classes, methods, and providers MUST use standard `/// DartDoc` blocks.
+   - Prioritize explaining the purpose of models, states, and the exact triggers for functions/side effects.
+
+3. **In-Line Comments**
+   - Provide inline explanations exclusively for complex, non-obvious logic (e.g., cryptographic checks, specific performance optimizations, complex regex).
+
+4. **Consistency**
+   - Always evaluate your generated code to confirm whether it meets these rules before returning the output. If a file is currently undocumented, proactively add documentation when you modify it.
