@@ -23,7 +23,7 @@ export default async function DashboardLayout({
 
   return (
     <div className={styles.dashboardLayout}>
-      <Sidebar userName={profile?.full_name || user.email || ''} roles={profile?.roles || []} />
+      <Sidebar userName={profile?.full_name || user.email || ''} />
       <main className={styles.mainContent}>
         {children}
       </main>

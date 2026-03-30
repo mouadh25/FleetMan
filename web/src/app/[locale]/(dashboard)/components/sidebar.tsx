@@ -8,7 +8,6 @@ import styles from '../dashboard.module.css';
 
 interface SidebarProps {
   userName: string;
-  roles: string[];
 }
 
 const navItems = [
@@ -25,7 +24,7 @@ const navItems = [
  * @param {SidebarProps} props - The component props containing user details.
  * @returns React component
  */
-export function Sidebar({ userName, roles }: SidebarProps) {
+export function Sidebar({ userName }: SidebarProps) {
   const t = useTranslations('Nav');
   const tc = useTranslations('Common');
   const pathname = usePathname();
@@ -58,6 +57,7 @@ export function Sidebar({ userName, roles }: SidebarProps) {
           return (
             <Link
               key={item.key}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               href={item.href as any}
               className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
             >

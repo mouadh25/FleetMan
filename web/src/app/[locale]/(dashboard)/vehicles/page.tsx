@@ -113,6 +113,7 @@ export default function VehiclesPage() {
           {filtered.map((vehicle) => (
             <Link
               key={vehicle.id}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               href={`/vehicles/${vehicle.id}` as any}
               className={styles.vehicleCard}
             >
