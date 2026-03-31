@@ -80,7 +80,20 @@
     "noVehicles": "Aucun véhicule enregistré",
     "addFirstVehicle": "Ajoutez votre premier véhicule",
     "createSuccess": "Véhicule ajouté avec succès",
-    "createError": "Erreur lors de l'ajout du véhicule"
+    "createError": "Erreur lors de l'ajout du véhicule",
+    "saveVehicle": "Enregistrer le véhicule",
+    "vinNumber": "Numéro VIN",
+    "legalDocuments": "Documents légaux",
+    "noDriver": "Non assigné",
+    "expired": "Expiré",
+    "daysLeft": "{days} jours restants",
+    "expiresIn": "Expire dans",
+    "vehicleLimitReached": "Limite de véhicules atteinte",
+    "vehicleLimitWarning": "Votre abonnement permet un maximum de {max} véhicules. Contactez l'administrateur pour augmenter la limite.",
+    "recentActivity": "Activité récente",
+    "noActivity": "Aucune activité récente",
+    "editVehicle": "Modifier le véhicule",
+    "deleteVehicle": "Supprimer le véhicule"
   },
   "Dashboard": {
     "welcome": "Bienvenue, {name}",

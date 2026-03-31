@@ -80,7 +80,20 @@
     "noVehicles": "لا توجد مركبات مسجلة",
     "addFirstVehicle": "أضف أول مركبة لك",
     "createSuccess": "تمت إضافة المركبة بنجاح",
-    "createError": "خطأ أثناء إضافة المركبة"
+    "createError": "خطأ أثناء إضافة المركبة",
+    "saveVehicle": "حفظ المركبة",
+    "vinNumber": "رقم الهيكل (VIN)",
+    "legalDocuments": "الوثائق القانونية",
+    "noDriver": "غير معين",
+    "expired": "منتهي الصلاحية",
+    "daysLeft": "{days} يوم متبقي",
+    "expiresIn": "ينتهي في",
+    "vehicleLimitReached": "تم الوصول إلى الحد الأقصى للمركبات",
+    "vehicleLimitWarning": "اشتراككم يسمح بحد أقصى {max} مركبة. تواصلوا مع المسؤول لزيادة الحد.",
+    "recentActivity": "النشاط الأخير",
+    "noActivity": "لا يوجد نشاط حديث",
+    "editVehicle": "تعديل المركبة",
+    "deleteVehicle": "حذف المركبة"
   },
   "Dashboard": {
     "welcome": "مرحبا، {name}",
