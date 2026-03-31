@@ -138,17 +138,17 @@ These tokens are defined ONCE in:
 
 | Status | Task | Atomic Action | Output |
 |---|---|---|---|
-| [ ] | 2.1 | Scaffold Next.js project | `/web` |
-| [ ] | 2.2 | **Create Web Design Token system** (CSS custom properties matching Flutter theme) | `styles/design-tokens.css` |
-| [ ] | 2.3 | **Setup `next-intl`** for FR-DZ / AR-DZ locale routing + RTL | `i18n/` config |
-| [ ] | 2.4 | Configure ESLint + Prettier | `.eslintrc.js`, `.prettierrc` |
-| [ ] | 2.5 | **Link GitHub repo to Vercel** (auto-deploy `main` to production URL) | Vercel project |
+| [x] | 2.1 | Scaffold Next.js project | `/web` |
+| [x] | 2.2 | **Create Web Design Token system** (CSS custom properties matching Flutter theme) | `styles/design-tokens.css` |
+| [x] | 2.3 | **Setup `next-intl`** for FR-DZ / AR-DZ locale routing + RTL | `i18n/` config |
+| [x] | 2.4 | Configure ESLint + Prettier | `.eslintrc.js`, `.prettierrc` |
+| [x] | 2.5 | **Link GitHub repo to Vercel** (auto-deploy `main` to production URL) | Vercel project |
 | [ ] | 2.6 | **GitHub Actions: Web CI** — on PR: `npm run lint` + `npm run build` | `.github/workflows/web_ci.yml` |
-| [ ] | 2.8 | Web Login (Supabase Auth SSR, bilingual) | `login/page.tsx` |
-| [ ] | 2.9 | "Add Vehicle" form (plate, model, odometer, legal doc upload) | `vehicles/new/page.tsx` |
-| [ ] | 2.10 | Vehicle List (filterable, searchable) | `vehicles/page.tsx` |
-| [ ] | 2.11 | Vehicle Detail Card (status, driver, CPK, legal expiry) | `vehicles/[id]/page.tsx` |
-| [ ] | 2.12 | Flutter mobile Vehicle Card (QR scan) | `vehicle_card_screen.dart` |
+| [x] | 2.8 | Web Login (Supabase Auth SSR, bilingual) | `login/page.tsx` |
+| [x] | 2.9 | "Add Vehicle" form (plate, model, odometer, legal doc upload) | `vehicles/new/page.tsx` |
+| [x] | 2.10 | Vehicle List (filterable, searchable) | `vehicles/page.tsx` |
+| [x] | 2.11 | Vehicle Detail Card (status, driver, CPK, legal expiry) | `vehicles/[id]/page.tsx` |
+| [x] | 2.12 | Flutter mobile Vehicle Card (QR scan) | `vehicle_card_screen.dart` |
 
 **Verify:** Push code → GitHub Actions lint passes → Vercel auto-deploys → open live URL → toggle FR-DZ/AR-DZ → UI flips RTL → add 3 vehicles → confirm list + detail card.
 
