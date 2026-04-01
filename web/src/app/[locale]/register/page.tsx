@@ -33,9 +33,9 @@ export default function RegisterPage() {
       // On success, redirect to dashboard
       router.push('/');
       router.refresh();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Registration error:', err);
-      setError(err?.message || t('registerError'));
+      setError(err instanceof Error ? err.message : t('registerError'));
     } finally {
       setLoading(false);
     }
