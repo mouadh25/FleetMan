@@ -77,7 +77,7 @@ class VehicleCardScreen extends ConsumerWidget {
     if (diff < 0) {
       return _ExpiryInfo(AppTheme.errorRed, l10n.expired);
     } else if (diff <= 30) {
-      return _ExpiryInfo(AppTheme.accentOrange, '$diff j');
+      return _ExpiryInfo(AppTheme.accentOrange, '$diff ${l10n.daysShort}');
     } else {
       return _ExpiryInfo(
         AppTheme.successGreen,

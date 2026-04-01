@@ -86,6 +86,7 @@
     "legalDocuments": "Documents légaux",
     "noDriver": "Non assigné",
     "expired": "Expiré",
+    "daysShort": "j",
     "daysLeft": "{days} jours restants",
     "expiresIn": "Expire dans",
     "vehicleLimitReached": "Limite de véhicules atteinte",

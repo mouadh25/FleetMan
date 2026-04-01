@@ -37,5 +37,6 @@
   "fuelDiesel": "ديزل",
   "fuelEssence": "بنزين (بدون رصاص)",
   "fuelSirghaz": "سيرغاز (GPL-C)",
-  "startInspection": "بدء الفحص"
+  "startInspection": "بدء الفحص",
+  "daysShort": "ي"
 }

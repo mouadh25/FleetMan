@@ -86,6 +86,7 @@
     "legalDocuments": "الوثائق القانونية",
     "noDriver": "غير معين",
     "expired": "منتهي الصلاحية",
+    "daysShort": "ي",
     "daysLeft": "{days} يوم متبقي",
     "expiresIn": "ينتهي في",
     "vehicleLimitReached": "تم الوصول إلى الحد الأقصى للمركبات",

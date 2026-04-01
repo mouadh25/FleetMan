@@ -41,5 +41,6 @@
   "fuelDiesel": "Gasoil",
   "fuelEssence": "Essence (Sans Plomb)",
   "fuelSirghaz": "Sirghaz (GPL-C)",
-  "startInspection": "Démarrer l'inspection"
+  "startInspection": "Démarrer l'inspection",
+  "daysShort": "j"
 }

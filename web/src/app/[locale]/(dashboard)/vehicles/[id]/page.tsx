@@ -113,7 +113,7 @@ export default function VehicleDetailPage() {
     if (diffDays <= 30) {
       return (
         <span className={`${styles.expiryBadge} ${styles.expiryWarning}`}>
-          🟠 {diffDays} {t('odometerUnit') === 'km' ? 'j' : 'ي'}
+          🟠 {diffDays} {t('daysShort')}
         </span>
       );
     }
