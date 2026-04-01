@@ -198,14 +198,25 @@
   border: 1.5px solid #d1d5db;
   border-radius: var(--default-border-radius);
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: white; /* Explicitly forced to prevent grey OS fallbacks */
+  color: #111827; /* Force explicit text color in inputs */
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
   outline: none;
   min-height: var(--minimum-touch-target);
+}
+
+.formInput:-webkit-autofill,
+.formInput:-webkit-autofill:hover, 
+.formInput:-webkit-autofill:focus, 
+.formInput:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: #111827 !important;
 }
 
 .formInput:focus {
   border-color: var(--primary-blue);
   box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.15);
+  background-color: white;
 }
 
 .formSelect {
@@ -213,7 +224,8 @@
   border: 1.5px solid #d1d5db;
   border-radius: var(--default-border-radius);
   font-size: 1rem;
-  background: white;
+  background-color: white;
+  color: #111827;
   outline: none;
   min-height: var(--minimum-touch-target);
 }
