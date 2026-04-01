@@ -31,27 +31,20 @@ When opening a new session, you must choose the right model for the job:
 Here is your exact workflow for building a feature (e.g., The Login Screen) without context rot.
 
 > [!IMPORTANT]
-> **Step 1: The Briefing**
-> Always ensure `.planning/gsd_phase_roadmap.md` and `docs/global_product_requirements.md` are up to date. These are your source of truth.
+> **Step 1: Spark the Phase**
+> Inform AntiGravity to begin execution (e.g., "AntiGravity, begin Phase 3 from the roadmap"). AntiGravity will naturally pull `gsd_phase_roadmap.md` and read the requirements.
 
 > [!NOTE]
-> **Step 2: Spawn a Focused Coder Agent**
-> Open a **fresh, empty AI chat session** (or spawn a subagent).
-> Give it a strict prompt: 
-> *"Read `docs/implementation_plan.md` Phase 1. Scaffold the `login_screen.dart`. You must use `auth_repository.dart` for logic. Output only the code."*
+> **Step 2: Autonomous Tracking & Execution**
+> AntiGravity orchestrates the execution entirely inside its current persistent context. It uses native tools to scaffold Dart/TypeScript, spins up internal verifications (via testing tools/MCP), and commits directly to `main`. 
 
 > [!TIP]
-> **Step 3: Test & Commit**
-> Take the code. Run it in your emulator (for Flutter) or browser (for Next.js).
-> *   If it fails: Give the error to the agent to fix it.
-> *   If it succeeds: **Commit to Git immediately.** (`git commit -m "feat: login screen"`)
+> **Step 3: Auto-Checkboxes**
+> Previously, we used `.planning/add_checkboxes.py`. This is deprecated. AntiGravity uses code-modification tools to dynamically update `[ ]` to `[x]` within the roadmap itself after verifying the CI pipeline statuses natively.
 
 > [!CAUTION]  
-> **Step 4: The Kill Switch**
-> Once the code works and is committed, **close the AI chat session forever.** 
-> Do **NOT** ask the same AI, *"Great! Now build the Dashboard."* If you do, the AI starts carrying the bloat of the Login UI into the Dashboard task.
-> 
-> To build the next feature, return to **Step 2** and open a fresh session.
+> **Step 4: The Phase Cap**
+> While AntiGravity manages the complex loop seamlessly, do not bleed phases! Let AntiGravity completely declare a phase finished and formally print the Walkthrough before initiating the prompt for the next broad phase.
 
 ---
 
