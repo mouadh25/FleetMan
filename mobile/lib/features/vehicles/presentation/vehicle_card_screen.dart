@@ -119,7 +119,7 @@ class VehicleCardScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(AppTheme.defaultBorderRadius),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: Colors.black.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -145,7 +145,7 @@ class VehicleCardScreen extends ConsumerWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                       decoration: BoxDecoration(
-                        color: _getStatusColor(vehicle.status).withValues(alpha: 0.1),
+                        color: _getStatusColor(vehicle.status).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -256,7 +256,7 @@ class VehicleCardScreen extends ConsumerWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(AppTheme.defaultBorderRadius),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+        border: Border.all(color: Colors.grey.withOpacity(0.2)),
       ),
       child: Column(children: children),
     );
@@ -302,7 +302,7 @@ class VehicleCardScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: info.color.withValues(alpha: 0.1),
+              color: info.color.withOpacity(0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(
