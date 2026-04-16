@@ -73,5 +73,8 @@
   "allItemsRequired": "Tous les éléments doivent être complétés",
   "photoRequired": "Photo requise avant soumission",
   "inspectionDetails": "Détails de l'inspection",
-  "km": "km"
+  "km": "km",
+  "offlineQueued": "Pas de connexion - sauvegardé localement pour synchronisation",
+  "savedOffline": "Sauvegardé hors ligne",
+  "syncing": "Synchronisation..."
 }

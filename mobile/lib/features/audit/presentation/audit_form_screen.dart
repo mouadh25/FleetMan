@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../storage/data/supabase_storage_repository.dart';
+import '../../storage/domain/storage_repository.dart';
+import '../../sync/data/offline_sync_service.dart';
 import '../../vehicles/domain/vehicle.dart';
 import '../domain/audit.dart';
 
@@ -29,14 +33,20 @@ class _AuditFormScreenState extends ConsumerState<AuditFormScreen> {
 
   late Map<String, ChecklistItem> _checklist;
   List<String> _photoUrls = [];
+  List<String> _uploadedPhotoUrls = [];
   bool _isSubmitting = false;
   String? _errorMessage;
+
+  // Storage repository instance
+  late final StorageRepository _storageRepository;
 
   @override
   void initState() {
     super.initState();
     _initializeChecklist();
     _odometerController.text = widget.vehicle.odometerKm.toString();
+    // Initialize storage repository with Supabase client
+    _storageRepository = SupabaseStorageRepository(Supabase.instance.client);
   }
 
   void _initializeChecklist() {
@@ -76,8 +86,6 @@ class _AuditFormScreenState extends ConsumerState<AuditFormScreen> {
       );
 
       if (image != null) {
-        // In production, upload to Supabase Storage
-        // For now, store the local path
         setState(() {
           _photoUrls.add(image.path);
         });
@@ -87,6 +95,38 @@ class _AuditFormScreenState extends ConsumerState<AuditFormScreen> {
         _errorMessage = 'Failed to capture photo: $e';
       });
     }
+  }
+
+  Future<List<String>> _uploadPhotos() async {
+    if (_photoUrls.isEmpty) return [];
+
+    final uploadedUrls = <String>[];
+    final vehicleId = widget.vehicle.id;
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+    for (var i = 0; i < _photoUrls.length; i++) {
+      final localPath = _photoUrls[i];
+      final file = File(localPath);
+
+      if (await file.exists()) {
+        final bytes = await file.readAsBytes();
+        final path = 'audits/$vehicleId/${timestamp}_photo_$i.jpg';
+
+        try {
+          final url = await _storageRepository.upload(
+            path: path,
+            data: bytes,
+            mimeType: 'image/jpeg',
+          );
+          uploadedUrls.add(url);
+        } catch (e) {
+          debugPrint('Failed to upload photo $i: $e');
+          // Continue with other photos - we can still submit the audit
+        }
+      }
+    }
+
+    return uploadedUrls;
   }
 
   Future<void> _submitAudit() async {
@@ -142,6 +182,11 @@ class _AuditFormScreenState extends ConsumerState<AuditFormScreen> {
     });
 
     try {
+      // Step 1: Upload photos to Supabase Storage
+      final photoUrls = await _uploadPhotos();
+      _uploadedPhotoUrls = photoUrls;
+
+      // Step 2: Create audit record
       final user = Supabase.instance.client.auth.currentUser;
       final odometer =
           int.tryParse(_odometerController.text) ?? widget.vehicle.odometerKm;
@@ -152,25 +197,82 @@ class _AuditFormScreenState extends ConsumerState<AuditFormScreen> {
         odometerKm: odometer,
         damageNotes: _anyItemFailed() ? _damageNotesController.text : null,
         passFail: !_anyItemFailed(),
-        photoUrls: _photoUrls,
+        photoUrls: _uploadedPhotoUrls,
         checklist: _checklist,
       );
 
-      // In production, submit to Supabase
-      // For now, we'll just show success and navigate back
-      // await _submitToSupabase(audit);
+      // Step 3: Submit to Supabase
+      await _submitToSupabase(audit);
 
       if (!mounted) return;
 
       // Show success message
       _showAuditResult(audit);
     } catch (e) {
+      // On failure, queue to offline sync service
+      await _queueForOfflineSync();
+
       if (!mounted) return;
+
       setState(() {
-        _errorMessage = 'Failed to submit audit: $e';
+        _errorMessage = null; // Clear error since it's queued
         _isSubmitting = false;
       });
+
+      // Show queued message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.offlineQueued),
+          backgroundColor: AppTheme.accentOrange,
+        ),
+      );
+
+      // Navigate back to gatekeeper home
+      context.go('/home/gatekeeper');
     }
+  }
+
+  Future<void> _submitToSupabase(Audit audit) async {
+    final supabase = Supabase.instance.client;
+
+    await supabase.from('audits').insert({
+      'vehicle_id': audit.vehicleId,
+      'inspector_id': audit.inspectorId,
+      'odometer_km': audit.odometerKm,
+      'pass_fail': audit.passFail,
+      'damage_notes': audit.damageNotes,
+      'checklist': _checklistToJson(),
+      'photo_urls': _uploadedPhotoUrls,
+      'created_at': audit.createdAt.toIso8601String(),
+    });
+  }
+
+  Map<String, dynamic> _checklistToJson() {
+    return _checklist.map((key, value) => MapEntry(key, {
+          'name': value.name,
+          'passed': value.passed,
+        }));
+  }
+
+  Future<void> _queueForOfflineSync() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    final odometer =
+        int.tryParse(_odometerController.text) ?? widget.vehicle.odometerKm;
+
+    final auditData = {
+      'vehicle_id': widget.vehicle.id,
+      'inspector_id': user?.id ?? 'unknown',
+      'odometer_km': odometer.toString(),
+      'pass_fail': (!_anyItemFailed()).toString(),
+      'damage_notes': _anyItemFailed() ? _damageNotesController.text : '',
+      'checklist': _checklistToJson().toString(),
+      'photo_urls': _photoUrls.toString(), // Local paths for re-upload on sync
+    };
+
+    await OfflineSyncService.instance.queueOperation(
+      type: 'audit',
+      payload: auditData,
+    );
   }
 
   void _showAuditResult(Audit audit) {

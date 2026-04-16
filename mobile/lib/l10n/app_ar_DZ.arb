@@ -69,5 +69,8 @@
   "allItemsRequired": "يجب إكمال جميع عناصر الفحص",
   "photoRequired": "الصورة مطلوبة قبل الإرسال",
   "inspectionDetails": "تفاصيل الفحص",
-  "km": "كم"
+  "km": "كم",
+  "offlineQueued": "لا يوجد اتصال - محفوظ محلياً للمزامنة",
+  "savedOffline": "تم الحفظ بدون اتصال",
+  "syncing": "جاري المزامنة..."
 }
