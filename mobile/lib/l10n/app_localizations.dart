@@ -519,6 +519,156 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'km'**
   String get km;
+
+  /// No description provided for @offlineQueued.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de connexion - sauvegardé localement pour synchronisation'**
+  String get offlineQueued;
+
+  /// No description provided for @savedOffline.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauvegardé hors ligne'**
+  String get savedOffline;
+
+  /// No description provided for @syncing.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synchronisation...'**
+  String get syncing;
+
+  /// No description provided for @shiftActive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Poste actif'**
+  String get shiftActive;
+
+  /// No description provided for @shiftInactive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Poste inactif'**
+  String get shiftInactive;
+
+  /// No description provided for @startShift.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commencer le poste'**
+  String get startShift;
+
+  /// No description provided for @endShift.
+  ///
+  /// In fr, this message translates to:
+  /// **'Terminer le poste'**
+  String get endShift;
+
+  /// No description provided for @assignedVehicle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Véhicule assigné'**
+  String get assignedVehicle;
+
+  /// No description provided for @noVehicleAssigned.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun véhicule assigné'**
+  String get noVehicleAssigned;
+
+  /// No description provided for @myTasks.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mes tâches'**
+  String get myTasks;
+
+  /// No description provided for @pendingRepairs.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réparations en attente'**
+  String get pendingRepairs;
+
+  /// No description provided for @completedToday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Terminées aujourd\'hui'**
+  String get completedToday;
+
+  /// No description provided for @viewAllVehicles.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir tous les véhicules'**
+  String get viewAllVehicles;
+
+  /// No description provided for @dashboard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tableau de bord'**
+  String get dashboard;
+
+  /// No description provided for @fleetOverview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aperçu de la flotte'**
+  String get fleetOverview;
+
+  /// No description provided for @totalVehicles.
+  ///
+  /// In fr, this message translates to:
+  /// **'Total véhicules'**
+  String get totalVehicles;
+
+  /// No description provided for @activeVehicles.
+  ///
+  /// In fr, this message translates to:
+  /// **'Véhicules actifs'**
+  String get activeVehicles;
+
+  /// No description provided for @maintenanceVehicles.
+  ///
+  /// In fr, this message translates to:
+  /// **'En maintenance'**
+  String get maintenanceVehicles;
+
+  /// No description provided for @issuesReported.
+  ///
+  /// In fr, this message translates to:
+  /// **'Problèmes signalés'**
+  String get issuesReported;
+
+  /// No description provided for @recentActivity.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activité récente'**
+  String get recentActivity;
+
+  /// No description provided for @quickActions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actions rapides'**
+  String get quickActions;
+
+  /// No description provided for @vehicleAllocation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Allocation de véhicules'**
+  String get vehicleAllocation;
+
+  /// No description provided for @driverAssignment.
+  ///
+  /// In fr, this message translates to:
+  /// **'Affectation des chauffeurs'**
+  String get driverAssignment;
+
+  /// No description provided for @maintenanceSchedule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Calendrier maintenance'**
+  String get maintenanceSchedule;
+
+  /// No description provided for @workOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ordres de travail'**
+  String get workOrders;
 }
 
 class _AppLocalizationsDelegate

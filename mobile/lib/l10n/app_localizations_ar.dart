@@ -218,6 +218,81 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get km => 'كم';
+
+  @override
+  String get offlineQueued => 'لا يوجد اتصال - محفوظ محلياً للمزامنة';
+
+  @override
+  String get savedOffline => 'تم الحفظ بدون اتصال';
+
+  @override
+  String get syncing => 'جاري المزامنة...';
+
+  @override
+  String get shiftActive => 'الورية نشطة';
+
+  @override
+  String get shiftInactive => 'الورية غير نشطة';
+
+  @override
+  String get startShift => 'بدء الورية';
+
+  @override
+  String get endShift => 'إنهاء الورية';
+
+  @override
+  String get assignedVehicle => 'المركبة المعينة';
+
+  @override
+  String get noVehicleAssigned => 'لا توجد مركبة معينة';
+
+  @override
+  String get myTasks => 'مهامي';
+
+  @override
+  String get pendingRepairs => 'الإصلاحات المعلقة';
+
+  @override
+  String get completedToday => 'ال مكتملة اليوم';
+
+  @override
+  String get viewAllVehicles => 'عرض جميع المركبات';
+
+  @override
+  String get dashboard => 'لوحة التحكم';
+
+  @override
+  String get fleetOverview => 'نظرة عامة على الأسطول';
+
+  @override
+  String get totalVehicles => 'إجمالي المركبات';
+
+  @override
+  String get activeVehicles => 'المركبات النشطة';
+
+  @override
+  String get maintenanceVehicles => 'في الصيانة';
+
+  @override
+  String get issuesReported => 'المشاكل المبلغ عنها';
+
+  @override
+  String get recentActivity => 'النشاط الأخير';
+
+  @override
+  String get quickActions => 'إجراءات سريعة';
+
+  @override
+  String get vehicleAllocation => 'تخصيص المركبات';
+
+  @override
+  String get driverAssignment => 'تعيين السائقين';
+
+  @override
+  String get maintenanceSchedule => 'جدول الصيانة';
+
+  @override
+  String get workOrders => 'أوامر العمل';
 }
 
 /// The translations for Arabic, as used in Algeria (`ar_DZ`).
@@ -434,4 +509,79 @@ class AppLocalizationsArDz extends AppLocalizationsAr {
 
   @override
   String get km => 'كم';
+
+  @override
+  String get offlineQueued => 'لا يوجد اتصال - محفوظ محلياً للمزامنة';
+
+  @override
+  String get savedOffline => 'تم الحفظ بدون اتصال';
+
+  @override
+  String get syncing => 'جاري المزامنة...';
+
+  @override
+  String get shiftActive => 'الورية نشطة';
+
+  @override
+  String get shiftInactive => 'الورية غير نشطة';
+
+  @override
+  String get startShift => 'بدء الورية';
+
+  @override
+  String get endShift => 'إنهاء الورية';
+
+  @override
+  String get assignedVehicle => 'المركبة المعينة';
+
+  @override
+  String get noVehicleAssigned => 'لا توجد مركبة معينة';
+
+  @override
+  String get myTasks => 'مهامي';
+
+  @override
+  String get pendingRepairs => 'الإصلاحات المعلقة';
+
+  @override
+  String get completedToday => 'المكتملة اليوم';
+
+  @override
+  String get viewAllVehicles => 'عرض جميع المركبات';
+
+  @override
+  String get dashboard => 'لوحة التحكم';
+
+  @override
+  String get fleetOverview => 'نظرة عامة على الأسطول';
+
+  @override
+  String get totalVehicles => 'إجمالي المركبات';
+
+  @override
+  String get activeVehicles => 'المركبات النشطة';
+
+  @override
+  String get maintenanceVehicles => 'في الصيانة';
+
+  @override
+  String get issuesReported => 'المشاكل المبلغ عنها';
+
+  @override
+  String get recentActivity => 'النشاط الأخير';
+
+  @override
+  String get quickActions => 'إجراءات سريعة';
+
+  @override
+  String get vehicleAllocation => 'تخصيص المركبات';
+
+  @override
+  String get driverAssignment => 'تعيين السائقين';
+
+  @override
+  String get maintenanceSchedule => 'جدول الصيانة';
+
+  @override
+  String get workOrders => 'أوامر العمل';
 }

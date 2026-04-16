@@ -218,6 +218,82 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get km => 'km';
+
+  @override
+  String get offlineQueued =>
+      'Pas de connexion - sauvegardé localement pour synchronisation';
+
+  @override
+  String get savedOffline => 'Sauvegardé hors ligne';
+
+  @override
+  String get syncing => 'Synchronisation...';
+
+  @override
+  String get shiftActive => 'Poste actif';
+
+  @override
+  String get shiftInactive => 'Poste inactif';
+
+  @override
+  String get startShift => 'Commencer le poste';
+
+  @override
+  String get endShift => 'Terminer le poste';
+
+  @override
+  String get assignedVehicle => 'Véhicule assigné';
+
+  @override
+  String get noVehicleAssigned => 'Aucun véhicule assigné';
+
+  @override
+  String get myTasks => 'Mes tâches';
+
+  @override
+  String get pendingRepairs => 'Réparations en attente';
+
+  @override
+  String get completedToday => 'Terminées aujourd\'hui';
+
+  @override
+  String get viewAllVehicles => 'Voir tous les véhicules';
+
+  @override
+  String get dashboard => 'Tableau de bord';
+
+  @override
+  String get fleetOverview => 'Aperçu de la flotte';
+
+  @override
+  String get totalVehicles => 'Total véhicules';
+
+  @override
+  String get activeVehicles => 'Véhicules actifs';
+
+  @override
+  String get maintenanceVehicles => 'En maintenance';
+
+  @override
+  String get issuesReported => 'Problèmes signalés';
+
+  @override
+  String get recentActivity => 'Activité récente';
+
+  @override
+  String get quickActions => 'Actions rapides';
+
+  @override
+  String get vehicleAllocation => 'Allocation de véhicules';
+
+  @override
+  String get driverAssignment => 'Affectation des chauffeurs';
+
+  @override
+  String get maintenanceSchedule => 'Calendrier maintenance';
+
+  @override
+  String get workOrders => 'Ordres de travail';
 }
 
 /// The translations for French, as used in Algeria (`fr_DZ`).
@@ -434,4 +510,80 @@ class AppLocalizationsFrDz extends AppLocalizationsFr {
 
   @override
   String get km => 'km';
+
+  @override
+  String get offlineQueued =>
+      'Pas de connexion - sauvegardé localement pour synchronisation';
+
+  @override
+  String get savedOffline => 'Sauvegardé hors ligne';
+
+  @override
+  String get syncing => 'Synchronisation...';
+
+  @override
+  String get shiftActive => 'Poste actif';
+
+  @override
+  String get shiftInactive => 'Poste inactif';
+
+  @override
+  String get startShift => 'Commencer le poste';
+
+  @override
+  String get endShift => 'Terminer le poste';
+
+  @override
+  String get assignedVehicle => 'Véhicule assigné';
+
+  @override
+  String get noVehicleAssigned => 'Aucun véhicule assigné';
+
+  @override
+  String get myTasks => 'Mes tâches';
+
+  @override
+  String get pendingRepairs => 'Réparations en attente';
+
+  @override
+  String get completedToday => 'Terminées aujourd\'hui';
+
+  @override
+  String get viewAllVehicles => 'Voir tous les véhicules';
+
+  @override
+  String get dashboard => 'Tableau de bord';
+
+  @override
+  String get fleetOverview => 'Aperçu de la flotte';
+
+  @override
+  String get totalVehicles => 'Total véhicules';
+
+  @override
+  String get activeVehicles => 'Véhicules actifs';
+
+  @override
+  String get maintenanceVehicles => 'En maintenance';
+
+  @override
+  String get issuesReported => 'Problèmes signalés';
+
+  @override
+  String get recentActivity => 'Activité récente';
+
+  @override
+  String get quickActions => 'Actions rapides';
+
+  @override
+  String get vehicleAllocation => 'Allocation de véhicules';
+
+  @override
+  String get driverAssignment => 'Affectation des chauffeurs';
+
+  @override
+  String get maintenanceSchedule => 'Calendrier maintenance';
+
+  @override
+  String get workOrders => 'Ordres de travail';
 }

@@ -98,19 +98,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/home/park-manager',
-        builder: (context, state) => const ParkManagerHomeStub(),
+        builder: (context, state) => const ParkManagerHomeScreen(),
       ),
       GoRoute(
         path: '/home/mechanic',
-        builder: (context, state) => const MechanicHomeStub(),
+        builder: (context, state) => const MechanicHomeScreen(),
       ),
       GoRoute(
         path: '/home/driver',
-        builder: (context, state) => const DriverHomeStub(),
+        builder: (context, state) => const DriverHomeScreen(),
       ),
       GoRoute(
         path: '/home/ceo',
-        builder: (context, state) => const CeoHomeStub(),
+        builder: (context, state) => const CeoHomeScreen(),
       ),
       GoRoute(
         path: '/home/gatekeeper',
