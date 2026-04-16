@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_theme.dart';
 import '../domain/vehicle.dart';
 
@@ -72,7 +72,8 @@ class VehicleCardScreen extends ConsumerWidget {
       return _ExpiryInfo(Colors.grey, '—');
     }
 
-    final diff = expiry.difference(DateTime(today.year, today.month, today.day)).inDays;
+    final diff =
+        expiry.difference(DateTime(today.year, today.month, today.day)).inDays;
 
     if (diff < 0) {
       return _ExpiryInfo(AppTheme.errorRed, l10n.expired);
@@ -116,7 +117,8 @@ class VehicleCardScreen extends ConsumerWidget {
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(AppTheme.defaultBorderRadius),
+                  borderRadius:
+                      BorderRadius.circular(AppTheme.defaultBorderRadius),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.05),
@@ -143,13 +145,15 @@ class VehicleCardScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 6),
                       decoration: BoxDecoration(
                         color: _getStatusColor(vehicle.status).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        _getStatusTranslation(vehicle.status, l10n).toUpperCase(),
+                        _getStatusTranslation(vehicle.status, l10n)
+                            .toUpperCase(),
                         style: theme.textTheme.labelMedium?.copyWith(
                           color: _getStatusColor(vehicle.status),
                           fontWeight: FontWeight.w700,
@@ -171,9 +175,11 @@ class VehicleCardScreen extends ConsumerWidget {
                   const Divider(height: 1),
                   _buildInfoRow(l10n.year, vehicle.year.toString(), theme),
                   const Divider(height: 1),
-                  _buildInfoRow(l10n.odometer, '${vehicle.odometerKm} km', theme),
+                  _buildInfoRow(
+                      l10n.odometer, '${vehicle.odometerKm} km', theme),
                   const Divider(height: 1),
-                  _buildInfoRow(l10n.fuelType, _getFuelTranslation(vehicle.fuelType, l10n), theme),
+                  _buildInfoRow(l10n.fuelType,
+                      _getFuelTranslation(vehicle.fuelType, l10n), theme),
                   if (vehicle.vin != null && vehicle.vin!.isNotEmpty) ...[
                     const Divider(height: 1),
                     _buildInfoRow(l10n.vin, vehicle.vin!, theme),
@@ -228,7 +234,8 @@ class VehicleCardScreen extends ConsumerWidget {
                   backgroundColor: AppTheme.accentOrange,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppTheme.defaultBorderRadius),
+                    borderRadius:
+                        BorderRadius.circular(AppTheme.defaultBorderRadius),
                   ),
                 ),
                 icon: const Icon(Icons.assignment_turned_in, size: 24),
