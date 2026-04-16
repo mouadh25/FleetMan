@@ -114,7 +114,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/home/gatekeeper',
-        builder: (context, state) => const GatekeeperHomeStub(),
+        builder: (context, state) => const GatekeeperHomeScreen(),
       ),
       GoRoute(
         path: '/qr-scanner',
