@@ -1,0 +1,12 @@
+{
+  // Supabase MCP Configuration
+  // The MCP server needs SUPABASE_ACCESS_TOKEN set as a system environment variable.
+  // This file documents the configuration but cannot set process-level env vars.
+  //
+  // To enable Supabase MCP:
+  // 1. Set environment variable: SUPABASE_ACCESS_TOKEN=sbp_5bca210a9d0d4d0ee2af25eb9c547328d8396c3a
+  // 2. Restart your MCP client/IDE
+  //
+  // Project: mzuippdkhsqifxacssex
+  // URL: https://mzuippdkhsqifxacssex.supabase.co
+}

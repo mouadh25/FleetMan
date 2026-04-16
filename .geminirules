@@ -1,0 +1,16 @@
+# MCP Workspace Isolation Rule
+
+When operating within the FleetMan workspace, you MUST strictly use the following project identifiers when interacting with any Model Context Protocol (MCP) servers (Vercel, Supabase). You are expressly forbidden from listing, reading, or deploying to any other projects.
+
+## Vercel MCP
+- **Project ID**: `prj_YEBtNxsQHaXCUoOAdJP0YTJwNXzf`
+- **Team ID**: `team_QvCmtB39fQmCmLF41XnzP5de`
+
+## Supabase MCP
+- **Project ID / Ref**: `mzuippdkhsqifxacssex`
+
+**Context:**
+The Vercel and Supabase MCP servers inherit the user's global tokens and thus have access to multiple production SaaS applications. Any command executed without explicitly targeting the ID defined above risks destructively overriding components of completely unrelated projects. 
+
+**Enforcement:**
+Always supply exactly `mzuippdkhsqifxacssex` for Supabase operations, and exactly `prj_YEBtNxsQHaXCUoOAdJP0YTJwNXzf` for Vercel. Do not use generic project search unless explicitly verifying local IDs.

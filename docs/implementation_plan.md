@@ -52,9 +52,11 @@
 - **Next.js:** Uses `next-intl` with `fr-DZ` and `ar-DZ` locale routing.
 - **Number/Currency formatting:** `NumberFormat` with `fr_DZ` locale for DZD currency display.
 
-### UI Design System (Design Tokens)
+### UI Design System (Design Tokens) - "Firrion" Design Language
 
-Before any screen is built, a shared Design Token file defines the visual DNA of the entire app:
+Before any screen is built, a shared Design Token file defines the visual DNA of the entire app.
+
+> ⚠️ **CRITICAL UPDATE (v3):** Light theme is PRIMARY for outdoor field use. Dark theme is secondary (only for indoor mechanic use). Field workers use devices in bright Algerian sun - dark theme is counterproductive.
 
 | Token | Value | Rationale |
 |-------|-------|-----------|
@@ -62,12 +64,31 @@ Before any screen is built, a shared Design Token file defines the visual DNA of
 | **Accent Color** | Safety Orange `#F28C28` | High visibility for alerts and CTAs |
 | **Error Color** | Red `#D32F2F` | Budget overruns, failed inspections |
 | **Success Color** | Green `#2E7D32` | Passed audits, approved costs |
-| **Background (Light)** | `#F5F7FA` | Clean, readable |
-| **Background (Dark)** | `#121212` | Night mode for early morning field managers |
-| **Font (Latin)** | Inter / Roboto | Clean, professional, Google Fonts |
+| **Warning Color** | Amber `#F57F17` | Due soon, needs attention |
+| **Background (Light)** | `#F5F7FA` | **PRIMARY** - Clean, high contrast for outdoor |
+| **Surface (White)** | `#FFFFFF` | Cards, modals - maximum clarity |
+| **Background (Dark)** | `#121212` | **SECONDARY** - Indoor mechanic use only |
+| **Text Primary** | `#212121` | High contrast body text |
+| **Text Secondary** | `#5A6172` | Labels, hints, captions |
+| **Font (Latin)** | Inter | Clean, professional, Google Fonts |
 | **Font (Arabic)** | Noto Sans Arabic | Full Darija/MSA glyph support |
-| **Touch Target** | Min 48x48dp | Algerian sun glare + gloved hands |
+| **Touch Target** | Min **56x56dp** | **FIELD-OPTIMIZED** - Gloved hands + outdoor use |
 | **Border Radius** | 12px | Modern, rounded feel |
+| **Font Size (Body)** | **16px minimum** | **FIELD-OPTIMIZED** - Outdoor readability |
+| **Font Size (Caption)** | **14px minimum** | **FIELD-OPTIMIZED** - Not 12px |
+
+These tokens are defined ONCE in:
+- **Flutter:** `lib/core/theme/app_theme.dart`
+- **Next.js:** `styles/design-tokens.css` (CSS custom properties)
+
+### Field vs Office UI Matrix
+
+| Context | Primary Theme | Touch Targets | Font Size | Contrast |
+|---------|---------------|--------------|-----------|----------|
+| **Field (Mobile)** - Park Manager | **LIGHT** | 56px | 16px min | 10:1+ |
+| **Field (Mobile)** - Mechanic | LIGHT (or DARK) | 56px | 16px min | 7:1+ |
+| **Office (Web)** - Manager | LIGHT | 48px | 14px | 4.5:1 |
+| **Office (Web)** - CEO | LIGHT | 48px | 14px | 4.5:1 |
 
 These tokens are defined ONCE in:
 - **Flutter:** `lib/core/theme/app_theme.dart`

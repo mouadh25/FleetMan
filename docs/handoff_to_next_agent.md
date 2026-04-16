@@ -1,30 +1,34 @@
-# Handoff Context & Prompt
+# Handoff Context & Prompt: Transitioning to Phase 3
 
 **User Instructions:** 
 Copy everything below the line and paste it as the very first message into your next Agent session.
 
 ---
 
-You are an expert full-stack developer working on the FleetMan MVP following a strict GSD (Get Shit Done) burn-and-replace methodology.
+You are an expert full-stack developer working on the FleetMan MVP. We are following a strict **GSD (Get Shit Done)** burn-and-replace methodology to eliminate AI context drift. You are stepping into the workspace completely fresh to execute **Phase 3**.
 
 ### State of the Union
-- **Phase 0 (Database) and Phase 1 (Auth)** are fully complete and verified.
-- **Phase 2 (Vehicles) is partially complete.** The Next.js design system, `next-intl` localization, auth layout protections, and the Vehicle List (`/vehicles`) are implemented. 
+- **Phases 0, 1, and 2 are 100% COMPLETE AND DEPLOYED.**
+- **Database (Supabase):** RLS, tenant controls, and the `vehicles` table are perfectly synced and cloud-agnostic. 
+- **Web (Next.js):** Vercel web deployment is live. Forms and design tokens (`fr-DZ` / `ar-DZ`) are functioning perfectly.
+- **Mobile (Flutter):** Foundation, Auth, and Design System are stable.
+- **CRITICAL MCP ISOLATION RULES:** To prevent global cloud contamination, you MUST read `.geminirules` and `.agent/workflows/mcp-safety.md` before executing any MCP tool. You are targeting Supabase project `mzuippdkhsqifxacssex` and Vercel project `prj_YEBtNxsQHaXCUoOAdJP0YTJwNXzf`.
 
-### Recent Architectural Decisions
-Before writing code, please read the following ADRs located in `docs/adr/`:
-1. `0001-multi-tenant-provisioning.md`
-2. `0002-frontend-routing-auth.md`
+### Your Mission for This Session: Execute Phase 3 (The Field Manager Loop)
+This session is strictly scoped to building out **Phase 3**. Your goal is to enable field managers to audit trucks in the yard using QR scanners, take damage photos, and log audio notes.
 
-### Your Mission for This Session: Finish Phase 2
-This session is strictly scoped to finishing the **remaining Vehicle features from Phase 2**. Do not bleed into Phase 3. 
+Please refer to `d:\Dev\AntiGravity\FleetMan\.planning\gsd_phase_roadmap.md` and complete the Phase 3 tasks atomically:
 
-Please refer to `d:\Dev\AntiGravity\FleetMan\.planning\gsd_phase_roadmap.md` and complete the unchecked tasks in Phase 2:
-1. **Task 2.9:** Build the "Add Vehicle" form in Next.js (`vehicles/new/page.tsx`). Must handle plate limits, models, odometers, and legal doc uploads (S3 mock/setup if necessary).
-2. **Task 2.11:** Build the Vehicle Detail Card in Next.js (`vehicles/[id]/page.tsx`).
-3. **Task 2.12:** Scaffold the matching Flutter mobile Vehicle Card (`vehicle_card_screen.dart`).
+1. **Storage Infrastructure:** Build the `StorageRepository` (both Web and Mobile) pointing to the Supabase S3-Compatible Storage API. Make sure buckets for `vehicle_photos`, `document_scans`, and `voice_notes` are active.
+2. **Mobile Audit Loop (Flutter):** 
+   - Build `qr_scanner_screen.dart` to identify the vehicle.
+   - Build the `audit_form_screen.dart` (odometer check, damage checklist, camera capture, Voice Notes, Pass/Fail toggle).
+   - Implement an SQLite/Hive offline queue cache (`offline_sync_service.dart`) so audits queue locally during Algerian dead-zones and sync upon reconnect.
+3. **Automated Issue Generation:** If an audit is marked "Fail", dynamically generate a new row in the `issues` table.
+4. **Web Monitor (Next.js):** Build the `gate-logs/page.tsx` so the Web Office Manager can view the incoming streaming logs.
 
 **Execution Rules:**
-- Read the ADRs and the `gsd_phase_roadmap` Phase 2 section first.
-- Make atomic git commits for each completed file/feature.
-- Let me know when you have completed these three tasks so I can verify the deployment on Vercel and spin up a new agent for Phase 3.
+- Read the roadmap and the specific handoff file `docs/phase_3_handoff.md` before writing code.
+- Write cloud-agnostic code. The `StorageRepository` MUST be an interface that encapsulates the database/storage logic. Do not put raw S3 SDK calls directly in Widget logic.
+- Make atomic Git commits for each major feature.
+- Let me know your Implementation Plan to tackle these tasks, and wait for my approval before executing.
