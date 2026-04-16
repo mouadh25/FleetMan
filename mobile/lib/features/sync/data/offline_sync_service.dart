@@ -152,6 +152,7 @@ class OfflineSyncService {
     _notifyPendingCount();
 
     // Try to sync immediately if online
+    // ignore: unawaited_futures - fire and forget sync attempt
     syncPendingOperations();
   }
 
@@ -202,10 +203,10 @@ class OfflineSyncService {
   List<OfflineOperation> _getPendingOperations() {
     final operations = <OfflineOperation>[];
     _box?.toMap().forEach((key, value) {
-      if (value is Map) {
-        operations
-            .add(OfflineOperation.fromJson(Map<String, dynamic>.from(value)));
-      }
+      // value is always a Map from Hive box.toMap()
+      // ignore: unnecessary_cast
+      operations
+          .add(OfflineOperation.fromJson(Map<String, dynamic>.from(value)));
     });
 
     // Sort by creation time (FIFO)

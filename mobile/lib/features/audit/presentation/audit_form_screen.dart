@@ -537,7 +537,7 @@ class _AuditFormScreenState extends ConsumerState<AuditFormScreen> {
                       padding: const EdgeInsets.all(12),
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
-                        color: AppTheme.errorRed.withOpacity(0.1),
+                        color: AppTheme.errorRed.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
