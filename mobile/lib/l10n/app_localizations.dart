@@ -195,6 +195,330 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Déconnexion'**
   String get signOutButton;
+
+  /// No description provided for @vehicleDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails du véhicule'**
+  String get vehicleDetails;
+
+  /// No description provided for @plateNumber.
+  ///
+  /// In fr, this message translates to:
+  /// **'Matricule'**
+  String get plateNumber;
+
+  /// No description provided for @make.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marque'**
+  String get make;
+
+  /// No description provided for @model.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modèle'**
+  String get model;
+
+  /// No description provided for @odometer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Kilométrage'**
+  String get odometer;
+
+  /// No description provided for @year.
+  ///
+  /// In fr, this message translates to:
+  /// **'Année'**
+  String get year;
+
+  /// No description provided for @statusActive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actif'**
+  String get statusActive;
+
+  /// No description provided for @statusInMaintenance.
+  ///
+  /// In fr, this message translates to:
+  /// **'En maintenance'**
+  String get statusInMaintenance;
+
+  /// No description provided for @statusOutOfService.
+  ///
+  /// In fr, this message translates to:
+  /// **'Hors service'**
+  String get statusOutOfService;
+
+  /// No description provided for @scanQrButton.
+  ///
+  /// In fr, this message translates to:
+  /// **'Scanner le QR Code'**
+  String get scanQrButton;
+
+  /// No description provided for @fuelType.
+  ///
+  /// In fr, this message translates to:
+  /// **'Type de carburant'**
+  String get fuelType;
+
+  /// No description provided for @vin.
+  ///
+  /// In fr, this message translates to:
+  /// **'Numéro VIN'**
+  String get vin;
+
+  /// No description provided for @legalDocuments.
+  ///
+  /// In fr, this message translates to:
+  /// **'Documents légaux'**
+  String get legalDocuments;
+
+  /// No description provided for @insuranceExpiry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assurance'**
+  String get insuranceExpiry;
+
+  /// No description provided for @technicalInspection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Contrôle technique'**
+  String get technicalInspection;
+
+  /// No description provided for @circulationCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte grise'**
+  String get circulationCard;
+
+  /// No description provided for @expired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Expiré'**
+  String get expired;
+
+  /// No description provided for @noDriver.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non assigné'**
+  String get noDriver;
+
+  /// No description provided for @fuelDiesel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gasoil'**
+  String get fuelDiesel;
+
+  /// No description provided for @fuelEssence.
+  ///
+  /// In fr, this message translates to:
+  /// **'Essence (Sans Plomb)'**
+  String get fuelEssence;
+
+  /// No description provided for @fuelSirghaz.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sirghaz (GPL-C)'**
+  String get fuelSirghaz;
+
+  /// No description provided for @startInspection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Démarrer l\'inspection'**
+  String get startInspection;
+
+  /// No description provided for @daysShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'j'**
+  String get daysShort;
+
+  /// No description provided for @scanQRCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Scanner le QR Code'**
+  String get scanQRCode;
+
+  /// No description provided for @toggleFlash.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer le flash'**
+  String get toggleFlash;
+
+  /// No description provided for @vehicleNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Véhicule non trouvé'**
+  String get vehicleNotFound;
+
+  /// No description provided for @orEnterPlateManually.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ou saisir le matricule manuellement'**
+  String get orEnterPlateManually;
+
+  /// No description provided for @plateNumberHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Numéro de matricule'**
+  String get plateNumberHint;
+
+  /// No description provided for @lookingUpVehicle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recherche du véhicule...'**
+  String get lookingUpVehicle;
+
+  /// No description provided for @scanQRInstructions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pointez la caméra vers le code QR du véhicule'**
+  String get scanQRInstructions;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réessayer'**
+  String get tryAgain;
+
+  /// No description provided for @auditForm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Formulaire d\'Audit'**
+  String get auditForm;
+
+  /// No description provided for @auditChecklist.
+  ///
+  /// In fr, this message translates to:
+  /// **'Liste de contrôle'**
+  String get auditChecklist;
+
+  /// No description provided for @tires.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pneus'**
+  String get tires;
+
+  /// No description provided for @lights.
+  ///
+  /// In fr, this message translates to:
+  /// **'Feux'**
+  String get lights;
+
+  /// No description provided for @fluids.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fluides'**
+  String get fluids;
+
+  /// No description provided for @mirrors.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rétroviseurs'**
+  String get mirrors;
+
+  /// No description provided for @odometerReading.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lecture du compteur'**
+  String get odometerReading;
+
+  /// No description provided for @pass.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réussi'**
+  String get pass;
+
+  /// No description provided for @fail.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échoué'**
+  String get fail;
+
+  /// No description provided for @damageNotes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notes de dommages'**
+  String get damageNotes;
+
+  /// No description provided for @damageNotesHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Décrivez les dommages découverts...'**
+  String get damageNotesHint;
+
+  /// No description provided for @addPhoto.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une photo'**
+  String get addPhoto;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prendre une photo'**
+  String get takePhoto;
+
+  /// No description provided for @submitAudit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Soumettre l\'audit'**
+  String get submitAudit;
+
+  /// No description provided for @auditComplete.
+  ///
+  /// In fr, this message translates to:
+  /// **'Audit complet'**
+  String get auditComplete;
+
+  /// No description provided for @auditPassed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Audit passé avec succès'**
+  String get auditPassed;
+
+  /// No description provided for @auditFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Audit échoué - Problème créé'**
+  String get auditFailed;
+
+  /// No description provided for @issueCreated.
+  ///
+  /// In fr, this message translates to:
+  /// **'Problème créé: '**
+  String get issueCreated;
+
+  /// No description provided for @confirmSubmit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmer la soumission'**
+  String get confirmSubmit;
+
+  /// No description provided for @allItemsRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous les éléments doivent être complétés'**
+  String get allItemsRequired;
+
+  /// No description provided for @photoRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Photo requise avant soumission'**
+  String get photoRequired;
+
+  /// No description provided for @inspectionDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails de l\'inspection'**
+  String get inspectionDetails;
+
+  /// No description provided for @km.
+  ///
+  /// In fr, this message translates to:
+  /// **'km'**
+  String get km;
 }
 
 class _AppLocalizationsDelegate
