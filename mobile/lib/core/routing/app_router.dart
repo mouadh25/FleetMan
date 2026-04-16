@@ -13,6 +13,9 @@ import '../../features/home/presentation/driver_home_stub.dart';
 import '../../features/home/presentation/gatekeeper_home_stub.dart';
 import '../../features/home/presentation/mechanic_home_stub.dart';
 import '../../features/home/presentation/park_manager_home_stub.dart';
+import '../../features/scanner/presentation/qr_scanner_screen.dart';
+import '../../features/audit/presentation/audit_form_screen.dart';
+import '../../features/vehicles/domain/vehicle.dart';
 
 /// The role priority order for routing.
 /// CEO > PARK_MANAGER > MECHANIC > GATEKEEPER > DRIVER
@@ -61,8 +64,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) async {
       final session = Supabase.instance.client.auth.currentSession;
       final isAuthenticated = session != null;
-      final isAuthRoute =
-          state.matchedLocation == '/login' ||
+      final isAuthRoute = state.matchedLocation == '/login' ||
           state.matchedLocation == '/register';
 
       // Not authenticated → force login
@@ -113,6 +115,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/home/gatekeeper',
         builder: (context, state) => const GatekeeperHomeStub(),
+      ),
+      GoRoute(
+        path: '/qr-scanner',
+        builder: (context, state) => const QRScannerScreen(),
+      ),
+      GoRoute(
+        path: '/audit-form',
+        builder: (context, state) {
+          final vehicle = state.extra as Vehicle;
+          return AuditFormScreen(vehicle: vehicle);
+        },
       ),
     ],
   );
