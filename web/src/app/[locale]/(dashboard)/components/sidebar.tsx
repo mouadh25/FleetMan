@@ -15,6 +15,7 @@ const navItems = [
   { key: 'vehicles', icon: '🚚', href: '/vehicles' },
   { key: 'maintenance', icon: '🔧', href: '/maintenance' },
   { key: 'reports', icon: '📈', href: '/reports' },
+  { key: 'admin', icon: '👥', href: '/admin' },
   { key: 'settings', icon: '⚙️', href: '/settings' },
 ];
 

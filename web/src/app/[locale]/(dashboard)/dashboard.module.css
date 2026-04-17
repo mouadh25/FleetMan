@@ -112,14 +112,66 @@
   color: var(--accent-orange);
 }
 
-/* Dashboard cards */
+/* Dashboard Content */
+.dashboardContent {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .pageTitle {
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--primary-blue);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
+.pageSubtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent-orange);
+  color: white;
+  border-radius: var(--default-border-radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  min-height: var(--minimum-touch-target);
+}
+
+.primaryButton:hover {
+  background: #e07b22;
+  transform: translateY(-1px);
+}
+
+.primaryButton span {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Stats Grid */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -130,12 +182,13 @@
 .statCard {
   background: white;
   border-radius: var(--default-border-radius);
-  padding: 1.5rem;
+  padding: 1.25rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   gap: 1rem;
   transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .statCard:hover {
@@ -154,31 +207,459 @@
   flex-shrink: 0;
 }
 
-.statIconBlue {
+.statCardBlue .statIcon {
   background: rgba(26, 58, 92, 0.1);
 }
 
-.statIconGreen {
+.statCardGreen .statIcon {
   background: rgba(46, 125, 50, 0.1);
 }
 
-.statIconOrange {
+.statCardOrange .statIcon {
   background: rgba(242, 140, 40, 0.1);
 }
 
-.statIconRed {
+.statCardRed .statIcon {
   background: rgba(211, 47, 47, 0.1);
 }
 
-.statInfo h3 {
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.statLabel {
   font-size: 0.85rem;
   color: #6b7280;
   font-weight: 500;
-  margin-bottom: 0.25rem;
 }
 
-.statInfo p {
+.statValue {
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--text-light-mode);
+  line-height: 1.2;
+}
+
+/* Secondary Stats */
+.secondaryStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.secondaryStatCard {
+  background: white;
+  border-radius: var(--default-border-radius);
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.secondaryStatIcon {
+  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 58, 92, 0.08);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.secondaryStatInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.secondaryStatLabel {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.secondaryStatValue {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+}
+
+/* Dashboard Grid */
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboardCard {
+  background: white;
+  border-radius: var(--default-border-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-light-mode);
+  margin: 0;
+}
+
+.cardLink {
+  font-size: 0.85rem;
+  color: var(--accent-orange);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.cardLink:hover {
+  color: #e07b22;
+  text-decoration: underline;
+}
+
+/* List Items */
+.vehicleList,
+.auditList,
+.issueList {
+  padding: 0.5rem 0;
+}
+
+.vehicleItem,
+.auditItem,
+.issueItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  transition: background 0.15s;
+}
+
+.vehicleItem:hover,
+.auditItem:hover,
+.issueItem:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.vehicleIcon,
+.auditIcon,
+.issueIcon {
+  font-size: 1.25rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 58, 92, 0.06);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.vehicleInfo,
+.auditInfo,
+.issueInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.vehiclePlate,
+.auditVehicle,
+.issueTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-light-mode);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vehicleMeta,
+.auditDate,
+.issueVehicle {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* Status Badges */
+.statusBadge {
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.statusActive {
+  background: rgba(46, 125, 50, 0.1);
+  color: var(--success-green);
+}
+
+.statusMaintenance {
+  background: rgba(242, 140, 40, 0.1);
+  color: #c77800;
+}
+
+.statusOutOfService {
+  background: rgba(211, 47, 47, 0.1);
+  color: var(--error-red);
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+  color: #9ca3af;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.emptyState span {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Admin Panel */
+.adminTable {
+  background: white;
+  border-radius: var(--default-border-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(26, 58, 92, 0.04);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  transition: background 0.15s;
+  align-items: center;
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableRow:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.tableCell {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.userName {
+  font-weight: 500;
+  color: var(--text-light-mode);
+}
+
+.userEmail {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.userDate {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.roleBadge {
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.roleBadgeCeo {
+  background: rgba(26, 58, 92, 0.1);
+  color: var(--primary-blue);
+}
+
+.roleBadgeAdmin {
+  background: rgba(211, 47, 47, 0.1);
+  color: var(--error-red);
+}
+
+.roleBadgeGatekeeper {
+  background: rgba(46, 125, 50, 0.1);
+  color: var(--success-green);
+}
+
+.roleBadgeMechanic {
+  background: rgba(242, 140, 40, 0.1);
+  color: #c77800;
+}
+
+.roleBadgeDriver {
+  background: rgba(26, 58, 92, 0.06);
+  color: var(--primary-blue);
+}
+
+.roleBadgeParkManager {
+  background: rgba(26, 58, 92, 0.08);
+  color: var(--primary-blue);
+}
+
+.roleBadgeDefault {
+  background: rgba(0, 0, 0, 0.05);
+  color: #6b7280;
+}
+
+.userCount {
+  font-size: 0.9rem;
+  color: #6b7280;
+  background: rgba(26, 58, 92, 0.06);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.adminInfo {
+  margin-top: 1.5rem;
+}
+
+.infoCard {
+  background: white;
+  border-radius: var(--default-border-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 1.5rem;
+}
+
+.infoTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-light-mode);
+  margin: 0 0 1rem 0;
+}
+
+.infoList {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.infoList strong {
+  color: var(--text-light-mode);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboardLayout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .mainContent {
+    padding: 1.25rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .secondaryStats {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pageHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerActions {
+    justify-content: stretch;
+  }
+
+  .primaryButton {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statValue {
+    font-size: 1.5rem;
+  }
 }

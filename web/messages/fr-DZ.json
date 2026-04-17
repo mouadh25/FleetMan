@@ -42,6 +42,7 @@
     "vehicles": "Véhicules",
     "maintenance": "Maintenance",
     "reports": "Rapports",
+    "admin": "Administration",
     "settings": "Paramètres"
   },
   "Vehicles": {
@@ -103,5 +104,9 @@
     "inMaintenance": "En Maintenance",
     "openIssues": "Problèmes Ouverts",
     "fleetOverview": "Aperçu de la Flotte"
+  },
+  "Admin": {
+    "title": "Panel d'Administration",
+    "subtitle": "Gestion des utilisateurs et des rôles"
   }
 }

@@ -42,6 +42,7 @@
     "vehicles": "المركبات",
     "maintenance": "الصيانة",
     "reports": "التقارير",
+    "admin": "الإدارة",
     "settings": "الإعدادات"
   },
   "Vehicles": {
@@ -90,7 +91,7 @@
     "daysLeft": "{days} يوم متبقي",
     "expiresIn": "ينتهي في",
     "vehicleLimitReached": "تم الوصول إلى الحد الأقصى للمركبات",
-    "vehicleLimitWarning": "اشتراككم يسمح بحد أقصى {max} مركبة. تواصلوا مع المسؤول لزيادة الحد.",
+    "vehicleLimitWarning": "اشتراككم позволяет максимально {max} المركبات. تواصلوا مع المسؤول لزيادة الحد.",
     "recentActivity": "النشاط الأخير",
     "noActivity": "لا يوجد نشاط حديث",
     "editVehicle": "تعديل المركبة",
@@ -103,5 +104,9 @@
     "inMaintenance": "في الصيانة",
     "openIssues": "مشاكل مفتوحة",
     "fleetOverview": "نظرة عامة على الأسطول"
+  },
+  "Admin": {
+    "title": "لوحة الإدارة",
+    "subtitle": "إدارة المستخدمين والأدوار"
   }
 }
