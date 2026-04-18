@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { getTranslations } from 'next-intl/server';
 import styles from './dashboard.module.css';
@@ -212,9 +213,9 @@ export default async function DashboardPage() {
           <p className={styles.pageSubtitle}>{t('fleetOverview')}</p>
         </div>
         <div className={styles.headerActions}>
-          <a href="/vehicles/new" className={styles.primaryButton}>
+          <Link href="/vehicles/new" className={styles.primaryButton}>
             <span>+</span> Ajouter un véhicule
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -283,9 +284,9 @@ export default async function DashboardPage() {
         <div className={styles.dashboardCard}>
           <div className={styles.cardHeader}>
             <h2 className={styles.cardTitle}>🚚 Véhicules récents</h2>
-            <a href="/vehicles" className={styles.cardLink}>
+            <Link href="/vehicles" className={styles.cardLink}>
               Voir tout
-            </a>
+            </Link>
           </div>
           <RecentVehicles />
         </div>
@@ -293,9 +294,9 @@ export default async function DashboardPage() {
         <div className={styles.dashboardCard}>
           <div className={styles.cardHeader}>
             <h2 className={styles.cardTitle}>📋 Audits récents</h2>
-            <a href="/audits" className={styles.cardLink}>
+            <Link href="/audits" className={styles.cardLink}>
               Voir tout
-            </a>
+            </Link>
           </div>
           <RecentAudits />
         </div>
@@ -303,9 +304,9 @@ export default async function DashboardPage() {
         <div className={styles.dashboardCard}>
           <div className={styles.cardHeader}>
             <h2 className={styles.cardTitle}>⚠️ Problèmes ouverts</h2>
-            <a href="/issues" className={styles.cardLink}>
+            <Link href="/issues" className={styles.cardLink}>
               Voir tout
-            </a>
+            </Link>
           </div>
           <OpenIssues />
         </div>
